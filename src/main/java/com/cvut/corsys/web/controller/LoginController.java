@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
 
-	@RequestMapping(value="/login", method = RequestMethod.GET)
-	public void login(@RequestParam(name="wrongPass", required = false) Boolean wrongPass, Model model) {
-		if (wrongPass != null && wrongPass) {
-			model.addAttribute("wrongPass", "Zle heslo!!!");
-		}
-	}
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public void login(@RequestParam(name = "wrongPass", required = false) Boolean wrongPass, Model model) {
+        if (wrongPass != null && wrongPass) {
+            model.addAttribute("wrongPass", "Zle heslo!!!");
+        }
+    }
 
-	
+
 }

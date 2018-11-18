@@ -1,9 +1,8 @@
 package com.cvut.corsys.dao;
 
+import com.cvut.corsys.entity.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.cvut.corsys.entity.Patient;
-
-public interface PatientDao extends JpaRepository<Patient, Long>{
+public interface PatientDao extends JpaRepository<Patient, Long> {
 
 }

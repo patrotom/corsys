@@ -1,19 +1,19 @@
 package com.cvut.corsys.service;
 
-import java.util.List;
-
 import com.cvut.corsys.entity.Doctor;
 import com.cvut.corsys.entity.Role;
 import com.cvut.corsys.entity.User;
 
+import java.util.List;
+
 public interface UserService {
-	
-	void createDoctor(Doctor doc);
 
-	List<Doctor> findDoctor();
+    void createDoctor(Doctor doc);
 
-	User findByUsername(String username);
+    List<Doctor> findDoctor();
 
-	Role getRole(String role);
+    User findByUsername(String username);
+
+    Role getRole(String role);
 
 }

@@ -1,12 +1,12 @@
 package com.cvut.corsys.service;
 
-import java.util.List;
-
 import com.cvut.corsys.entity.Department;
+
+import java.util.List;
 
 public interface DepartmentService {
 
-	List<Department> findAllDepartments();
+    List<Department> findAllDepartments();
 
-	Department getDeparment(Long id);
+    Department getDeparment(Long id);
 }

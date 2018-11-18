@@ -4,14 +4,14 @@ import javax.validation.constraints.NotNull;
 
 public class CreateDoctorCommand extends AbstractCreateUserCommand {
 
-	@NotNull
-	private Long departmentId;
+    @NotNull
+    private Long departmentId;
 
-	public Long getDepartmentId() {
-		return departmentId;
-	}
+    public Long getDepartmentId() {
+        return departmentId;
+    }
 
-	public void setDepartmentId(Long departmentId) {
-		this.departmentId = departmentId;
-	}
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
+    }
 }
