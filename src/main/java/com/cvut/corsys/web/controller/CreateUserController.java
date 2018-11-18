@@ -28,13 +28,13 @@ public class CreateUserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(name = "/admin/createDoctor", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/createDoctor", method = RequestMethod.GET)
     public void createUserAdminPrepare(Model model) {
         model.addAttribute("departments", this.departmentService.findAllDepartments());
         model.addAttribute("command", new CreateDoctorCommand());
     }
 
-    @RequestMapping(name = "/admin/createDoctor", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/createDoctor", method = RequestMethod.POST)
     public String createUserAdminSubmit(@Valid CreateDoctorCommand doctor, BindingResult result, Model model) {
         this.validateUser(result, doctor);
         if (result.hasErrors()) {
