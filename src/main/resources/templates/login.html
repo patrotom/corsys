@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Corsys </title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" th:href="@{/css/css.css}" href="../static/css/css.css" />
+	<script type="text/javascript" src="../static/js/functions.js" th:src="@{/js/functions.js}"></script>
+</head>
+<body>
+	<div>
+		<form action="/perform_login" method="post">
+			<span th:text="${wrongPass}"></span><br>
+			<label for="username">Username: </label> <input id="username" type="text" name="username" ><br>
+			<label for="password">Password: </label> <input id="password" type="password" name="password" ><br>
+			<button type="submit">Prihlasit</button>
+		</form>
+	</div>
+</body>
+</html>

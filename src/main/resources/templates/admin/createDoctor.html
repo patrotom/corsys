@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Corsys </title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Doctor form</h1>
+	<form method="post">
+	<table>
+		<tr><th><label for="username">Username:</label></th><td><input type="text" id="username" name="username" th:value="${command.username}"></td></tr>
+		<tr><th><label for="password">Password:</label></th><td><input type="password" id="password" name="password"></td></tr>
+		<tr><th><label for="password2">Password again:</label></th><td><input type="password" id="password2" name="password2"></td></tr>
+		<tr><th><label for="email">Email:</label></th><td><input type="email" id="email" name="email" th:value="${command.email}"></td></tr>
+		<tr><th><label for="phone">Phone:</label></th><td><input type="text" id="phone" name="phone" th:value="${command.phone}"></td></tr>
+		<tr><th><label for="firstName">First name:</label></th><td><input type="text" id="firstName" name="firstName" th:value="${command.firstName}"></td></tr>
+		<tr><th><label for="lastName">Last name:</label></th><td><input type="text" id="lastName" name="lastName" th:value="${command.lastName}"></td></tr>
+		<tr><th><label for="department">Department:</label></th><td>
+			<select name="departmentId">
+				<option th:each="dep : ${departments}" th:value="${dep.id}" th:text="${dep.name}"></option>
+			</select>
+		</td></tr>
+		<tr><td colspan="2"><input type="submit" value="Create doctor"></td></tr>
+	</table>
+	</form>
+</body>
+</html>
