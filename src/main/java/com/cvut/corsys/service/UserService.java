@@ -16,4 +16,6 @@ public interface UserService {
 
     Role getRole(String role);
 
+    User getLoggedUser();
+
 }

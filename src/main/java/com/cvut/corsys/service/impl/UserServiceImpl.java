@@ -8,6 +8,9 @@ import com.cvut.corsys.entity.Role;
 import com.cvut.corsys.entity.User;
 import com.cvut.corsys.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,5 +52,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public Role getRole(String role) {
         return this.roleDao.getOne(role);
+    }
+
+    @Override
+    public User getLoggedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserName = authentication.getName();
+            List<User> users = this.userDao.findByUsername(currentUserName);
+            return users.isEmpty() ? null : users.get(0);
+        }
+        return null;
     }
 }
