@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Corsys </title>
+    <title>Corsys</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" th:href="@{/css/css.css}" href="../static/css/css.css" />
     <script type="text/javascript" src="../static/js/functions.js" th:src="@{/js/functions.js}"></script>
@@ -9,7 +9,7 @@
 <body>
 <h1>Test</h1>
 <div th:switch="${userRole}">
-    <p th:case="'ADMIN'">User is an administrators</p>
+    <p th:case="'ADMIN'">User is an administrator</p>
     <p th:case="'RECEPTIONIST'">User is a receptionist</p>
     <p th:case="'DOCTOR'">User is a doctor</p>
     <p th:case="'PATIENT'">User is a patient</p>
