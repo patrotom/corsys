@@ -21,9 +21,21 @@ public class DoctorServiceImpl implements DoctorService {
     private UserService userService;
 
     @Override
-    public void createDoctor(Doctor doc) {
-        this.userService.createUser(doc.getUser());
-        this.doctorDao.save(doc);
+    public void createDoctor(Doctor doctor) {
+        this.userService.createUser(doctor.getUser());
+        this.doctorDao.save(doctor);
+    }
+
+    @Override
+    public void updateDoctor(Doctor doctor) {
+        this.userService.updateUser(doctor.getUser());
+        this.doctorDao.save(doctor);
+    }
+
+    @Override
+    public void deleteDoctor(Doctor doctor) {
+        this.userService.deleteUser(doctor.getUser());
+        this.doctorDao.delete(doctor);
     }
 
     @Override

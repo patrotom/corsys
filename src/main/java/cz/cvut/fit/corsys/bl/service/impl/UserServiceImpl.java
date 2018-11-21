@@ -1,12 +1,10 @@
 package cz.cvut.fit.corsys.bl.service.impl;
 
-import cz.cvut.fit.corsys.dl.dao.DoctorDao;
+import cz.cvut.fit.corsys.bl.service.UserService;
 import cz.cvut.fit.corsys.dl.dao.RoleDao;
 import cz.cvut.fit.corsys.dl.dao.UserDao;
-import cz.cvut.fit.corsys.dl.entity.Doctor;
 import cz.cvut.fit.corsys.dl.entity.Role;
 import cz.cvut.fit.corsys.dl.entity.User;
-import cz.cvut.fit.corsys.bl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,6 +26,21 @@ public class UserServiceImpl implements UserService {
 
     public void createUser(User user) {
         this.userDao.save(user);
+    }
+
+    @Override
+    public void deleteUser(User user) {
+        this.userDao.delete(user);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        this.userDao.save(user);
+    }
+
+    @Override
+    public List<User> findUsers() {
+        return this.userDao.findAll();
     }
 
     @Override

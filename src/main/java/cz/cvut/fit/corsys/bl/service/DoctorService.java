@@ -6,7 +6,11 @@ import java.util.List;
 
 public interface DoctorService {
 
-    void createDoctor(Doctor doc);
+    void createDoctor(Doctor doctor);
+
+    void updateDoctor(Doctor doctor);
+
+    void deleteDoctor(Doctor doctor);
 
     List<Doctor> findDoctors();
 

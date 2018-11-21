@@ -1,8 +1,8 @@
 package cz.cvut.fit.corsys.bl.service.impl;
 
+import cz.cvut.fit.corsys.bl.service.DepartmentService;
 import cz.cvut.fit.corsys.dl.dao.DepartmentDao;
 import cz.cvut.fit.corsys.dl.entity.Department;
-import cz.cvut.fit.corsys.bl.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Department getDeparment(Long id) {
+    public Department getDepartment(Long id) {
         return this.departmentDao.getOne(id);
     }
 }
