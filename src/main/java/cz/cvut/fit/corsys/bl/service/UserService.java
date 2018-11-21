@@ -8,9 +8,7 @@ import java.util.List;
 
 public interface UserService {
 
-    void createDoctor(Doctor doc);
-
-    List<Doctor> findDoctor();
+    void createUser(User user);
 
     User findByUsername(String username);
 

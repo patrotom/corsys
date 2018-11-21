@@ -1,6 +1,7 @@
 package cz.cvut.fit.corsys.pl.web.controller;
 
 import cz.cvut.fit.corsys.bl.auth.HashUtil;
+import cz.cvut.fit.corsys.bl.service.DoctorService;
 import cz.cvut.fit.corsys.dl.entity.Department;
 import cz.cvut.fit.corsys.dl.entity.Doctor;
 import cz.cvut.fit.corsys.dl.entity.Role;
@@ -27,6 +28,9 @@ public class CreateUserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private DoctorService doctorService;
 
     @RequestMapping(value = "/admin/createDoctor", method = RequestMethod.GET)
     public void createUserAdminPrepare(Model model) {
@@ -55,7 +59,7 @@ public class CreateUserController {
         doc.setDepartment(dep);
         doc.setUser(user);
         // Vytvorim a jdu pryc
-        this.userService.createDoctor(doc);
+        this.doctorService.createDoctor(doc);
         return "redirect:/admin/doctorList";
     }
 

@@ -26,21 +26,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    @Autowired
-    private DoctorDao doctorDao;
-
     public void createUser(User user) {
         this.userDao.save(user);
-    }
-
-    public void createDoctor(Doctor doc) {
-        this.userDao.save(doc.getUser());
-        this.doctorDao.save(doc);
-    }
-
-    @Override
-    public List<Doctor> findDoctor() {
-        return this.doctorDao.findAll();
     }
 
     @Override
