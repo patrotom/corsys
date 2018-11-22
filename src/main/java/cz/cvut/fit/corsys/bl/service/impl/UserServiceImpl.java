@@ -24,8 +24,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    public void createUser(User user) {
-        this.userDao.save(user);
+    @Override
+    public User createUser(User user) {
+        return this.userDao.save(user);
     }
 
     @Override
@@ -34,12 +35,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(User user) {
-        this.userDao.save(user);
+    public User updateUser(User user) {
+        return this.userDao.save(user);
     }
 
     @Override
-    public List<User> findUsers() {
+    public List<User> findAllUsers() {
         return this.userDao.findAll();
     }
 

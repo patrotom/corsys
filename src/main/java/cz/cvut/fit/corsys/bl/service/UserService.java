@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface UserService {
 
-    void createUser(User user);
+    User createUser(User user);
 
     void deleteUser(User user);
 
-    void updateUser(User user);
+    User updateUser(User user);
 
-    List<User> findUsers();
+    List<User> findAllUsers();
 
     User findByUsername(String username);
 
@@ -21,6 +21,6 @@ public interface UserService {
 
     User getLoggedUser();
 
-//    List<Notification> getNotifications(User user);
+    List<Notification> findNotifications(User user);
 
 }

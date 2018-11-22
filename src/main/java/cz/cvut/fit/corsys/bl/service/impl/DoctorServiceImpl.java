@@ -21,15 +21,15 @@ public class DoctorServiceImpl implements DoctorService {
     private UserService userService;
 
     @Override
-    public void createDoctor(Doctor doctor) {
+    public Doctor createDoctor(Doctor doctor) {
         this.userService.createUser(doctor.getUser());
-        this.doctorDao.save(doctor);
+        return this.doctorDao.save(doctor);
     }
 
     @Override
-    public void updateDoctor(Doctor doctor) {
+    public Doctor updateDoctor(Doctor doctor) {
         this.userService.updateUser(doctor.getUser());
-        this.doctorDao.save(doctor);
+        return this.doctorDao.save(doctor);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public List<Doctor> findDoctors() {
+    public List<Doctor> findAllDoctors() {
         return this.doctorDao.findAll();
     }
 }
