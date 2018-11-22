@@ -7,16 +7,53 @@ import java.util.List;
 
 public interface TimetableService {
 
+    /**
+     * Finds all timetables.
+     *
+     * @return list of all timetables.
+     */
     List<Timetable> findAllTimetables();
 
+    /**
+     * Finds all timetables belonging to the specified doctor.
+     *
+     * @param doctor the doctor for whom to find timetables.
+     * @return list of found timetables.
+     */
     List<Timetable> findTimetables(Doctor doctor);
 
+    /**
+     * Finds all timetables belonging to the specified doctor since the specified day.
+     *
+     * @param doctor the doctor for whom to find timetables.
+     * @param date the day since which to find timetables (including).
+     * @return list of found timetables.
+     */
     List<Timetable> findTimetablesSince(Doctor doctor, LocalDate date);
 
+    /**
+     * Finds timetables for specified day and doctor.
+     *
+     * @param doctor the doctor for whom to find timetables.
+     * @param date the day for which to find timetables.
+     * @return list of found timetables.
+     */
     List<Timetable> findTimetablesForDate(Doctor doctor, LocalDate date);
 
-    void addTimetable(Timetable timetable);
+    /**
+     * Creates a timetable.
+     *
+     * @param timetable the timetable to be created.
+     * @return the created timetable. Use this object for further operations.
+     */
+    Timetable createTimetable(Timetable timetable);
 
-    void deleteTimetable(Timetable timetable);
+    /**
+     * Deletes the specified timetable.
+     *
+     * @param timetable the timetable to be deleted.
+     * @throws IllegalArgumentException in case that the specified timetable does not exist.
+     */
+    void deleteTimetable(Timetable timetable) throws IllegalArgumentException;
 
 }
