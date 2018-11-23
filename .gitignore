@@ -1,6 +1,7 @@
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 
+src/main/java/cz/cvut/fit/corsys/dl/.DS_Store
 
 ### IntelliJ IDEA ###
 .idea
