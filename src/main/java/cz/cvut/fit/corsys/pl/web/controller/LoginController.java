@@ -34,6 +34,7 @@ public class LoginController {
 
     @RequestMapping(value = "/receptionist", method = RequestMethod.GET)
     public String welcomeReceptionist(Model model) {
+        model.addAttribute("userFullName", "User full name");
         return "receptionist/receptionist";
     }
 
