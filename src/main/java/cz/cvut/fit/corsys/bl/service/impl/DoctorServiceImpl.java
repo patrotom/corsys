@@ -4,10 +4,13 @@ import cz.cvut.fit.corsys.bl.service.DoctorService;
 import cz.cvut.fit.corsys.bl.service.UserService;
 import cz.cvut.fit.corsys.dl.dao.DoctorDao;
 import cz.cvut.fit.corsys.dl.entity.Doctor;
+import cz.cvut.fit.corsys.dl.entity.Notification;
+import cz.cvut.fit.corsys.dl.entity.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -41,5 +44,23 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public List<Doctor> findAllDoctors() {
         return this.doctorDao.findAll();
+    }
+
+    @Override
+    public List<Reservation> findReservations(Doctor doctor) {
+        //TODO implement
+        return null;
+    }
+
+    @Override
+    public List<Reservation> findReservationsSince(Doctor doctor, LocalDate date) {
+        //TODO implement
+        return null;
+    }
+
+    @Override
+    public List<Notification> findNotifications(Doctor doctor) {
+        //TODO implement
+        return null;
     }
 }

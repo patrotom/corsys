@@ -5,13 +5,13 @@ import javax.validation.constraints.NotNull;
 public class CreateDoctorCommand extends AbstractCreateUserCommand {
 
     @NotNull
-    private Integer departmentId;
+    private Long departmentId;
 
-    public Integer getDepartmentId() {
+    public Long getDepartmentId() {
         return departmentId;
     }
 
-    public void setDepartmentId(Integer departmentId) {
+    public void setDepartmentId(Long departmentId) {
         this.departmentId = departmentId;
     }
 }

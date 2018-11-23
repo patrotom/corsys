@@ -27,7 +27,7 @@ public interface TimetableService {
      * Finds all timetables belonging to the specified doctor since the specified day.
      *
      * @param doctor the doctor for whom to find timetables.
-     * @param date the day since which to find timetables (including).
+     * @param date   the day since which to find timetables (including).
      * @return list of found timetables.
      */
     List<Timetable> findTimetablesSince(Doctor doctor, LocalDate date);
@@ -36,7 +36,7 @@ public interface TimetableService {
      * Finds timetables for specified day and doctor.
      *
      * @param doctor the doctor for whom to find timetables.
-     * @param date the day for which to find timetables.
+     * @param date   the day for which to find timetables.
      * @return list of found timetables.
      */
     List<Timetable> findTimetablesForDate(Doctor doctor, LocalDate date);

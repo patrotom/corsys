@@ -55,7 +55,7 @@ public interface PatientService {
      * Finds all reservations assigned to the specified patient for dates since the specified date including.
      *
      * @param patient the patient whose reservations should be found.
-     * @param date date since when to find reservations (including).
+     * @param date    date since when to find reservations (including).
      * @return list of found reservations.
      */
     List<Reservation> findReservationsSince(Patient patient, LocalDate date);

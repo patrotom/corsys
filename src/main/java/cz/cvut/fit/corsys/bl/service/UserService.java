@@ -63,7 +63,7 @@ public interface UserService {
      * @param role the role name.
      * @return role object, null if the specified role name does not exist.
      */
-    Role getRole(String role);
+    Role findRole(String role);
 
     /**
      * Returns the user currently logged on.

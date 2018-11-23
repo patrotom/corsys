@@ -66,8 +66,8 @@ public interface ReservationService {
     /**
      * Finds free terms for the specified day, doctor and examinations.
      *
-     * @param date the day.
-     * @param doctor the doctor.
+     * @param date        the day.
+     * @param doctor      the doctor.
      * @param examination the examination.
      * @return list of starting times of free terms for the specified parameters.
      */

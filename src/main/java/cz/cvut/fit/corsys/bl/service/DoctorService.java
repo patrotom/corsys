@@ -55,7 +55,7 @@ public interface DoctorService {
      * Finds all reservations assigned to the specified doctor for dates since the specified date including.
      *
      * @param doctor the doctor whose reservations should be found.
-     * @param date date since when to find reservations (including).
+     * @param date   date since when to find reservations (including).
      * @return list of found reservations.
      */
     List<Reservation> findReservationsSince(Doctor doctor, LocalDate date);
