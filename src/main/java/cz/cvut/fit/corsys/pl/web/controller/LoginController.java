@@ -22,11 +22,20 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
-    public String login(Model model) {
-        // 1.krat findRole vrati rolu daneho uzivatela, druhy krat vrati String nazov role
-        String roleName = this.userService.getLoggedUser().getRole().getName();
-        model.addAttribute("userRole", roleName);
+    public String welcome(Model model) {
+        // 1.krat getRole vrati rolu daneho uzivatela, druhy krat vrati String nazov role
+        String role = this.userService.getLoggedUser().getRole().getRole();
+        model.addAttribute("userRole", role);
+        if (role.equals("RECEPTIONIST")) {
+            return "redirect:/receptionist";
+        }
         return "welcome";
+    }
+
+    @RequestMapping(value = "/receptionist", method = RequestMethod.GET)
+    public String welcomeReceptionist(Model model) {
+        model.addAttribute("userFullName", "User full name");
+        return "receptionist/receptionist";
     }
 
 
