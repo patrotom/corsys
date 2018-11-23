@@ -3,6 +3,7 @@ package cz.cvut.fit.corsys.bl.service.impl;
 import cz.cvut.fit.corsys.bl.service.UserService;
 import cz.cvut.fit.corsys.dl.dao.RoleDao;
 import cz.cvut.fit.corsys.dl.dao.UserDao;
+import cz.cvut.fit.corsys.dl.entity.Notification;
 import cz.cvut.fit.corsys.dl.entity.Role;
 import cz.cvut.fit.corsys.dl.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +52,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Role getRole(String role) {
-        return this.roleDao.getOne(role);
+    public Role findRole(String role) {
+        return this.roleDao.findByName(role);
     }
 
     @Override
@@ -63,6 +64,12 @@ public class UserServiceImpl implements UserService {
             List<User> users = this.userDao.findByUsername(currentUserName);
             return users.isEmpty() ? null : users.get(0);
         }
+        return null;
+    }
+
+    @Override
+    public List<Notification> findNotifications(User user) {
+        //TODO implement
         return null;
     }
 

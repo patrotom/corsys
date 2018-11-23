@@ -2,6 +2,8 @@ package cz.cvut.fit.corsys.bl.service;
 
 import cz.cvut.fit.corsys.dl.entity.Department;
 import cz.cvut.fit.corsys.dl.entity.Doctor;
+import cz.cvut.fit.corsys.dl.entity.Examination;
+import cz.cvut.fit.corsys.dl.entity.Receptionist;
 
 import java.util.List;
 
@@ -20,7 +22,7 @@ public interface DepartmentService {
      * @param id the id for which to find department.
      * @return the corresponding department, null if such department does not exist.
      */
-    Department getDepartment(Long id);
+    Department getDepartment(Integer id);
 
     /**
      * Finds all doctors belonging to the specified department.

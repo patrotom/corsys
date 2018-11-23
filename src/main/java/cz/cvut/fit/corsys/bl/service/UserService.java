@@ -1,5 +1,6 @@
 package cz.cvut.fit.corsys.bl.service;
 
+import cz.cvut.fit.corsys.dl.entity.Notification;
 import cz.cvut.fit.corsys.dl.entity.Role;
 import cz.cvut.fit.corsys.dl.entity.User;
 
@@ -62,7 +63,7 @@ public interface UserService {
      * @param role the role name.
      * @return role object, null if the specified role name does not exist.
      */
-    Role getRole(String role);
+    Role findRole(String role);
 
     /**
      * Returns the user currently logged on.

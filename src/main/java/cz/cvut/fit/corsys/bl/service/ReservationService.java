@@ -1,6 +1,9 @@
 package cz.cvut.fit.corsys.bl.service;
 
+import cz.cvut.fit.corsys.dl.entity.Department;
 import cz.cvut.fit.corsys.dl.entity.Doctor;
+import cz.cvut.fit.corsys.dl.entity.Examination;
+import cz.cvut.fit.corsys.dl.entity.Reservation;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -63,8 +66,8 @@ public interface ReservationService {
     /**
      * Finds free terms for the specified day, doctor and examinations.
      *
-     * @param date the day.
-     * @param doctor the doctor.
+     * @param date        the day.
+     * @param doctor      the doctor.
      * @param examination the examination.
      * @return list of starting times of free terms for the specified parameters.
      */

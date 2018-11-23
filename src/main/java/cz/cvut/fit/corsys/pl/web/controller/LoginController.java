@@ -23,7 +23,7 @@ public class LoginController {
 
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
     public String login(Model model) {
-        // 1.krat getRole vrati rolu daneho uzivatela, druhy krat vrati String nazov role
+        // 1.krat findRole vrati rolu daneho uzivatela, druhy krat vrati String nazov role
         String roleName = this.userService.getLoggedUser().getRole().getName();
         model.addAttribute("userRole", roleName);
         return "welcome";

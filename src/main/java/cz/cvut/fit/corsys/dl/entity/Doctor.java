@@ -26,11 +26,11 @@ public class Doctor {
         this.doctorId = doctorId;
     }
 
-    public User getUserId() {
+    public User getUser() {
         return user;
     }
 
-    public void setUserId(User userId) {
+    public void setUser(User userId) {
         this.user = userId;
     }
 
