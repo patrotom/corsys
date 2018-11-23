@@ -22,7 +22,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Department getDeparment(Integer id) {
+    public Department getDepartment(Long id) {
         return this.departmentDao.getOne(id);
     }
 }

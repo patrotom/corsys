@@ -1,10 +1,8 @@
 package cz.cvut.fit.corsys.bl.service.impl;
 
 import cz.cvut.fit.corsys.bl.service.UserService;
-import cz.cvut.fit.corsys.dl.dao.DoctorDao;
 import cz.cvut.fit.corsys.dl.dao.RoleDao;
 import cz.cvut.fit.corsys.dl.dao.UserDao;
-import cz.cvut.fit.corsys.dl.entity.Doctor;
 import cz.cvut.fit.corsys.dl.entity.Role;
 import cz.cvut.fit.corsys.dl.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,21 +24,24 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    @Autowired
-    private DoctorDao doctorDao;
-
-    public void createUser(User user) {
-        this.userDao.save(user);
-    }
-
-    public void createDoctor(Doctor doc) {
-        this.userDao.save(doc.getUserId());
-        this.doctorDao.save(doc);
+    @Override
+    public User createUser(User user) {
+        return this.userDao.save(user);
     }
 
     @Override
-    public List<Doctor> findDoctor() {
-        return this.doctorDao.findAll();
+    public void deleteUser(User user) {
+        this.userDao.delete(user);
+    }
+
+    @Override
+    public User updateUser(User user) {
+        return this.userDao.save(user);
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+        return this.userDao.findAll();
     }
 
     @Override
@@ -50,8 +51,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Role getRole(Integer roleId) {
-        return this.roleDao.getOne(roleId);
+    public Role getRole(String role) {
+        return this.roleDao.getOne(role);
     }
 
     @Override
