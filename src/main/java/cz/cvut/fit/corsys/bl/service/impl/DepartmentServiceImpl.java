@@ -1,8 +1,11 @@
 package cz.cvut.fit.corsys.bl.service.impl;
 
+import cz.cvut.fit.corsys.bl.service.DepartmentService;
 import cz.cvut.fit.corsys.dl.dao.DepartmentDao;
 import cz.cvut.fit.corsys.dl.entity.Department;
-import cz.cvut.fit.corsys.bl.service.DepartmentService;
+import cz.cvut.fit.corsys.dl.entity.Doctor;
+import cz.cvut.fit.corsys.dl.entity.Examination;
+import cz.cvut.fit.corsys.dl.entity.Receptionist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +25,25 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Department getDeparment(Long id) {
+    public Department getDepartment(Integer id) {
         return this.departmentDao.getOne(id);
+    }
+
+    @Override
+    public List<Doctor> findDoctors(Department department) {
+        //TODO implement
+        return null;
+    }
+
+    @Override
+    public List<Receptionist> findReceptionists(Department department) {
+        //TODO implement
+        return null;
+    }
+
+    @Override
+    public List<Examination> findExaminations(Department department) {
+        //TODO implement
+        return null;
     }
 }

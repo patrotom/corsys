@@ -1,12 +1,13 @@
 package cz.cvut.fit.corsys.pl.web.controller;
 
 import cz.cvut.fit.corsys.bl.auth.HashUtil;
+import cz.cvut.fit.corsys.bl.service.DepartmentService;
+import cz.cvut.fit.corsys.bl.service.DoctorService;
+import cz.cvut.fit.corsys.bl.service.UserService;
 import cz.cvut.fit.corsys.dl.entity.Department;
 import cz.cvut.fit.corsys.dl.entity.Doctor;
 import cz.cvut.fit.corsys.dl.entity.Role;
 import cz.cvut.fit.corsys.dl.entity.User;
-import cz.cvut.fit.corsys.bl.service.DepartmentService;
-import cz.cvut.fit.corsys.bl.service.UserService;
 import cz.cvut.fit.corsys.pl.web.command.AbstractCreateUserCommand;
 import cz.cvut.fit.corsys.pl.web.command.CreateDoctorCommand;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class CreateUserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private DoctorService doctorService;
+
     @RequestMapping(value = "/admin/createDoctor", method = RequestMethod.GET)
     public void createUserAdminPrepare(Model model) {
         model.addAttribute("departments", this.departmentService.findAllDepartments());
@@ -45,9 +49,9 @@ public class CreateUserController {
             return "admin/createDoctor";
         }
         // Nacteni role
-        Role role = this.userService.getRole("DOCTOR");
+        Role role = this.userService.findRole("DOCTOR");
         // Nacteni dep
-        Department dep = this.departmentService.getDeparment(doctor.getDepartmentId());
+        Department dep = this.departmentService.getDepartment(doctor.getDepartmentId());
         // Naplneni spolecneho kodu
         User user = this.createUserObject(doctor, role);
         // Naplneni doktora
@@ -55,7 +59,7 @@ public class CreateUserController {
         doc.setDepartment(dep);
         doc.setUser(user);
         // Vytvorim a jdu pryc
-        this.userService.createDoctor(doc);
+        this.doctorService.createDoctor(doc);
         return "redirect:/admin/doctorList";
     }
 

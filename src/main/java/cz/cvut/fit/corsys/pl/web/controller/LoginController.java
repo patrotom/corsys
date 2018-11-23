@@ -15,7 +15,7 @@ public class LoginController {
     private UserService userService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public void login(@RequestParam(name="wrongPass", required = false) Boolean wrongPass, Model model) {
+    public void login(@RequestParam(name = "wrongPass", required = false) Boolean wrongPass, Model model) {
         if (wrongPass != null && wrongPass) {
             model.addAttribute("wrongPass", "Zlé heslo!!!");
         }

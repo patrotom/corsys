@@ -1,12 +1,11 @@
 package cz.cvut.fit.corsys.bl.service.impl;
 
-import cz.cvut.fit.corsys.dl.dao.DoctorDao;
+import cz.cvut.fit.corsys.bl.service.UserService;
 import cz.cvut.fit.corsys.dl.dao.RoleDao;
 import cz.cvut.fit.corsys.dl.dao.UserDao;
-import cz.cvut.fit.corsys.dl.entity.Doctor;
+import cz.cvut.fit.corsys.dl.entity.Notification;
 import cz.cvut.fit.corsys.dl.entity.Role;
 import cz.cvut.fit.corsys.dl.entity.User;
-import cz.cvut.fit.corsys.bl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,21 +25,24 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    @Autowired
-    private DoctorDao doctorDao;
-
-    public void createUser(User user) {
-        this.userDao.save(user);
-    }
-
-    public void createDoctor(Doctor doc) {
-        this.userDao.save(doc.getUser());
-        this.doctorDao.save(doc);
+    @Override
+    public User createUser(User user) {
+        return this.userDao.save(user);
     }
 
     @Override
-    public List<Doctor> findDoctor() {
-        return this.doctorDao.findAll();
+    public void deleteUser(User user) {
+        this.userDao.delete(user);
+    }
+
+    @Override
+    public User updateUser(User user) {
+        return this.userDao.save(user);
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+        return this.userDao.findAll();
     }
 
     @Override
@@ -50,8 +52,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Role getRole(String role) {
-        return this.roleDao.getOne(role);
+    public Role findRole(String role) {
+        return this.roleDao.findByName(role);
     }
 
     @Override
@@ -62,6 +64,12 @@ public class UserServiceImpl implements UserService {
             List<User> users = this.userDao.findByUsername(currentUserName);
             return users.isEmpty() ? null : users.get(0);
         }
+        return null;
+    }
+
+    @Override
+    public List<Notification> findNotifications(User user) {
+        //TODO implement
         return null;
     }
 
