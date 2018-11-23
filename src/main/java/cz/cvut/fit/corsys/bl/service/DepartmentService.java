@@ -2,6 +2,8 @@ package cz.cvut.fit.corsys.bl.service;
 
 import cz.cvut.fit.corsys.dl.entity.Department;
 import cz.cvut.fit.corsys.dl.entity.Doctor;
+import cz.cvut.fit.corsys.dl.entity.Examination;
+import cz.cvut.fit.corsys.dl.entity.Receptionist;
 
 import java.util.List;
 

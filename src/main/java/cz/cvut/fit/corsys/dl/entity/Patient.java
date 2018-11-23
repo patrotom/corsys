@@ -16,11 +16,11 @@ public class Patient {
     private String insurance;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "addressId")
     private Address address;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     private User user;
 

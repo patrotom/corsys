@@ -1,5 +1,12 @@
 package cz.cvut.fit.corsys.bl.service;
 
+import cz.cvut.fit.corsys.dl.entity.Notification;
+import cz.cvut.fit.corsys.dl.entity.Patient;
+import cz.cvut.fit.corsys.dl.entity.Reservation;
+
+import java.time.LocalDate;
+import java.util.List;
+
 public interface PatientService {
 
     /**

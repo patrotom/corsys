@@ -5,13 +5,15 @@ import javax.persistence.*;
 @Entity
 public class Receptionist {
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "userId")
-    public User user;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer receptionistId;
-    @ManyToOne(cascade = CascadeType.ALL)
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId")
+    public User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "departmentId")
     private Department department;
 

@@ -1,5 +1,6 @@
 package cz.cvut.fit.corsys.bl.service;
 
+import cz.cvut.fit.corsys.dl.entity.Notification;
 import cz.cvut.fit.corsys.dl.entity.Role;
 import cz.cvut.fit.corsys.dl.entity.User;
 

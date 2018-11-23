@@ -1,6 +1,7 @@
 package cz.cvut.fit.corsys.bl.service;
 
 import cz.cvut.fit.corsys.dl.entity.Doctor;
+import cz.cvut.fit.corsys.dl.entity.Timetable;
 
 import java.time.LocalDate;
 import java.util.List;

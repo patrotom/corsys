@@ -30,8 +30,7 @@ public class User {
     @Column(length = 15)
     private String phone;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-//    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "roleId")
     private Role role;
 
