@@ -1,44 +1,55 @@
 package cz.cvut.fit.corsys.dl.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer userId;
 
-    @Column(unique = true, nullable = false, updatable = false)
+    private boolean active;
+
+    @Column(length = 50, nullable = false)
     private String username;
 
-    @Column(length = 64, nullable = false)
+    @Column(length = 50, nullable = false)
     private String password;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 50, nullable = false)
     private String email;
 
-    @Column(length = 20, nullable = true)
-    private String phone;
-
-    @Column(length = 100, nullable = false)
+    @Column(length = 50, nullable = false)
     private String firstName;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 50, nullable = false)
     private String lastName;
 
-    @ManyToOne
-    @JoinColumn(name = "role", nullable = false)
-    @NotNull
+
+    @Column(length = 15)
+    private String phone;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+//    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "roleId")
     private Role role;
 
-    public Long getId() {
-        return id;
+
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public String getUsername() {
@@ -65,14 +76,6 @@ public class User {
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getFirstName() {
         return firstName;
     }
@@ -89,17 +92,19 @@ public class User {
         this.lastName = lastName;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public Role getRole() {
         return role;
     }
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    @Override
-    public String toString() {
-        return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
-                + ", firstName=" + firstName + ", lastName=" + lastName + "]";
     }
 }

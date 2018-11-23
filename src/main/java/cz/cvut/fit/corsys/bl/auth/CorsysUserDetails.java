@@ -20,7 +20,7 @@ public class CorsysUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton((GrantedAuthority) new SimpleGrantedAuthority(user.getRole().getRole()));
+        return Collections.singleton((GrantedAuthority) new SimpleGrantedAuthority(user.getRole().getName()));
     }
 
     @Override

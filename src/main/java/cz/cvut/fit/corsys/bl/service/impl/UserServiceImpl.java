@@ -1,12 +1,12 @@
 package cz.cvut.fit.corsys.bl.service.impl;
 
+import cz.cvut.fit.corsys.bl.service.UserService;
 import cz.cvut.fit.corsys.dl.dao.DoctorDao;
 import cz.cvut.fit.corsys.dl.dao.RoleDao;
 import cz.cvut.fit.corsys.dl.dao.UserDao;
 import cz.cvut.fit.corsys.dl.entity.Doctor;
 import cz.cvut.fit.corsys.dl.entity.Role;
 import cz.cvut.fit.corsys.dl.entity.User;
-import cz.cvut.fit.corsys.bl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public void createDoctor(Doctor doc) {
-        this.userDao.save(doc.getUser());
+        this.userDao.save(doc.getUserId());
         this.doctorDao.save(doc);
     }
 
@@ -50,8 +50,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Role getRole(String role) {
-        return this.roleDao.getOne(role);
+    public Role getRole(Integer roleId) {
+        return this.roleDao.getOne(roleId);
     }
 
     @Override

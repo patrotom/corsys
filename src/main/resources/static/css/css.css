@@ -7,6 +7,7 @@
     margin-left: auto;
     margin-right: auto;
 }
+
 .login-page {
     width: 360px;
     padding: 8% 0 0;
@@ -113,7 +114,7 @@
 body {
     background: #B9E8DB; /* fallback for old browsers */
     background: -webkit-linear-gradient(right, #B9E8DB, #CCEFE5);
-    background: -moz-linear-gradient(right, #B9E8DB,#CCEFE5);
+    background: -moz-linear-gradient(right, #B9E8DB, #CCEFE5);
     background: -o-linear-gradient(right, #B9E8DB, #CCEFE5);
     background: linear-gradient(to left, #B9E8DB, #CCEFE5);
     font-family: "Arimo", sans-serif;

@@ -15,7 +15,7 @@ public class LoginController {
     private UserService userService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public void login(@RequestParam(name="wrongPass", required = false) Boolean wrongPass, Model model) {
+    public void login(@RequestParam(name = "wrongPass", required = false) Boolean wrongPass, Model model) {
         if (wrongPass != null && wrongPass) {
             model.addAttribute("wrongPass", "Zlé heslo!!!");
         }
@@ -24,8 +24,8 @@ public class LoginController {
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
     public String login(Model model) {
         // 1.krat getRole vrati rolu daneho uzivatela, druhy krat vrati String nazov role
-        String role = this.userService.getLoggedUser().getRole().getRole();
-        model.addAttribute("userRole", role);
+        String roleName = this.userService.getLoggedUser().getRole().getName();
+        model.addAttribute("userRole", roleName);
         return "welcome";
     }
 

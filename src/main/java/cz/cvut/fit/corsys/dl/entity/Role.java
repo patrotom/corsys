@@ -1,19 +1,32 @@
 package cz.cvut.fit.corsys.dl.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Role {
 
     @Id
-    private String role;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer roleId;
 
-    public String getRole() {
-        return role;
+    @Column(length = 50, nullable = false, unique = true)
+    private String name;
+
+
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

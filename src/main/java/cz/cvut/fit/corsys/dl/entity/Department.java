@@ -4,28 +4,24 @@ import javax.persistence.*;
 
 @Entity
 public class Department {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @Column(length = 100)
+    private Integer departmentId;
+
+    @Column(length = 50, nullable = false)
     private String name;
-    @Column(length = 1000)
+
+    @Column(length = 250)
     private String description;
 
-    public Long getId() {
-        return id;
+
+    public Integer getDepartmentId() {
+        return departmentId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
     }
 
     public String getDescription() {
@@ -36,4 +32,11 @@ public class Department {
         this.description = description;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

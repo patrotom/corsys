@@ -7,29 +7,30 @@ public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-    @Column(length = 10)
+    private Integer patientId;
+
+    @Column(length = 50)
     private String birthNumber;
-    @Column(length = 100)
+
+    @Column(length = 50)
     private String insurance;
 
-    public Long getId() {
-        return id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "addressId")
+    private Address address;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "userId")
+    private User user;
+
+
+    public Integer getPatientId() {
+        return patientId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void setPatientId(Integer patientId) {
+        this.patientId = patientId;
     }
 
     public String getBirthNumber() {
@@ -46,5 +47,21 @@ public class Patient {
 
     public void setInsurance(String insurance) {
         this.insurance = insurance;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

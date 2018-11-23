@@ -8,5 +8,5 @@ public interface DepartmentService {
 
     List<Department> findAllDepartments();
 
-    Department getDeparment(Long id);
+    Department getDeparment(Integer id);
 }
