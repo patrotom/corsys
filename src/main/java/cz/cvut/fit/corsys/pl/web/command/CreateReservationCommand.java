@@ -9,23 +9,19 @@ public class CreateReservationCommand {
     @NotNull
     private Integer departmentId;
 
-    @NotNull
     private Integer examinationId;
 
-    @NotNull
     private Integer doctorId;
 
-    @NotNull
+    private String patientUsername;
+
     private LocalDate date;
 
-    @NotNull
     private LocalTime timeFrom;
 
-    @NotNull
     private LocalTime timeTo;
 
-    @NotNull
-    private  String state;
+    private String state;
 
     private String description;
 
@@ -91,5 +87,13 @@ public class CreateReservationCommand {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getPatientUsername() {
+        return patientUsername;
+    }
+
+    public void setPatientUsername(String patientUsername) {
+        this.patientUsername = patientUsername;
     }
 }
