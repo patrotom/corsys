@@ -33,7 +33,7 @@ public class LoginController {
 
     @RequestMapping(value = "/receptionist", method = RequestMethod.GET)
     public String welcomeReceptionist(Model model) {
-        model.addAttribute("userFullName", userService.getLoggedUser().getFirstName()+" "+userService.getLoggedUser().getLastName());
+        model.addAttribute("userFullName", userService.getLoggedUser().getFirstName() + " " + userService.getLoggedUser().getLastName());
         return "receptionist/receptionist";
     }
 

@@ -1,12 +1,12 @@
 package cz.cvut.fit.corsys.pl.web.controller;
 
 
-import cz.cvut.fit.corsys.bl.service.*;
-import cz.cvut.fit.corsys.dl.entity.Department;
+import cz.cvut.fit.corsys.bl.service.DepartmentService;
+import cz.cvut.fit.corsys.bl.service.DoctorService;
+import cz.cvut.fit.corsys.bl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
