@@ -1,11 +1,8 @@
-<!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html class="no-js" lang="en">
 <div class="left-sidebar-pro" th:fragment="left-sidebar">
     <nav id="sidebar" class="">
         <div class="sidebar-header">
-            <a href="receptionist"><img class="main-logo" src="img/icon.png" alt="" /></a>
-            <strong><a href="receptionist"><img src="img/iconsn.png" alt="" style="margin-left:-5rem;" /></a></strong>
+            <a href="receptionist"><img class="main-logo" th:src="@{/img/icon.png}" src="img/icon.png" alt="" /></a>
+            <strong><a href="receptionist"><img src="img/iconsn.png" th:src="@{/img/iconsn.png}" alt="" style="margin-left:-5rem;" /></a></strong>
         </div>
         <div class="left-custom-menu-adp-wrap comment-scrollbar">
             <nav class="sidebar-nav left-sidebar-menu-pro">

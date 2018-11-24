@@ -23,8 +23,7 @@ public class LoginController {
 
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
     public String welcome(Model model) {
-        // 1.krat getRole vrati rolu daneho uzivatela, druhy krat vrati String nazov role
-        String role = this.userService.getLoggedUser().getRole().getRole();
+        String role = this.userService.getLoggedUser().getRole().getName();
         model.addAttribute("userRole", role);
         if (role.equals("RECEPTIONIST")) {
             return "redirect:/receptionist";
