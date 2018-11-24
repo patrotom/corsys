@@ -1,8 +1,12 @@
 package cz.cvut.fit.corsys;
 
 import com.google.common.base.Preconditions;
+import cz.cvut.fit.corsys.bl.service.PatientService;
+import cz.cvut.fit.corsys.bl.service.UserService;
+import cz.cvut.fit.corsys.dl.dao.PatientDao;
 import cz.cvut.fit.corsys.dl.dao.RoleDao;
 import cz.cvut.fit.corsys.dl.dao.UserDao;
+import cz.cvut.fit.corsys.dl.entity.Patient;
 import cz.cvut.fit.corsys.dl.entity.Role;
 import cz.cvut.fit.corsys.dl.entity.User;
 import org.junit.Test;
@@ -12,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -25,6 +31,15 @@ public class CorsysApplicationTests {
     @Autowired
     private RoleDao roleDao;
 
+    @Autowired
+    private PatientDao patientDao;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private PatientService patientService;
+
     @Test
     public void insertRole() {
 
@@ -32,7 +47,7 @@ public class CorsysApplicationTests {
         role.setName("ADMIN");
         roleDao.save(role);
 
-        Preconditions.checkState(roleDao.findByName("ADMIN").getName().equals("ADMIN"));
+        Preconditions.checkState(roleDao.findRoleByName("ADMIN").getName().equals("ADMIN"));
 
 
     }
@@ -56,7 +71,7 @@ public class CorsysApplicationTests {
         user.setFirstName("first");
         user.setLastName("last");
         System.out.println("trying to add found DOCTOR role.");
-        Role doctor = roleDao.findByName("DOCTOR");
+        Role doctor = roleDao.findRoleByName("DOCTOR");
         System.out.println(doctor);
         user.setRole(doctor);
         System.out.println("doctor role added");
@@ -78,7 +93,7 @@ public class CorsysApplicationTests {
         roleDao.save(role);
 
         Preconditions.checkState(
-                roleDao.findByName("TEST").getName()
+                roleDao.findRoleByName("TEST").getName()
                         .equals("TEST")
         );
 
@@ -98,8 +113,8 @@ public class CorsysApplicationTests {
         user.setEmail("email@email.com");
         user.setFirstName("1 name");
         user.setLastName("1 lastname");
-        System.out.println("found patient: " + roleDao.findByName("PATIENT").getName());
-        user.setRole(roleDao.findByName("PATIENT"));
+        System.out.println("found patient: " + roleDao.findRoleByName("PATIENT").getName());
+        user.setRole(roleDao.findRoleByName("PATIENT"));
         userDao.save(user);
 
         user = new User();
@@ -110,8 +125,8 @@ public class CorsysApplicationTests {
         user.setEmail("email@email.com");
         user.setFirstName("2 name");
         user.setLastName("2 lastname");
-        System.out.println("found patient: " + roleDao.findByName("PATIENT").getName());
-        user.setRole(roleDao.findByName("PATIENT"));
+        System.out.println("found patient: " + roleDao.findRoleByName("PATIENT").getName());
+        user.setRole(roleDao.findRoleByName("PATIENT"));
         userDao.save(user);
 
         Preconditions.checkState(
@@ -122,6 +137,70 @@ public class CorsysApplicationTests {
                 userDao.findUserByUsername("2username").getRole().getName()
                         .equals("PATIENT")
         );
+
+    }
+
+    @Test
+    public void UserDaoTest() {
+        Role role = new Role();
+        role.setName("PATIENT");
+        roleDao.save(role);
+
+        User user = new User();
+        user.setActive(true);
+        user.setUsername("3username");
+        user.setPassword("pass");
+        user.setEmail("email@email.com");
+        user.setFirstName("3 name");
+        user.setLastName("3 lastname");
+        user.setRole(role);
+        userDao.save(user);
+
+        List<User> users = userDao.findAll();
+        Integer id = users.get(0).getUserId();
+
+        Preconditions.checkState(
+                userDao.findUserByUserId(id).getUsername().equals("3username")
+        );
+
+        System.out.println("User ID: " + id);
+
+        Preconditions.checkState(
+                userDao.findUserByUsername("3username").getUserId().equals(id)
+        );
+    }
+
+    @Test
+    public void ServiceTest() {
+        Role role = new Role();
+        role.setName("PATIENT");
+        roleDao.save(role);
+
+        User user = new User();
+        user.setActive(true);
+        user.setUsername("3username");
+        user.setPassword("pass");
+        user.setEmail("email@email.com");
+        user.setFirstName("3 name");
+        user.setLastName("3 lastname");
+        user.setRole(role);
+
+        Patient patient = new Patient();
+        patient.setUser(user);
+
+        patient = patientService.createPatient(patient);
+        user = patient.getUser();
+        user.setUsername("4username");
+        patient.setUser(user);
+        patientService.updatePatient(patient);
+
+        System.out.println(patientDao.findAll().size());
+        System.out.println(userService.findUserByUsername("4username"));
+
+        System.out.println(patientService.findPatientByUsername("4username"));
+
+        patientService.deletePatient(patient);
+        System.out.println(userService.findUserByUsername("4username"));
 
     }
 

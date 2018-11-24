@@ -37,6 +37,22 @@ public interface DoctorService {
     void deleteDoctor(Doctor doctor) throws IllegalArgumentException;
 
     /**
+     * Returns doctor for the specified id.
+     *
+     * @param id the id for which to find doctor.
+     * @return the corresponding doctor, null if such doctor does not exist.
+     */
+    Doctor getDoctor(Integer id);
+
+    /**
+     * Finds doctor for specific username.
+     *
+     * @param username username to be found.
+     * @return the found doctor, null if specified username could not be found.
+     */
+    Doctor findDoctorByUsername(String username);
+
+    /**
      * Finds all doctors.
      *
      * @return list of all doctors.

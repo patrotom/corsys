@@ -17,7 +17,7 @@ public interface ReservationService {
      * @param id the id for which to find reservation.
      * @return the corresponding reservation, null if such reservation does not exist.
      */
-    Reservation getReservation(Long id);
+    Reservation getReservation(Integer id);
 
     /**
      * Creates new reservation.

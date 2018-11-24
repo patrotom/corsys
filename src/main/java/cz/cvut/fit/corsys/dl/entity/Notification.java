@@ -19,7 +19,7 @@ public class Notification {
     @Column(length = 50, nullable = false)
     private String state;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userId")
     private User user;
 

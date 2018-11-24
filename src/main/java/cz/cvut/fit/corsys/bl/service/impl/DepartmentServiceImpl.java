@@ -2,6 +2,9 @@ package cz.cvut.fit.corsys.bl.service.impl;
 
 import cz.cvut.fit.corsys.bl.service.DepartmentService;
 import cz.cvut.fit.corsys.dl.dao.DepartmentDao;
+import cz.cvut.fit.corsys.dl.dao.DoctorDao;
+import cz.cvut.fit.corsys.dl.dao.ExaminationDao;
+import cz.cvut.fit.corsys.dl.dao.ReceptionistDao;
 import cz.cvut.fit.corsys.dl.entity.Department;
 import cz.cvut.fit.corsys.dl.entity.Doctor;
 import cz.cvut.fit.corsys.dl.entity.Examination;
@@ -18,32 +21,43 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Autowired
     private DepartmentDao departmentDao;
+    
+    @Autowired
+    private ExaminationDao examinationDao;
+    
+    @Autowired
+    private DoctorDao doctorDao;
+    
+    @Autowired
+    private ReceptionistDao receptionistDao;
 
     @Override
     public List<Department> findAllDepartments() {
-        return this.departmentDao.findAll();
+        return departmentDao.findAll();
     }
 
     @Override
     public Department getDepartment(Integer id) {
-        return this.departmentDao.getOne(id);
+        return departmentDao.getOne(id);
+    }
+
+    @Override
+    public Examination getExamination(Integer id) {
+        return examinationDao.findExaminationByExaminationId(id);
     }
 
     @Override
     public List<Doctor> findDoctors(Department department) {
-        //TODO implement
-        return null;
+        return doctorDao.findDoctorsByDepartment(department);
     }
 
     @Override
     public List<Receptionist> findReceptionists(Department department) {
-        //TODO implement
-        return null;
+        return receptionistDao.findReceptionistsByDepartment(department);
     }
 
     @Override
     public List<Examination> findExaminations(Department department) {
-        //TODO implement
-        return null;
+        return examinationDao.findExaminationsByDepartment(department);
     }
 }

@@ -7,6 +7,10 @@ import java.time.LocalTime;
 @Entity
 public class Reservation {
 
+    public static final String STATE_UNCONFIRMED = "UNCONFIRMED";
+    public static final String STATE_CONFIRMED = "CONFIRMED";
+    public static final String STATE_CANCELED = "CANCELED";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer reservationId;

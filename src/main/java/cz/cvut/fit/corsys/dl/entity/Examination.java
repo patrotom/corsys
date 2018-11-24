@@ -18,6 +18,9 @@ public class Examination {
     @Column(nullable = false)
     private String description;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "departmentId")
+    private Department department;
 
     public Integer getExaminationId() {
         return examinationId;

@@ -44,6 +44,22 @@ public interface PatientService {
     List<Patient> findAllPatients();
 
     /**
+     * Returns patient for the specified id.
+     *
+     * @param id the id for which to find patient.
+     * @return the corresponding patient, null if such patient does not exist.
+     */
+    Patient getPatient(Integer id);
+
+    /**
+     * Finds patient for specific username.
+     *
+     * @param username username to be found.
+     * @return the found patient, null if specified username could not be found.
+     */
+    Patient findPatientByUsername(String username);
+
+    /**
      * Finds all reservations assigned to the specified patient.
      *
      * @param patient the patient whose reservations should be found.

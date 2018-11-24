@@ -68,7 +68,7 @@ public class CreateUserController {
             if (!command.getPassword().equals(command.getPassword2())) {
                 result.addError(new FieldError("form", "password2", "Hesla nesúhlasia"));
             }
-            User user = this.userService.findByUsername(command.getUsername());
+            User user = this.userService.findUserByUsername(command.getUsername());
             if (user != null)
                 result.addError(new FieldError("form", "username", "Uživatel již existuje"));
         }
