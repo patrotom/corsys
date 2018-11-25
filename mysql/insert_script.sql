@@ -28,5 +28,6 @@ INSERT INTO `timetable` (`timetable_id`, `date`, `time_from`, `time_to`, `doctor
 INSERT INTO `user` (`user_id`, `active`, `email`, `first_name`, `last_name`, `password`, `phone`, `username`, `role_id`) VALUES (1, 1, 'pepek@namornik', 'Pepek', 'Namornik', 'X03MO1qnZdYdgyfeuILPmQ==', '+421915123456', 'pepek', 3);
 INSERT INTO `user` (`user_id`, `active`, `email`, `first_name`, `last_name`, `password`, `phone`, `username`, `role_id`) VALUES (2, 1, 'keke@febe.sk', 'Pepek', 'Namornik', 'X03MO1qnZdYdgyfeuILPmQ==', '+421915123456', 'keke', 2);
 INSERT INTO `user` (`user_id`, `active`, `email`, `first_name`, `last_name`, `password`, `phone`, `username`, `role_id`) VALUES (3, 1, 'a@b.cz', 'Pepek', 'Namornik', 'X03MO1qnZdYdgyfeuILPmQ==', '+421915123456', 'helepek', 1);
+INSERT INTO `user` (`user_id`, `active`, `email`, `first_name`, `last_name`, `password`, `phone`, `username`, `role_id`) VALUES (4, 1, 'pik@cik.cz', 'Jozef', 'Valhala', 'X03MO1qnZdYdgyfeuILPmQ==', '+421915123456', 'adminpipik', 4);
 
 SET FOREIGN_KEY_CHECKS=1;
