@@ -1,0 +1,58 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html class="no-js" lang="en">
+
+<head th:insert="receptionist/fragments/fragment :: head">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+
+
+</head>
+
+<body>
+<!-- left navbar -->
+<div th:replace="receptionist/fragments/fragment-navbar :: left-sidebar"></div>
+
+    <!-- Start Welcome area -->
+    <div class="all-content-wrapper">
+         <!-- header area -->
+           <div th:insert="receptionist/fragments/fragment-header :: header"></div>
+
+        <!-- Single pro tab review Start-->
+        <div class="single-pro-review-area mt-t-30 mg-b-15">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:6rem;">
+                        <div class="product-payment-inner-st" style="height: 28rem;">
+                            <ul id="myTabedu1" class="tab-review-design">
+                                <li class="active"><a href="#">Vytvoriť rezerváciu</a></li>
+                            </ul>
+                              <form method="post" class="dropzone dropzone-custom needsclick add-professors" id="demo1-upload">
+                                  <div class="row">
+                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                         <div class="form-group">
+                                                 <p>Dátum: <input name="date" type="text" class="form-control" id="datepicker"></p>
+                                         </div>
+                                         <p class="message"><span th:text="${errors}"></span></p>
+                                          <button type="submit" class="btn btn-primary waves-effect waves-light" style="margin-left: 46.5rem;">Ďalej</button>
+                                     </div>
+                                  </div>
+                              </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:insert="receptionist/fragments/fragment-footer :: footer"></div>
+    </div>
+<!-- JS scripts -->
+<div th:insert="receptionist/fragments/fragment :: jsImport"></div>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+     <script>
+                                        $( function() {
+                                            $( "#datepicker" ).datepicker();
+                                        } );
+                                    </script>
+
+</body>
+</html>

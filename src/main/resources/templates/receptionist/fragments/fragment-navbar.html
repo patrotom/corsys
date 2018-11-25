@@ -1,19 +1,19 @@
 <div class="left-sidebar-pro" th:fragment="left-sidebar">
     <nav id="sidebar" class="">
         <div class="sidebar-header">
-            <a href="receptionist"><img class="main-logo" th:src="@{/img/icon.png}" src="img/icon.png" alt="" /></a>
-            <strong><a href="receptionist"><img src="img/iconsn.png" th:src="@{/img/iconsn.png}" alt="" style="margin-left:-5rem;" /></a></strong>
+            <a th:href="@{/receptionist}"><img class="main-logo" th:src="@{/img/icon.png}" src="img/icon.png" alt="" /></a>
+            <strong><a th:href="@{/receptionist}"><img src="img/iconsn.png" th:src="@{/img/iconsn.png}" alt="" style="margin-left:-5rem;" /></a></strong>
         </div>
         <div class="left-custom-menu-adp-wrap comment-scrollbar">
             <nav class="sidebar-nav left-sidebar-menu-pro">
                 <ul class="metismenu" id="menu1">
                     <li class="active">
-                        <a class="has-arrow" href="receptionist">
+                        <a class="has-arrow" th:href="@{/receptionist}">
                             <span class="icon-wrap"><i class="fa fa-book" aria-hidden="true"></i></span>
                             <span class="mini-click-non">Rezervácie</span>
                         </a>
                         <ul class="submenu-angle" aria-expanded="true">
-                            <li><a title="Dashboard v.1" href="receptionist"><span class="mini-sub-pro">Vytvoriť rezerváciu</span></a></li>
+                            <li><a title="Dashboard v.1" th:href="@{/receptionist/createReservationDep}"><span class="mini-sub-pro">Vytvoriť rezerváciu</span></a></li>
                             <li><a title="Dashboard v.2" href="#"><span class="mini-sub-pro">Zoznam rezervácii</span></a></li>
                             <li><a title="Dashboard v.3" href="#"><span class="mini-sub-pro">Menu item3</span></a></li>
                         </ul>

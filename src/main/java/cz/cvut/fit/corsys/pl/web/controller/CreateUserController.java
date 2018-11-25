@@ -45,7 +45,6 @@ public class CreateUserController {
             model.addAttribute("errors", result.getAllErrors());
             model.addAttribute("departments", this.departmentService.findAllDepartments());
             model.addAttribute("command", doctor);
-            System.out.println(result);
             return "admin/createDoctor";
         }
         // Nacteni role

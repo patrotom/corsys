@@ -40,7 +40,7 @@
             <th><label for="department">Department:</label></th>
             <td>
                 <select name="departmentId">
-                    <option th:each="dep : ${departments}" th:value="${dep.id}" th:text="${dep.name}"></option>
+                    <option th:each="dep : ${departments}" th:value="${dep.departmentId}" th:text="${dep.name}"></option>
                 </select>
             </td>
         </tr>
