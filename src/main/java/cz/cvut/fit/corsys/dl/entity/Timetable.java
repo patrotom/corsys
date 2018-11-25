@@ -7,6 +7,8 @@ import java.time.LocalTime;
 @Entity
 public class Timetable {
 
+    public static final Integer TIME_DIV = 15;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer timetableId;

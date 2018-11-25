@@ -587,16 +587,16 @@ public class CorsysApplicationTests {
         Doctor doctor = doctorService.findDoctorByUsername("doctor1");
         Timetable timetable = new Timetable();
         timetable.setDoctor(doctor);
-        timetable.setDate(LocalDate.of(2018,12,1));
-        timetable.setTimeFrom(LocalTime.of(8,0));
-        timetable.setTimeTo(LocalTime.of(15,0));
+        timetable.setDate(LocalDate.of(2018, 12, 1));
+        timetable.setTimeFrom(LocalTime.of(8, 0));
+        timetable.setTimeTo(LocalTime.of(15, 0));
         timetableService.createTimetable(timetable);
 
         Timetable timetable2 = new Timetable();
         timetable2.setDoctor(doctor);
-        timetable2.setDate(LocalDate.of(2018,12,2));
-        timetable2.setTimeFrom(LocalTime.of(8,0));
-        timetable2.setTimeTo(LocalTime.of(15,0));
+        timetable2.setDate(LocalDate.of(2018, 12, 2));
+        timetable2.setTimeFrom(LocalTime.of(8, 0));
+        timetable2.setTimeTo(LocalTime.of(15, 0));
         timetableService.createTimetable(timetable2);
 
         Preconditions.checkState(
@@ -611,7 +611,7 @@ public class CorsysApplicationTests {
                 timetableService.findTimetablesSince(doctor, LocalDate.of(2018, 12, 2)).size() == 1
         );
 
-        timetableService.deleteTimetable(timetable2);
+        timetableService.deleteTimetable(timetable);
 
         Preconditions.checkState(
                 timetableService.findTimetables(doctor).size() == 1
@@ -643,6 +643,68 @@ public class CorsysApplicationTests {
                 reservationService.findReservationsToConfirm(department).size() == 2
         );
 
+    }
+
+    @Test
+    public void T15FreeTermCountingTest() {
+        Department department = departmentService.findDepartment("dep1");
+        Examination examination = departmentService.findExaminations(department).get(0);
+        Doctor doctor = doctorService.findDoctorByUsername("doctor1");
+        Patient patient = patientService.findPatientByUsername("patient1");
+        List<LocalTime> freeTerms = reservationService.findFreeTerms(LocalDate.of(2018,12,2), doctor, examination);
+        System.out.println("Free terms: ");
+        for (LocalTime t: freeTerms) {
+            System.out.println(t);
+        }
+
+        Preconditions.checkState(
+                freeTerms.size() == 5
+        );
+
+        Examination examination1 = new Examination();
+        examination1.setDepartment(department);
+        examination1.setType("prehliadka");
+        examination1.setLength(1);
+        examinationDao.save(examination1);
+        freeTerms = reservationService.findFreeTerms(LocalDate.of(2018,12,2), doctor, examination1);
+        System.out.println("Free terms: ");
+        for (LocalTime t: freeTerms) {
+            System.out.println(t);
+        }
+        Preconditions.checkState(
+                freeTerms.size() == 26
+        );
+
+        Reservation r3 = new Reservation();
+        r3.setPatient(patient);
+        r3.setDoctor(doctor);
+        r3.setState(Reservation.STATE_UNCONFIRMED);
+        r3.setDate(LocalDate.of(2018, 12, 02));
+        r3.setExamination(examination1);
+        r3.setTimeFrom(LocalTime.of(9, 30));
+        r3.setTimeTo(LocalTime.of(9, 45));
+        reservationService.createReservation(r3);
+
+        freeTerms = reservationService.findFreeTerms(LocalDate.of(2018,12,2), doctor, examination1);
+
+        Preconditions.checkState(
+                freeTerms.size() == 25
+        );
+
+        Examination examination2 = new Examination();
+        examination2.setDepartment(department);
+        examination2.setType("prehliadka");
+        examination2.setLength(2);
+        examinationDao.save(examination2);
+
+        freeTerms = reservationService.findFreeTerms(LocalDate.of(2018,12,2), doctor, examination2);
+        System.out.println("Free terms: ");
+        for (LocalTime t: freeTerms) {
+            System.out.println(t);
+        }
+        Preconditions.checkState(
+                freeTerms.size() == 12
+        );
     }
 
 }
