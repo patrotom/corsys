@@ -4,10 +4,7 @@ import cz.cvut.fit.corsys.bl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class LoginController {
@@ -33,8 +30,9 @@ public class LoginController {
     }
 
     @GetMapping(value = "/receptionist")
-    public String welcomeReceptionist(Model model) {
+    public String welcomeReceptionist(@RequestParam(name = "resSuccess", required = false) Boolean resSuccess, Model model) {
         model.addAttribute("userFullName", userService.getLoggedUser().getFirstName() + " " + userService.getLoggedUser().getLastName());
+        model.addAttribute("resSuccess", resSuccess);
         return "receptionist/receptionist";
     }
 

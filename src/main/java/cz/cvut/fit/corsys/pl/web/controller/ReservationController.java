@@ -145,7 +145,8 @@ public class ReservationController {
     }
 
     @RequestMapping(value = "/receptionist/createReservationTime", method = RequestMethod.POST)
-    public String reservationTimeSubmit(@Valid CreateReservationCommand reservation, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+    public String reservationTimeSubmit(@Valid CreateReservationCommand reservation, BindingResult result,
+                                        Model model, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("command",reservation);
 /*
         Reservation res = new Reservation();
@@ -162,7 +163,7 @@ public class ReservationController {
         TODO validate reservation (not null attributes)
          */
 //        reservationService().createReservation(res);
-
+        redirectAttributes.addAttribute("resSuccess", true);
         return "redirect:/receptionist";
     }
 
