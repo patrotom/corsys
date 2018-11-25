@@ -7,6 +7,10 @@ import java.time.LocalTime;
 @Entity
 public class Reservation {
 
+    public static final String STATE_UNCONFIRMED = "UNCONFIRMED";
+    public static final String STATE_CONFIRMED = "CONFIRMED";
+    public static final String STATE_CANCELED = "CANCELED";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer reservationId;
@@ -23,18 +27,18 @@ public class Reservation {
     @Column(length = 50, nullable = false)
     private String state;
 
-    @Column
+    @Column(nullable = true)
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "patientId")
     private Patient patient;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "doctorId")
     private Doctor doctor;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "examinationId")
     private Examination examination;
 

@@ -8,8 +8,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service("corsysUserDetailsService")
 public class CorsysUserDetailsServiceImpl implements UserDetailsService {
 
@@ -18,11 +16,11 @@ public class CorsysUserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        List<User> usr = userDao.findByUsername(username);
-        if (usr.isEmpty()) {
+        User usr = userDao.findUserByUsername(username);
+        if (usr == null) {
             throw new UsernameNotFoundException("User " + username + " not found.");
         }
-        return new CorsysUserDetails(usr.get(0));
+        return new CorsysUserDetails(usr);
     }
 
 }

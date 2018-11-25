@@ -11,7 +11,7 @@ public class User {
 
     private boolean active;
 
-    @Column(length = 50, nullable = false)
+    @Column(length = 50, nullable = false, unique = true)
     private String username;
 
     @Column(length = 50, nullable = false)
@@ -26,12 +26,10 @@ public class User {
     @Column(length = 50, nullable = false)
     private String lastName;
 
-
     @Column(length = 15)
     private String phone;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-//    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "roleId")
     private Role role;
 

@@ -1,6 +1,7 @@
 package cz.cvut.fit.corsys.bl.service.impl;
 
 import cz.cvut.fit.corsys.bl.service.UserService;
+import cz.cvut.fit.corsys.dl.dao.NotificationDao;
 import cz.cvut.fit.corsys.dl.dao.RoleDao;
 import cz.cvut.fit.corsys.dl.dao.UserDao;
 import cz.cvut.fit.corsys.dl.entity.Notification;
@@ -25,35 +26,62 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private NotificationDao notificationDao;
+
     @Override
     public User createUser(User user) {
-        return this.userDao.save(user);
+        if (userDao.findUserByUserId(user.getUserId()) != null
+                || userDao.findUserByUsername(user.getUsername()) != null) {
+            throw new IllegalArgumentException();
+        }
+        return userDao.save(user);
     }
 
     @Override
     public void deleteUser(User user) {
-        this.userDao.delete(user);
+        User dbUser = userDao.findUserByUserId(user.getUserId());
+        if (dbUser == null) {
+            throw new IllegalArgumentException();
+        }
+        if (!dbUser.getUserId().equals(user.getUserId())
+                || !dbUser.getUsername().equals(user.getUsername())) {
+            throw new IllegalArgumentException();
+        }
+        userDao.delete(user);
     }
 
     @Override
     public User updateUser(User user) {
-        return this.userDao.save(user);
+        User dbUser = userDao.findUserByUserId(user.getUserId());
+        if (dbUser == null) {
+            throw new IllegalArgumentException();
+        }
+        if (!dbUser.getUserId().equals(user.getUserId())
+                || !dbUser.getUsername().equals(user.getUsername())) {
+            throw new IllegalArgumentException();
+        }
+        return userDao.save(user);
     }
 
     @Override
     public List<User> findAllUsers() {
-        return this.userDao.findAll();
+        return userDao.findAll();
     }
 
     @Override
-    public User findByUsername(String username) {
-        List<User> users = this.userDao.findByUsername(username);
-        return users.isEmpty() ? null : users.get(0);
+    public User getUser(Integer id) {
+        return userDao.findUserByUserId(id);
+    }
+
+    @Override
+    public User findUserByUsername(String username) {
+        return userDao.findUserByUsername(username);
     }
 
     @Override
     public Role findRole(String role) {
-        return this.roleDao.findByName(role);
+        return roleDao.findRoleByName(role);
     }
 
     @Override
@@ -61,16 +89,14 @@ public class UserServiceImpl implements UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String currentUserName = authentication.getName();
-            List<User> users = this.userDao.findByUsername(currentUserName);
-            return users.isEmpty() ? null : users.get(0);
+            return userDao.findUserByUsername(currentUserName);
         }
         return null;
     }
 
     @Override
     public List<Notification> findNotifications(User user) {
-        //TODO implement
-        return null;
+        return notificationDao.findNotificationsByUser(user);
     }
 
 

@@ -4,6 +4,7 @@ import cz.cvut.fit.corsys.dl.entity.Doctor;
 import cz.cvut.fit.corsys.dl.entity.Timetable;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public interface TimetableService {
@@ -56,5 +57,24 @@ public interface TimetableService {
      * @throws IllegalArgumentException in case that the specified timetable does not exist.
      */
     void deleteTimetable(Timetable timetable) throws IllegalArgumentException;
+
+    /**
+     * Returns length of timetable interval as a count of 15-minute intervals included.
+     *
+     * @param timetable the timetable for which to determine length.
+     * @return the length of the timetable.
+     */
+    Integer getTimetableLength(Timetable timetable);
+
+    /**
+     * Subtracts time interval from specified timetables. Counts new list of timetables according
+     * to modifications needed.
+     *
+     * @param timetables list of previous timetables.
+     * @param from beginning of the interval.
+     * @param to end of the interval.
+     * @return modified list of timetables.
+     */
+    List<Timetable> subtractTimeInterval(List<Timetable> timetables, LocalTime from, LocalTime to);
 
 }

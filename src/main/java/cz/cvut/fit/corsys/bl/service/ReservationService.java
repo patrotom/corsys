@@ -17,15 +17,16 @@ public interface ReservationService {
      * @param id the id for which to find reservation.
      * @return the corresponding reservation, null if such reservation does not exist.
      */
-    Reservation getReservation(Long id);
+    Reservation getReservation(Integer id);
 
     /**
      * Creates new reservation.
      *
      * @param reservation the reservation to be created.
      * @return the created reservation. Use this object for further operations.
+     * @throws IllegalArgumentException in case that the specified reservation already exists.
      */
-    Reservation createReservation(Reservation reservation);
+    Reservation createReservation(Reservation reservation) throws IllegalArgumentException;
 
     /**
      * Changes state of existing reservation to confirmed.

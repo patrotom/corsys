@@ -21,8 +21,9 @@ public interface UserService {
      *
      * @param user the user to be created.
      * @return the created user. Use this object for further operations.
+     * @throws IllegalArgumentException in case that the specified user already exists.
      */
-    User createUser(User user);
+    User createUser(User user) throws IllegalArgumentException;
 
     /**
      * Deletes a user.
@@ -50,12 +51,20 @@ public interface UserService {
     List<User> findAllUsers();
 
     /**
+     * Returns user for the specified id.
+     *
+     * @param id the id for which to find user.
+     * @return the corresponding user, null if such user does not exist.
+     */
+    User getUser(Integer id);
+
+    /**
      * Finds user for specific username.
      *
      * @param username username to be found.
-     * @return found user, null if specified username could not be found.
+     * @return the found user, null if specified username could not be found.
      */
-    User findByUsername(String username);
+    User findUserByUsername(String username);
 
     /**
      * Returns a role object for the given role name.

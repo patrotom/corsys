@@ -15,8 +15,9 @@ public interface PatientService {
      *
      * @param patient the patient to be created.
      * @return the created patient. Use this object for further operations.
+     * @throws IllegalArgumentException in case that the specified patient already exists.
      */
-    Patient createPatient(Patient patient);
+    Patient createPatient(Patient patient) throws IllegalArgumentException;
 
     /**
      * Updates a patient.
@@ -42,6 +43,22 @@ public interface PatientService {
      * @return list of all patients.
      */
     List<Patient> findAllPatients();
+
+    /**
+     * Returns patient for the specified id.
+     *
+     * @param id the id for which to find patient.
+     * @return the corresponding patient, null if such patient does not exist.
+     */
+    Patient getPatient(Integer id);
+
+    /**
+     * Finds patient for specific username.
+     *
+     * @param username username to be found.
+     * @return the found patient, null if specified username could not be found.
+     */
+    Patient findPatientByUsername(String username);
 
     /**
      * Finds all reservations assigned to the specified patient.
