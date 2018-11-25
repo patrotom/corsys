@@ -15,7 +15,7 @@ public class CreateReservationCommand {
 
     private String patientUsername;
 
-    private String date;
+    private LocalDate date;
 
     private LocalTime timeFrom;
 
@@ -49,11 +49,11 @@ public class CreateReservationCommand {
         this.doctorId = doctorId;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

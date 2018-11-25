@@ -1,10 +1,7 @@
 package cz.cvut.fit.corsys.pl.web.controller;
 
 
-import cz.cvut.fit.corsys.bl.service.DepartmentService;
-import cz.cvut.fit.corsys.bl.service.DoctorService;
-import cz.cvut.fit.corsys.bl.service.TimetableService;
-import cz.cvut.fit.corsys.bl.service.UserService;
+import cz.cvut.fit.corsys.bl.service.*;
 import cz.cvut.fit.corsys.dl.entity.Department;
 import cz.cvut.fit.corsys.dl.entity.Doctor;
 import cz.cvut.fit.corsys.dl.entity.Examination;
@@ -35,12 +32,11 @@ public class ReservationController {
     @Autowired
     private DoctorService doctorService;
 
-//    @Autowired
-//    private ReservationService reservationService;
+    @Autowired
+    private ReservationService reservationService;
 
-//    @Autowired
-//    private ExaminationService examinationService;
-
+    @Autowired
+    private PatientService patientService;
 
     //Select DEPARTMENT
     @RequestMapping(value = "/receptionist/createReservationDep", method = RequestMethod.GET)
@@ -65,7 +61,7 @@ public class ReservationController {
     //Select EXAMINATION based on DEPARTMENT
     @RequestMapping(value = "/receptionist/createReservationExamination", method = RequestMethod.GET)
     public void prepareReservationExamination(Model model,@ModelAttribute("command") CreateReservationCommand reservation) {
-       // model.addAttribute("examinations", departmentService.findExaminations(departmentService.getDepartment(reservation.getDepartmentId())));
+        model.addAttribute("examinations", departmentService.findExaminations(departmentService.getDepartment(reservation.getDepartmentId())));
         model.addAttribute("command", reservation);
     }
 
@@ -74,7 +70,7 @@ public class ReservationController {
     public String reservationExaminationSubmit(@Valid CreateReservationCommand reservation, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
-           // model.addAttribute("examinations", departmentService.findExaminations(departmentService.getDepartment(reservation.getDepartmentId())));
+            model.addAttribute("examinations", departmentService.findExaminations(departmentService.getDepartment(reservation.getDepartmentId())));
             return "receptionist/createReservationExamination";
         }
         redirectAttributes.addFlashAttribute("command",reservation);
@@ -122,10 +118,10 @@ public class ReservationController {
     //Select DOCTOR based on DEPARTMENT
     @RequestMapping(value = "/receptionist/createReservationTime", method = RequestMethod.GET)
     public void prepareReservationTime(Model model,@ModelAttribute("command") CreateReservationCommand reservation) {
-//        model.addAttribute("times", reservationService().findFreeTerms(/*DATE*/ reservation.getDate(),
-//                                                                          /*DOCTOR*/ doctorService.getDoctor(reservation.getDoctorId()),
-//                                                                          /*EXAMINATION*/ examinationService.getExamination(reservation.getExaminationId())
-//        ));
+        model.addAttribute("times", reservationService.findFreeTerms(/*DATE*/ reservation.getDate(),
+                                                                          /*DOCTOR*/ doctorService.getDoctor(reservation.getDoctorId()),
+                                                                          /*EXAMINATION*/ departmentService.getExamination(reservation.getExaminationId())
+        ));
         Time time1 = new Time();
         time1.setId(1);
         time1.setVal("12:00");
@@ -148,21 +144,21 @@ public class ReservationController {
     public String reservationTimeSubmit(@Valid CreateReservationCommand reservation, BindingResult result,
                                         Model model, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("command",reservation);
-/*
+
         Reservation res = new Reservation();
         res.setDate(reservation.getDate());
         res.setDescription(reservation.getDescription());
         res.setDoctor(doctorService.getDoctor(reservation.getDoctorId()));
-        res.setExamination(examinationService.getExamination(reservation.getExaminationId());
-        res.setPatient(patientService.findPatientByUsername(reservation.getPatient()));
+        res.setExamination(departmentService.getExamination(reservation.getExaminationId()));
+        res.setPatient(patientService.findPatientByUsername(reservation.getPatientUsername()));
         res.setState("CONFIRMED");
         res.setTimeFrom(reservation.getTimeFrom());
         res.setTimeTo(reservation.getTimeTo());
-*/
+
         /*
         TODO validate reservation (not null attributes)
          */
-//        reservationService().createReservation(res);
+        reservationService.createReservation(res);
         redirectAttributes.addAttribute("resSuccess", true);
         return "redirect:/receptionist";
     }
