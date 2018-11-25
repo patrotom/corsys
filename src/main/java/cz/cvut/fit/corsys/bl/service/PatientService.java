@@ -15,8 +15,9 @@ public interface PatientService {
      *
      * @param patient the patient to be created.
      * @return the created patient. Use this object for further operations.
+     * @throws IllegalArgumentException in case that the specified patient already exists.
      */
-    Patient createPatient(Patient patient);
+    Patient createPatient(Patient patient) throws IllegalArgumentException;
 
     /**
      * Updates a patient.

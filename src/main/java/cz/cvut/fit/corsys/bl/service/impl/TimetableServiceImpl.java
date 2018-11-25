@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,8 +31,11 @@ public class TimetableServiceImpl implements TimetableService {
 
     @Override
     public List<Timetable> findTimetablesSince(Doctor doctor, LocalDate date) {
-        // TODO after is not after
-        return timetableDao.findTimetablesByDoctorAndDateAfter(doctor, date);
+        List<Timetable> timetablesToday = timetableDao.findTimetablesByDoctorAndDate(doctor, date);
+        List<Timetable> timetablesNext = timetableDao.findTimetablesByDoctorAndDateAfter(doctor, date);
+        List<Timetable> newList = new ArrayList<Timetable>(timetablesToday);
+        newList.addAll(timetablesNext);
+        return newList;
     }
 
     @Override

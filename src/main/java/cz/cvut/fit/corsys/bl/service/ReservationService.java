@@ -24,8 +24,9 @@ public interface ReservationService {
      *
      * @param reservation the reservation to be created.
      * @return the created reservation. Use this object for further operations.
+     * @throws IllegalArgumentException in case that the specified reservation already exists.
      */
-    Reservation createReservation(Reservation reservation);
+    Reservation createReservation(Reservation reservation) throws IllegalArgumentException;
 
     /**
      * Changes state of existing reservation to confirmed.

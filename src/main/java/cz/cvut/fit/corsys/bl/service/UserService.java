@@ -21,8 +21,9 @@ public interface UserService {
      *
      * @param user the user to be created.
      * @return the created user. Use this object for further operations.
+     * @throws IllegalArgumentException in case that the specified user already exists.
      */
-    User createUser(User user);
+    User createUser(User user) throws IllegalArgumentException;
 
     /**
      * Deletes a user.

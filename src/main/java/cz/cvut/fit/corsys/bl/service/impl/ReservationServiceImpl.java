@@ -28,12 +28,19 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Reservation createReservation(Reservation reservation) {
+        if (reservationDao.findReservationByReservationId(reservation.getReservationId()) != null) {
+            throw new IllegalArgumentException();
+        }
         return reservationDao.save(reservation);
     }
 
     @Override
     public Reservation confirmReservation(Reservation reservation) throws IllegalArgumentException {
-        if (reservationDao.findReservationByReservationId(reservation.getReservationId()) == null) {
+        Reservation dbReservation = reservationDao.findReservationByReservationId(reservation.getReservationId());
+        if (dbReservation == null) {
+            throw new IllegalArgumentException();
+        }
+        if (! dbReservation.getReservationId().equals(reservation.getReservationId())) {
             throw new IllegalArgumentException();
         }
         reservation.setState(Reservation.STATE_CONFIRMED);
@@ -42,7 +49,11 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Reservation cancelReservation(Reservation reservation) throws IllegalArgumentException {
-        if (reservationDao.findReservationByReservationId(reservation.getReservationId()) == null) {
+        Reservation dbReservation = reservationDao.findReservationByReservationId(reservation.getReservationId());
+        if (dbReservation == null) {
+            throw new IllegalArgumentException();
+        }
+        if (! dbReservation.getReservationId().equals(reservation.getReservationId())) {
             throw new IllegalArgumentException();
         }
         reservation.setState(Reservation.STATE_CANCELED);
@@ -51,7 +62,11 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Reservation modifyReservation(Reservation reservation) throws IllegalArgumentException {
-        if (reservationDao.findReservationByReservationId(reservation.getReservationId()) == null) {
+        Reservation dbReservation = reservationDao.findReservationByReservationId(reservation.getReservationId());
+        if (dbReservation == null) {
+            throw new IllegalArgumentException();
+        }
+        if (! dbReservation.getReservationId().equals(reservation.getReservationId())) {
             throw new IllegalArgumentException();
         }
         return reservationDao.save(reservation);

@@ -15,8 +15,9 @@ public interface DoctorService {
      *
      * @param doctor the doctor to be created.
      * @return the created doctor. Use this object for further operations.
+     * @throws IllegalArgumentException in case that the specified doctor already exists.
      */
-    Doctor createDoctor(Doctor doctor);
+    Doctor createDoctor(Doctor doctor) throws IllegalArgumentException;
 
     /**
      * Updates a doctor.

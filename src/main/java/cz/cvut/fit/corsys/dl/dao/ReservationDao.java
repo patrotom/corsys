@@ -14,9 +14,13 @@ public interface ReservationDao extends JpaRepository<Reservation, Integer> {
 
     List<Reservation> findReservationsByPatient(Patient patient);
 
+    List<Reservation> findReservationsByPatientAndDate(Patient patient, LocalDate localDate);
+
     List<Reservation> findReservationsByPatientAndDateAfter(Patient patient, LocalDate localDate);
 
     List<Reservation> findReservationsByDoctor(Doctor doctor);
+
+    List<Reservation> findReservationsByDoctorAndDate(Doctor doctor, LocalDate localDate);
 
     List<Reservation> findReservationsByDoctorAndDateAfter(Doctor doctor, LocalDate localDate);
 

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,23 +42,41 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public Doctor createDoctor(Doctor doctor) {
+        if (doctorDao.findDoctorByDoctorId(doctor.getDoctorId()) != null) {
+            throw new IllegalArgumentException();
+        }
+        User user = doctor.getUser();
+        user = userService.createUser(user);
+        doctor.setUser(user);
         return doctorDao.save(doctor);
     }
 
     @Override
     public Doctor updateDoctor(Doctor doctor) {
-        if (doctorDao.findDoctorByDoctorId(doctor.getDoctorId()) == null) {
+        Doctor dbDoctor = doctorDao.findDoctorByDoctorId(doctor.getDoctorId());
+        if (dbDoctor == null) {
             throw new IllegalArgumentException();
         }
+        if (! dbDoctor.getDoctorId().equals(doctor.getDoctorId())) {
+            throw new IllegalArgumentException();
+        }
+        User user = userService.updateUser(doctor.getUser());
+        doctor.setUser(user);
         return doctorDao.save(doctor);
     }
 
     @Override
     public void deleteDoctor(Doctor doctor) {
-        if (doctorDao.findDoctorByDoctorId(doctor.getDoctorId()) == null) {
+        Doctor dbDoctor = doctorDao.findDoctorByDoctorId(doctor.getDoctorId());
+        if (dbDoctor == null) {
             throw new IllegalArgumentException();
         }
+        if (! dbDoctor.getDoctorId().equals(doctor.getDoctorId())) {
+            throw new IllegalArgumentException();
+        }
+        User user = doctor.getUser();
         doctorDao.delete(doctor);
+        userService.deleteUser(user);
     }
 
     @Override
@@ -72,7 +91,11 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public List<Reservation> findReservationsSince(Doctor doctor, LocalDate date) {
-        return reservationDao.findReservationsByDoctorAndDateAfter(doctor, date);
+        List<Reservation> reservationsToday = reservationDao.findReservationsByDoctorAndDate(doctor, date);
+        List<Reservation> reservationsNext = reservationDao.findReservationsByDoctorAndDateAfter(doctor, date);
+        List<Reservation> newList = new ArrayList<Reservation>(reservationsToday);
+        newList.addAll(reservationsNext);
+        return newList;
     }
 
     @Override

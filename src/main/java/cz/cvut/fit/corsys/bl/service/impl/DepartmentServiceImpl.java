@@ -42,6 +42,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    public Department findDepartment(String name) {
+        return departmentDao.findDepartmentByName(name);
+    }
+
+    @Override
     public Examination getExamination(Integer id) {
         return examinationDao.findExaminationByExaminationId(id);
     }

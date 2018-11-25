@@ -24,23 +24,41 @@ public class ReceptionistServiceImpl implements ReceptionistService {
 
     @Override
     public Receptionist createReceptionist(Receptionist receptionist) {
+        if (receptionistDao.findReceptionistByReceptionistId(receptionist.getReceptionistId()) != null) {
+            throw new IllegalArgumentException();
+        }
+        User user = receptionist.getUser();
+        user = userService.createUser(user);
+        receptionist.setUser(user);
         return receptionistDao.save(receptionist);
     }
 
     @Override
     public Receptionist updateReceptionist(Receptionist receptionist) throws IllegalArgumentException {
-        if (receptionistDao.findReceptionistByReceptionistId(receptionist.getReceptionistId()) == null) {
+        Receptionist dbReceptionist = receptionistDao.findReceptionistByReceptionistId(receptionist.getReceptionistId());
+        if (dbReceptionist == null) {
             throw new IllegalArgumentException();
         }
+        if (! dbReceptionist.getReceptionistId().equals(receptionist.getReceptionistId())) {
+            throw new IllegalArgumentException();
+        }
+        User user = userService.updateUser(receptionist.getUser());
+        receptionist.setUser(user);
         return receptionistDao.save(receptionist);
     }
 
     @Override
     public void deleteReceptionist(Receptionist receptionist) throws IllegalArgumentException {
-        if (receptionistDao.findReceptionistByReceptionistId(receptionist.getReceptionistId()) == null) {
+        Receptionist dbReceptionist = receptionistDao.findReceptionistByReceptionistId(receptionist.getReceptionistId());
+        if (dbReceptionist == null) {
             throw new IllegalArgumentException();
         }
+        if (! dbReceptionist.getReceptionistId().equals(receptionist.getReceptionistId())) {
+            throw new IllegalArgumentException();
+        }
+        User user = receptionist.getUser();
         receptionistDao.delete(receptionist);
+        userService.deleteUser(user);
     }
 
     @Override

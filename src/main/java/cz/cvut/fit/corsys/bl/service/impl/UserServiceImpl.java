@@ -31,12 +31,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
+        if (userDao.findUserByUserId(user.getUserId()) != null
+            || userDao.findUserByUsername(user.getUsername()) != null) {
+            throw new IllegalArgumentException();
+        }
         return userDao.save(user);
     }
 
     @Override
     public void deleteUser(User user) {
-        if (userDao.findUserByUserId(user.getUserId()) == null) {
+        User dbUser = userDao.findUserByUserId(user.getUserId());
+        if (dbUser == null) {
+            throw new IllegalArgumentException();
+        }
+        if (! dbUser.getUserId().equals(user.getUserId())
+            || ! dbUser.getUsername().equals(user.getUsername())) {
             throw new IllegalArgumentException();
         }
         userDao.delete(user);
@@ -44,7 +53,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user) {
-        if (userDao.findUserByUserId(user.getUserId()) == null) {
+        User dbUser = userDao.findUserByUserId(user.getUserId());
+        if (dbUser == null) {
+            throw new IllegalArgumentException();
+        }
+        if (! dbUser.getUserId().equals(user.getUserId())
+                || ! dbUser.getUsername().equals(user.getUsername())) {
             throw new IllegalArgumentException();
         }
         return userDao.save(user);

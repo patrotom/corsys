@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,24 +31,41 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public Patient createPatient(Patient patient) {
-        // TODO call user first
+        if (patientDao.findPatientByPatientId(patient.getPatientId()) != null) {
+            throw new IllegalArgumentException();
+        }
+        User user = patient.getUser();
+        user = userService.createUser(user);
+        patient.setUser(user);
         return patientDao.save(patient);
     }
 
     @Override
     public Patient updatePatient(Patient patient) throws IllegalArgumentException {
-        if (patientDao.findPatientByPatientId(patient.getPatientId()) == null) {
+        Patient dbPatient = patientDao.findPatientByPatientId(patient.getPatientId());
+        if (dbPatient == null) {
             throw new IllegalArgumentException();
         }
+        if (! dbPatient.getPatientId().equals(patient.getPatientId())) {
+            throw new IllegalArgumentException();
+        }
+        User user = userService.updateUser(patient.getUser());
+        patient.setUser(user);
         return patientDao.save(patient);
     }
 
     @Override
     public void deletePatient(Patient patient) throws IllegalArgumentException {
-        if (patientDao.findPatientByPatientId(patient.getPatientId()) == null) {
+        Patient dbPatient = patientDao.findPatientByPatientId(patient.getPatientId());
+        if (dbPatient == null) {
             throw new IllegalArgumentException();
         }
+        if (! dbPatient.getPatientId().equals(patient.getPatientId())) {
+            throw new IllegalArgumentException();
+        }
+        User user = patient.getUser();
         patientDao.delete(patient);
+        userService.deleteUser(user);
     }
 
     @Override
@@ -76,7 +94,11 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public List<Reservation> findReservationsSince(Patient patient, LocalDate date) {
-        return reservationDao.findReservationsByPatientAndDateAfter(patient, date);
+        List<Reservation> reservationsToday = reservationDao.findReservationsByPatientAndDate(patient, date);
+        List<Reservation> reservationsNext = reservationDao.findReservationsByPatientAndDateAfter(patient, date);
+        List<Reservation> newList = new ArrayList<Reservation>(reservationsToday);
+        newList.addAll(reservationsNext);
+        return newList;
     }
 
     @Override

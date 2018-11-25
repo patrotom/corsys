@@ -25,6 +25,14 @@ public interface DepartmentService {
     Department getDepartment(Integer id);
 
     /**
+     * Returns department for the specified name.
+     *
+     * @param name the id for which to find department.
+     * @return the corresponding department, null if such department does not exist.
+     */
+    Department findDepartment(String name);
+
+    /**
      * Returns examination for the specified id.
      *
      * @param id the id for which to find examination.
