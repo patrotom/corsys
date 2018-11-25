@@ -10,7 +10,7 @@ public class Timetable {
     public static final Integer TIME_DIV = 15;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer timetableId;
 
     @Column(nullable = false)
