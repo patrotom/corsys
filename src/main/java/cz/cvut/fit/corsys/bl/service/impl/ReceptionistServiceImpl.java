@@ -39,7 +39,7 @@ public class ReceptionistServiceImpl implements ReceptionistService {
         if (dbReceptionist == null) {
             throw new IllegalArgumentException();
         }
-        if (! dbReceptionist.getReceptionistId().equals(receptionist.getReceptionistId())) {
+        if (!dbReceptionist.getReceptionistId().equals(receptionist.getReceptionistId())) {
             throw new IllegalArgumentException();
         }
         User user = userService.updateUser(receptionist.getUser());
@@ -53,7 +53,7 @@ public class ReceptionistServiceImpl implements ReceptionistService {
         if (dbReceptionist == null) {
             throw new IllegalArgumentException();
         }
-        if (! dbReceptionist.getReceptionistId().equals(receptionist.getReceptionistId())) {
+        if (!dbReceptionist.getReceptionistId().equals(receptionist.getReceptionistId())) {
             throw new IllegalArgumentException();
         }
         User user = receptionist.getUser();

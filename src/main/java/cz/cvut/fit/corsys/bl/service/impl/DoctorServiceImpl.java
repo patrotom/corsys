@@ -57,7 +57,7 @@ public class DoctorServiceImpl implements DoctorService {
         if (dbDoctor == null) {
             throw new IllegalArgumentException();
         }
-        if (! dbDoctor.getDoctorId().equals(doctor.getDoctorId())) {
+        if (!dbDoctor.getDoctorId().equals(doctor.getDoctorId())) {
             throw new IllegalArgumentException();
         }
         User user = userService.updateUser(doctor.getUser());
@@ -71,7 +71,7 @@ public class DoctorServiceImpl implements DoctorService {
         if (dbDoctor == null) {
             throw new IllegalArgumentException();
         }
-        if (! dbDoctor.getDoctorId().equals(doctor.getDoctorId())) {
+        if (!dbDoctor.getDoctorId().equals(doctor.getDoctorId())) {
             throw new IllegalArgumentException();
         }
         User user = doctor.getUser();

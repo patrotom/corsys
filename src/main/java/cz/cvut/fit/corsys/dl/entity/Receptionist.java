@@ -5,13 +5,13 @@ import javax.persistence.*;
 @Entity
 public class Receptionist {
 
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "userId")
-    private User user;
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer receptionistId;
+
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "userId")
+    public User user;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "departmentId")

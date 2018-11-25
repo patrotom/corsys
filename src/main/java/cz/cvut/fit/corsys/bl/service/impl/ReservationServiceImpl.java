@@ -40,7 +40,7 @@ public class ReservationServiceImpl implements ReservationService {
         if (dbReservation == null) {
             throw new IllegalArgumentException();
         }
-        if (! dbReservation.getReservationId().equals(reservation.getReservationId())) {
+        if (!dbReservation.getReservationId().equals(reservation.getReservationId())) {
             throw new IllegalArgumentException();
         }
         reservation.setState(Reservation.STATE_CONFIRMED);
@@ -53,7 +53,7 @@ public class ReservationServiceImpl implements ReservationService {
         if (dbReservation == null) {
             throw new IllegalArgumentException();
         }
-        if (! dbReservation.getReservationId().equals(reservation.getReservationId())) {
+        if (!dbReservation.getReservationId().equals(reservation.getReservationId())) {
             throw new IllegalArgumentException();
         }
         reservation.setState(Reservation.STATE_CANCELED);
@@ -66,7 +66,7 @@ public class ReservationServiceImpl implements ReservationService {
         if (dbReservation == null) {
             throw new IllegalArgumentException();
         }
-        if (! dbReservation.getReservationId().equals(reservation.getReservationId())) {
+        if (!dbReservation.getReservationId().equals(reservation.getReservationId())) {
             throw new IllegalArgumentException();
         }
         return reservationDao.save(reservation);

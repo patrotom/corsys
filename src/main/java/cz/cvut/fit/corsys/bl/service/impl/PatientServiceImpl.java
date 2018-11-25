@@ -46,7 +46,7 @@ public class PatientServiceImpl implements PatientService {
         if (dbPatient == null) {
             throw new IllegalArgumentException();
         }
-        if (! dbPatient.getPatientId().equals(patient.getPatientId())) {
+        if (!dbPatient.getPatientId().equals(patient.getPatientId())) {
             throw new IllegalArgumentException();
         }
         User user = userService.updateUser(patient.getUser());
@@ -60,7 +60,7 @@ public class PatientServiceImpl implements PatientService {
         if (dbPatient == null) {
             throw new IllegalArgumentException();
         }
-        if (! dbPatient.getPatientId().equals(patient.getPatientId())) {
+        if (!dbPatient.getPatientId().equals(patient.getPatientId())) {
             throw new IllegalArgumentException();
         }
         User user = patient.getUser();

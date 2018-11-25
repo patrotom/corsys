@@ -550,8 +550,8 @@ public class CorsysApplicationTests {
         r1.setState(Reservation.STATE_UNCONFIRMED);
         r1.setDate(LocalDate.of(2018, 12, 02));
         r1.setExamination(examination);
-        r1.setTimeFrom(LocalTime.of(9,15));
-        r1.setTimeTo(LocalTime.of(9,30));
+        r1.setTimeFrom(LocalTime.of(9, 15));
+        r1.setTimeTo(LocalTime.of(9, 30));
         reservationService.createReservation(r1);
 
         Reservation r2 = new Reservation();
@@ -560,8 +560,8 @@ public class CorsysApplicationTests {
         r2.setState(Reservation.STATE_UNCONFIRMED);
         r2.setDate(LocalDate.of(2018, 12, 02));
         r2.setExamination(examination);
-        r2.setTimeFrom(LocalTime.of(10,15));
-        r2.setTimeTo(LocalTime.of(10,30));
+        r2.setTimeFrom(LocalTime.of(10, 15));
+        r2.setTimeTo(LocalTime.of(10, 30));
         reservationService.createReservation(r2);
 
         Reservation r3 = new Reservation();
@@ -570,12 +570,12 @@ public class CorsysApplicationTests {
         r3.setState(Reservation.STATE_UNCONFIRMED);
         r3.setDate(LocalDate.of(2018, 12, 03));
         r3.setExamination(examination);
-        r3.setTimeFrom(LocalTime.of(9,15));
-        r3.setTimeTo(LocalTime.of(9,30));
+        r3.setTimeFrom(LocalTime.of(9, 15));
+        r3.setTimeTo(LocalTime.of(9, 30));
         reservationService.createReservation(r3);
 
         Preconditions.checkState(
-                patientService.findReservationsSince(p1, LocalDate.of(2018,12,02)).size() == 3
+                patientService.findReservationsSince(p1, LocalDate.of(2018, 12, 02)).size() == 3
         );
     }
 

@@ -29,7 +29,6 @@ public class User {
     @Column(length = 15)
     private String phone;
 
-    //    @ManyToOne(fetch = FetchType.EAGER)
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "roleId")
     private Role role;
