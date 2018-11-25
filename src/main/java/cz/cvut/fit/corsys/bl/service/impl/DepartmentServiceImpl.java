@@ -21,13 +21,13 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Autowired
     private DepartmentDao departmentDao;
-    
+
     @Autowired
     private ExaminationDao examinationDao;
-    
+
     @Autowired
     private DoctorDao doctorDao;
-    
+
     @Autowired
     private ReceptionistDao receptionistDao;
 

@@ -15,13 +15,13 @@ import java.util.List;
 @Service
 @Transactional
 public class ReceptionistServiceImpl implements ReceptionistService {
-    
+
     @Autowired
     ReceptionistDao receptionistDao;
-    
+
     @Autowired
     UserService userService;
-    
+
     @Override
     public Receptionist createReceptionist(Receptionist receptionist) {
         return receptionistDao.save(receptionist);

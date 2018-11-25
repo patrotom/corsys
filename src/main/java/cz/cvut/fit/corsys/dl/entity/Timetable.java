@@ -20,7 +20,7 @@ public class Timetable {
     @Column(nullable = false)
     private LocalTime timeTo;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "doctorId")
     private Doctor doctor;
 

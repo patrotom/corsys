@@ -9,7 +9,7 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer departmentId;
 
-    @Column(length = 50, nullable = false)
+    @Column(length = 50, nullable = false, unique = true)
     private String name;
 
     @Column(length = 250)

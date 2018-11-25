@@ -20,7 +20,7 @@ public class Patient {
     @JoinColumn(name = "addressId")
     private Address address;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "userId")
     private User user;
 

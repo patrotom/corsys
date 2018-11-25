@@ -27,18 +27,18 @@ public class Reservation {
     @Column(length = 50, nullable = false)
     private String state;
 
-    @Column
+    @Column(nullable = true)
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "patientId")
     private Patient patient;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "doctorId")
     private Doctor doctor;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "examinationId")
     private Examination examination;
 

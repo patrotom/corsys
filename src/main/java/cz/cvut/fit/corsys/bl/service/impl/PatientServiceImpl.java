@@ -24,12 +24,13 @@ public class PatientServiceImpl implements PatientService {
 
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private ReservationDao reservationDao;
 
     @Override
     public Patient createPatient(Patient patient) {
+        // TODO call user first
         return patientDao.save(patient);
     }
 

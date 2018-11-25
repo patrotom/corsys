@@ -30,6 +30,7 @@ public class TimetableServiceImpl implements TimetableService {
 
     @Override
     public List<Timetable> findTimetablesSince(Doctor doctor, LocalDate date) {
+        // TODO after is not after
         return timetableDao.findTimetablesByDoctorAndDateAfter(doctor, date);
     }
 

@@ -5,6 +5,11 @@ import javax.persistence.*;
 @Entity
 public class Role {
 
+    public static final String ROLE_ADMIN = "ADMIN";
+    public static final String ROLE_DOCTOR = "DOCTOR";
+    public static final String ROLE_PATIENT = "PATIENT";
+    public static final String ROLE_RECEPTIONIST = "RECEPTIONIST";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer roleId;

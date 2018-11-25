@@ -3,24 +3,27 @@ package cz.cvut.fit.corsys;
 import com.google.common.base.Preconditions;
 import cz.cvut.fit.corsys.bl.service.PatientService;
 import cz.cvut.fit.corsys.bl.service.UserService;
-import cz.cvut.fit.corsys.dl.dao.PatientDao;
-import cz.cvut.fit.corsys.dl.dao.RoleDao;
-import cz.cvut.fit.corsys.dl.dao.UserDao;
-import cz.cvut.fit.corsys.dl.entity.Patient;
-import cz.cvut.fit.corsys.dl.entity.Role;
-import cz.cvut.fit.corsys.dl.entity.User;
+import cz.cvut.fit.corsys.dl.dao.*;
+import cz.cvut.fit.corsys.dl.entity.*;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+
+import static java.util.stream.IntStream.of;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CorsysApplicationTests {
 
     private static final Logger logger = LoggerFactory.getLogger(CorsysApplication.class);
@@ -35,13 +38,31 @@ public class CorsysApplicationTests {
     private PatientDao patientDao;
 
     @Autowired
+    private ReceptionistDao receptionistDao;
+
+    @Autowired
+    private DoctorDao doctorDao;
+
+    @Autowired
+    private DepartmentDao departmentDao;
+
+    @Autowired
+    private ExaminationDao examinationDao;
+
+    @Autowired
+    private ReservationDao reservationDao;
+
+    @Autowired
+    private TimetableDao timetableDao;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
     private PatientService patientService;
 
     @Test
-    public void insertRole() {
+    public void T01insertRole() {
 
         Role role = new Role();
         role.setName("ADMIN");
@@ -53,7 +74,7 @@ public class CorsysApplicationTests {
     }
 
     @Test
-    public void insertUserRole() {
+    public void T02insertUserRole() {
         Role role = new Role();
         role.setName("DOCTOR");
 
@@ -86,7 +107,7 @@ public class CorsysApplicationTests {
     }
 
     @Test
-    public void springNativeQueryTest() {
+    public void T03springNativeQueryTest() {
 
         Role role = new Role();
         role.setName("TEST");
@@ -100,7 +121,7 @@ public class CorsysApplicationTests {
     }
 
     @Test
-    public void ManyToOneTest() {
+    public void T04ManyToOneTest() {
         Role role = new Role();
         role.setName("PATIENT");
         roleDao.save(role);
@@ -141,10 +162,7 @@ public class CorsysApplicationTests {
     }
 
     @Test
-    public void UserDaoTest() {
-        Role role = new Role();
-        role.setName("PATIENT");
-        roleDao.save(role);
+    public void T05UserDaoTest() {
 
         User user = new User();
         user.setActive(true);
@@ -153,54 +171,170 @@ public class CorsysApplicationTests {
         user.setEmail("email@email.com");
         user.setFirstName("3 name");
         user.setLastName("3 lastname");
-        user.setRole(role);
+        user.setRole(roleDao.findRoleByName(Role.ROLE_PATIENT));
         userDao.save(user);
 
-        List<User> users = userDao.findAll();
-        Integer id = users.get(0).getUserId();
+        Integer id = userDao.findUserByUsername("3username").getUserId();
+        System.out.println("User ID: " + id);
 
         Preconditions.checkState(
                 userDao.findUserByUserId(id).getUsername().equals("3username")
         );
 
-        System.out.println("User ID: " + id);
+    }
+
+    @Test
+    public void T06PatientDaoTest() {
+        Role role = roleDao.findRoleByName(Role.ROLE_PATIENT);
+        User user = userDao.findUserByUsername("3username");
+        Patient p = new Patient();
+        p.setUser(user);
+        patientDao.save(p);
 
         Preconditions.checkState(
-                userDao.findUserByUsername("3username").getUserId().equals(id)
+                user.getUsername().equals("3username")
+        );
+
+        Patient patient = patientDao.findPatientByUser(user);
+
+        Preconditions.checkState(
+                patient.getPatientId().equals(p.getPatientId())
         );
     }
 
     @Test
-    public void ServiceTest() {
+    public void T07ReceptionistDaoTest() {
         Role role = new Role();
-        role.setName("PATIENT");
+        role.setName(Role.ROLE_RECEPTIONIST);
         roleDao.save(role);
+
+        Department department = new Department();
+        department.setName("dep1");
+        department = departmentDao.save(department);
 
         User user = new User();
         user.setActive(true);
-        user.setUsername("3username");
+        user.setUsername("recep1");
         user.setPassword("pass");
         user.setEmail("email@email.com");
-        user.setFirstName("3 name");
-        user.setLastName("3 lastname");
+        user.setFirstName("recep1a");
+        user.setLastName("recep1b");
         user.setRole(role);
+        userDao.save(user);
+        Receptionist r = new Receptionist();
+        r.setUser(user);
+        r.setDepartment(department);
+        receptionistDao.save(r);
 
-        Patient patient = new Patient();
-        patient.setUser(user);
+        Receptionist r1 = receptionistDao.findReceptionistByUser(user);
+        List<Receptionist> listRecep = receptionistDao.findReceptionistsByDepartment(departmentDao.findDepartmentByName("dep1"));
 
-        patient = patientService.createPatient(patient);
-        user = patient.getUser();
-        user.setUsername("4username");
-        patient.setUser(user);
-        patientService.updatePatient(patient);
+        Preconditions.checkState(
+                r1.getReceptionistId().equals(listRecep.get(0).getReceptionistId())
+        );
+    }
 
-        System.out.println(patientDao.findAll().size());
-        System.out.println(userService.findUserByUsername("4username"));
+    @Test
+    public void T08ExaminationDaoTest() {
+        Department department = departmentDao.findDepartmentByName("dep1");
 
-        System.out.println(patientService.findPatientByUsername("4username"));
+        Examination e1 = new Examination();
+        e1.setLength(4);
+        e1.setType("prehliadka");
+        e1.setDepartment(department);
+        examinationDao.save(e1);
 
-        patientService.deletePatient(patient);
-        System.out.println(userService.findUserByUsername("4username"));
+        List<Examination> list = examinationDao.findExaminationsByDepartment(departmentDao.findDepartmentByName("dep1"));
+
+        Preconditions.checkState(
+                list.get(0).getLength().equals(e1.getLength())
+        );
+    }
+
+    @Test
+    public void T09ReservationDaoTest() {
+        User user = userDao.findUserByUsername("username_test");
+        Department department = departmentDao.findDepartmentByName("dep1");
+        Examination examination = examinationDao.findExaminationsByDepartment(department).get(0);
+        Patient patient = patientDao.findAll().get(0);
+        Doctor doctor = new Doctor();
+        doctor.setUser(user);
+        doctor.setDepartment(department);
+        doctor = doctorDao.save(doctor);
+
+        Reservation reservation = new Reservation();
+        reservation.setState(Reservation.STATE_UNCONFIRMED);
+        reservation.setDoctor(doctor);
+        reservation.setExamination(examination);
+        reservation.setPatient(patient);
+        reservation.setDate(LocalDate.of(2018, 12, 01));
+        reservation.setTimeFrom(LocalTime.of(8,15));
+        reservation.setTimeTo(LocalTime.of(9, 15));
+        reservationDao.save(reservation);
+
+        Reservation reservation2 = new Reservation();
+        reservation2.setState(Reservation.STATE_CONFIRMED);
+        reservation2.setDoctor(doctor);
+        reservation2.setExamination(examination);
+        reservation2.setPatient(patient);
+        reservation2.setDate(LocalDate.of(2018, 12, 02));
+        reservation2.setTimeFrom(LocalTime.of(8,15));
+        reservation2.setTimeTo(LocalTime.of(9, 15));
+        reservationDao.save(reservation2);
+
+        Reservation reservation3 = new Reservation();
+        reservation3.setState(Reservation.STATE_CONFIRMED);
+        reservation3.setDoctor(doctor);
+        reservation3.setExamination(examination);
+        reservation3.setPatient(patient);
+        reservation3.setDate(LocalDate.of(2018, 12, 03));
+        reservation3.setTimeFrom(LocalTime.of(8,15));
+        reservation3.setTimeTo(LocalTime.of(9, 15));
+        reservationDao.save(reservation3);
+
+        Preconditions.checkState(
+                reservationDao.findReservationsByState(Reservation.STATE_UNCONFIRMED).size() == 1
+        );
+
+        Preconditions.checkState(
+                reservationDao.findReservationsByDoctor(doctor).size() == 3
+        );
+
+        List<Reservation> reservations = reservationDao.findReservationsByDoctorAndDateAfter(doctor, LocalDate.of(2018, 12, 02));
+        for (Reservation r : reservations) {
+            System.out.println(r.getDate());
+        }
+    }
+
+    @Test
+    public void T10TimetableDaoTest() {
+        User user = userDao.findUserByUsername("username_test");
+        Doctor doctor = doctorDao.findDoctorByUser(user);
+
+        Timetable timetable = new Timetable();
+        timetable.setDoctor(doctor);
+        timetable.setDate(LocalDate.of(2018,12,1));
+        timetable.setTimeFrom(LocalTime.of(8,0));
+        timetable.setTimeTo(LocalTime.of(15,0));
+        timetableDao.save(timetable);
+
+        Timetable timetable2 = new Timetable();
+        timetable2.setDoctor(doctor);
+        timetable2.setDate(LocalDate.of(2018,12,2));
+        timetable2.setTimeFrom(LocalTime.of(8,0));
+        timetable2.setTimeTo(LocalTime.of(15,0));
+        timetableDao.save(timetable2);
+
+        List<Timetable> today = timetableDao.findTimetablesByDoctorAndDate(doctor, LocalDate.of(2018,12,1));
+        List<Timetable> nextDays = timetableDao.findTimetablesByDoctorAndDateAfter(doctor, LocalDate.of(2018,12,1));
+
+        Preconditions.checkState(
+                today.size() == 1
+        );
+
+        Preconditions.checkState(
+                nextDays.size() == 1
+        );
 
     }
 

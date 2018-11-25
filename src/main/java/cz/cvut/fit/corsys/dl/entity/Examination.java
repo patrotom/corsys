@@ -15,10 +15,10 @@ public class Examination {
     @Column(nullable = false)
     private Integer length;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "departmentId")
     private Department department;
 
@@ -52,5 +52,13 @@ public class Examination {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }

@@ -9,11 +9,11 @@ public class Doctor {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer doctorId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "userId")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "departmentId")
     private Department department;
 
