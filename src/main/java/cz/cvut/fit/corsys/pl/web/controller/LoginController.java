@@ -4,9 +4,7 @@ import cz.cvut.fit.corsys.bl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class LoginController {
@@ -23,7 +21,6 @@ public class LoginController {
 
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
     public String welcome(Model model) {
-        // 1.krat getRole vrati rolu daneho uzivatela, druhy krat vrati String nazov role
         String role = this.userService.getLoggedUser().getRole().getName();
         model.addAttribute("userRole", role);
         if (role.equals("RECEPTIONIST")) {
@@ -32,9 +29,10 @@ public class LoginController {
         return "welcome";
     }
 
-    @RequestMapping(value = "/receptionist", method = RequestMethod.GET)
-    public String welcomeReceptionist(Model model) {
-        model.addAttribute("userFullName", "User full name");
+    @GetMapping(value = "/receptionist")
+    public String welcomeReceptionist(@RequestParam(name = "resSuccess", required = false) Boolean resSuccess, Model model) {
+        model.addAttribute("userFullName", userService.getLoggedUser().getFirstName() + " " + userService.getLoggedUser().getLastName());
+        model.addAttribute("resSuccess", resSuccess);
         return "receptionist/receptionist";
     }
 
