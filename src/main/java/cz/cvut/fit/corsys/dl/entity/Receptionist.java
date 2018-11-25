@@ -5,14 +5,12 @@ import javax.persistence.*;
 @Entity
 public class Receptionist {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer receptionistId;
-
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "userId")
     public User user;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer receptionistId;
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "departmentId")
     private Department department;

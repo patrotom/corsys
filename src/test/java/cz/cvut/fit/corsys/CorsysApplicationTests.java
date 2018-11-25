@@ -73,6 +73,9 @@ public class CorsysApplicationTests {
     @Autowired
     private ReservationService reservationService;
 
+    @Autowired
+    private TimetableService timetableService;
+
     @Test
     public void T01insertRole() {
 
@@ -577,6 +580,69 @@ public class CorsysApplicationTests {
         Preconditions.checkState(
                 patientService.findReservationsSince(p1, LocalDate.of(2018, 12, 02)).size() == 3
         );
+    }
+
+    @Test
+    public void T13TimetableServiceTest() {
+        Doctor doctor = doctorService.findDoctorByUsername("doctor1");
+        Timetable timetable = new Timetable();
+        timetable.setDoctor(doctor);
+        timetable.setDate(LocalDate.of(2018,12,1));
+        timetable.setTimeFrom(LocalTime.of(8,0));
+        timetable.setTimeTo(LocalTime.of(15,0));
+        timetableService.createTimetable(timetable);
+
+        Timetable timetable2 = new Timetable();
+        timetable2.setDoctor(doctor);
+        timetable2.setDate(LocalDate.of(2018,12,2));
+        timetable2.setTimeFrom(LocalTime.of(8,0));
+        timetable2.setTimeTo(LocalTime.of(15,0));
+        timetableService.createTimetable(timetable2);
+
+        Preconditions.checkState(
+                timetableService.findTimetables(doctor).size() == 2
+        );
+
+        Preconditions.checkState(
+                timetableService.findTimetablesForDate(doctor, LocalDate.of(2018, 12, 1)).size() == 1
+        );
+
+        Preconditions.checkState(
+                timetableService.findTimetablesSince(doctor, LocalDate.of(2018, 12, 2)).size() == 1
+        );
+
+        timetableService.deleteTimetable(timetable2);
+
+        Preconditions.checkState(
+                timetableService.findTimetables(doctor).size() == 1
+        );
+
+        Preconditions.checkState(
+                doctorService.findDoctorByUsername(doctor.getUser().getUsername()).getDoctorId().equals(doctor.getDoctorId())
+        );
+    }
+
+    @Test
+    public void T14ReservationServiceTest() {
+        Department department = departmentService.findDepartment("dep1");
+        List<Reservation> unconfirmedReservations = reservationService.findReservationsToConfirm(department);
+
+        Preconditions.checkState(
+                unconfirmedReservations.size() == 4
+        );
+
+        reservationService.confirmReservation(unconfirmedReservations.get(0));
+
+        Preconditions.checkState(
+                reservationService.findReservationsToConfirm(department).size() == 3
+        );
+
+        reservationService.cancelReservation(unconfirmedReservations.get(2));
+
+        Preconditions.checkState(
+                reservationService.findReservationsToConfirm(department).size() == 2
+        );
+
     }
 
 }
