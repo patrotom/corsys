@@ -3,6 +3,7 @@ package cz.cvut.fit.corsys.pl.web.controller;
 import cz.cvut.fit.corsys.bl.auth.HashUtil;
 import cz.cvut.fit.corsys.bl.service.DepartmentService;
 import cz.cvut.fit.corsys.bl.service.DoctorService;
+import cz.cvut.fit.corsys.bl.service.PatientService;
 import cz.cvut.fit.corsys.bl.service.UserService;
 import cz.cvut.fit.corsys.dl.entity.*;
 import cz.cvut.fit.corsys.pl.web.command.AbstractCreateUserCommand;
@@ -30,6 +31,9 @@ public class CreateUserController {
 
     @Autowired
     private DoctorService doctorService;
+
+    @Autowired
+    private PatientService patientService;
 
     //prepare create Doctor
     @RequestMapping(value = "/admin/createDoctor", method = RequestMethod.GET)
@@ -80,30 +84,33 @@ public class CreateUserController {
         }
         // Nacteni role
         Role role = this.userService.findRole("PATIENT");
-        // Nacteni birth_Number
-        String birth_number = patient.getBirthNumber();
-        String insurance = patient.getInsurance();
-        //TODO adresa
-
         // Naplneni spolecneho kodu
         User user = this.createUserObject(patient, role);
-        // Naplneni doktora
-        Patient pat = new Patient();
-        pat.setBirthNumber(birth_number);
-        pat.setInsurance(insurance);
 
-        //TODO this.patientService.createPatient(pat);
+        Address address = new Address();
+        address.setCity(patient.getCity());
+        address.setNumber(patient.getNumber());
+        address.setStreet(patient.getStreet());
+        address.setZipCode(patient.getZipCode());
+
+        Patient pat = new Patient();
+        pat.setBirthNumber(patient.getBirthNumber());
+        pat.setInsurance(patient.getInsurance());
+        pat.setAddress(address);
+        pat.setUser(user);
+
+        this.patientService.createPatient(pat);
         return "redirect:/receptionist";
     }
 
     private void validateUser(BindingResult result, AbstractCreateUserCommand command) {
         if (result.hasErrors()) {
             if (!command.getPassword().equals(command.getPassword2())) {
-                result.addError(new FieldError("form", "password2", "Hesla nesúhlasia"));
+                result.addError(new FieldError("form", "password2", "Hesla sa nezhodujú"));
             }
             User user = this.userService.findUserByUsername(command.getUsername());
             if (user != null)
-                result.addError(new FieldError("form", "username", "Uživatel již existuje"));
+                result.addError(new FieldError("form", "username", "Uživateľ už existuje"));
         }
     }
 
