@@ -4,12 +4,11 @@ import cz.cvut.fit.corsys.bl.auth.HashUtil;
 import cz.cvut.fit.corsys.bl.service.DepartmentService;
 import cz.cvut.fit.corsys.bl.service.DoctorService;
 import cz.cvut.fit.corsys.bl.service.UserService;
-import cz.cvut.fit.corsys.dl.entity.Department;
-import cz.cvut.fit.corsys.dl.entity.Doctor;
-import cz.cvut.fit.corsys.dl.entity.Role;
-import cz.cvut.fit.corsys.dl.entity.User;
+import cz.cvut.fit.corsys.dl.entity.*;
 import cz.cvut.fit.corsys.pl.web.command.AbstractCreateUserCommand;
 import cz.cvut.fit.corsys.pl.web.command.CreateDoctorCommand;
+import cz.cvut.fit.corsys.pl.web.command.CreatePatientCommand;
+import cz.cvut.fit.corsys.pl.web.command.CreateReservationCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,12 +31,14 @@ public class CreateUserController {
     @Autowired
     private DoctorService doctorService;
 
+    //prepare create Doctor
     @RequestMapping(value = "/admin/createDoctor", method = RequestMethod.GET)
     public void createUserAdminPrepare(Model model) {
         model.addAttribute("departments", this.departmentService.findAllDepartments());
         model.addAttribute("command", new CreateDoctorCommand());
     }
 
+    //submit created Doctor
     @RequestMapping(value = "/admin/createDoctor", method = RequestMethod.POST)
     public String createUserAdminSubmit(@Valid CreateDoctorCommand doctor, BindingResult result, Model model) {
         this.validateUser(result, doctor);
@@ -60,6 +61,39 @@ public class CreateUserController {
         // Vytvorim a jdu pryc
         this.doctorService.createDoctor(doc);
         return "redirect:/admin/doctorList";
+    }
+
+    //prepare create Patient
+    @RequestMapping(value = "/receptionist/createPatient", method = RequestMethod.GET)
+    public void createUserPatientPrepare(Model model) {
+        model.addAttribute("command", new CreatePatientCommand());
+    }
+
+    //submit created Patient
+    @RequestMapping(value = "/receptionist/createPatient", method = RequestMethod.POST)
+    public String createUserPatientSubmit(@Valid CreatePatientCommand patient, BindingResult result, Model model) {
+        this.validateUser(result, patient);
+        if (result.hasErrors()) {
+            model.addAttribute("errors", result.getAllErrors());
+            model.addAttribute("command", patient);
+            return "/receptionist/createPatient";
+        }
+        // Nacteni role
+        Role role = this.userService.findRole("PATIENT");
+        // Nacteni birth_Number
+        String birth_number = patient.getBirthNumber();
+        String insurance = patient.getInsurance();
+        //TODO adresa
+
+        // Naplneni spolecneho kodu
+        User user = this.createUserObject(patient, role);
+        // Naplneni doktora
+        Patient pat = new Patient();
+        pat.setBirthNumber(birth_number);
+        pat.setInsurance(insurance);
+
+        //TODO this.patientService.createPatient(pat);
+        return "redirect:/receptionist";
     }
 
     private void validateUser(BindingResult result, AbstractCreateUserCommand command) {
