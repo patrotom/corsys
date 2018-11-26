@@ -163,6 +163,11 @@ public class ReservationController {
         return "redirect:/receptionist";
     }
 
+    @RequestMapping(value = "/receptionist/listReservations", method = RequestMethod.GET)
+    public void listAllReservations(Model model){
+        //model.addAttribute("reservations", reservationService)
+    }
+
     // mock class time
     public class Time {
 
