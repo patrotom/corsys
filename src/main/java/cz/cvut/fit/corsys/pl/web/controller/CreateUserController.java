@@ -125,6 +125,7 @@ public class CreateUserController {
         user.setFirstName(command.getFirstName());
         user.setLastName(command.getLastName());
         user.setRole(role);
+        user.setActive(true);
         return user;
     }
 }

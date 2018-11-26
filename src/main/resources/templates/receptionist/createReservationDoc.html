@@ -35,7 +35,7 @@
                                                                 <div class="form-group">
                                                                     <select name="doctorId" class="form-control">
                                                                         <option value="none" selected="" disabled="">Vyberte doktora</option>
-                                                                        <option th:each="doc : ${doctors}" th:value="${doc.doctorId}" th:text="test"></option>
+                                                                        <option th:each="doc : ${doctors}" th:value="${doc.doctorId}" th:text="${doc.user.firstName}+ ' ' + ${doc.user.lastName}"></option>
                                                                    <!-- <option value="0">Exam1</option>
                                                                       <option value="1">Exam2</option>
                                                                       <option value="2">Exam3</option> -->

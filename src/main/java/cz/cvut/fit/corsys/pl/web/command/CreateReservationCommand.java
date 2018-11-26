@@ -6,7 +6,6 @@ import java.time.LocalTime;
 
 public class CreateReservationCommand {
 
-    @NotNull
     private Integer departmentId;
 
     private Integer examinationId;
@@ -15,7 +14,7 @@ public class CreateReservationCommand {
 
     private String patientUsername;
 
-    private LocalDate date;
+    private String date;
 
     private LocalTime timeFrom;
 
@@ -49,11 +48,11 @@ public class CreateReservationCommand {
         this.doctorId = doctorId;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -95,5 +94,20 @@ public class CreateReservationCommand {
 
     public void setPatientUsername(String patientUsername) {
         this.patientUsername = patientUsername;
+    }
+
+    @Override
+    public String toString() {
+        return "CreateReservationCommand{" +
+                "departmentId=" + departmentId +
+                ", examinationId=" + examinationId +
+                ", doctorId=" + doctorId +
+                ", patientUsername='" + patientUsername + '\'' +
+                ", date='" + date + '\'' +
+                ", timeFrom=" + timeFrom +
+                ", timeTo=" + timeTo +
+                ", state='" + state + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

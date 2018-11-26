@@ -39,6 +39,8 @@
                                                                         <option th:each="dep : ${departments}" th:value="${dep.departmentId}" th:text="${dep.name}"></option>
                                                                     </select>
                                                                 </div>
+                                                                <label for="patientUsername">Meno uživateľa</label>
+                                                                <input type="text" id="patientUsername" name="patientUsername">
                                                             </div>
                                                         </div>
                                                      <button type="submit" class="btn btn-primary waves-effect waves-light">Ďalej</button>

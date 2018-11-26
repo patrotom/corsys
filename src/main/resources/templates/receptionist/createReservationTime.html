@@ -33,15 +33,22 @@
                                                         <div class="row">
                                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                                 <div class="form-group">
-                                                                <select name="departmentId" class="form-control">
+                                                                    <div th:if="${!empty}">
+                                                                <select name="timeFrom" class="form-control">
                                                                     <option value="none" selected="" disabled="">Vyberte čas vyšetrenia</option>
-                                                                    <option th:each="time : ${times}" th:value="${time.id}" th:text="${time.val}"></option>
+                                                                    <option th:each="time : ${times}" th:value="${time}" th:text="${time}"></option>
                                                                     </select>
+                                                                    </div>
+                                                                    <div th:if="${empty}">
+                                                                        <p>Žiadne voľné termíny</p>
+                                                                    </div>
 
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div th:if="${!empty}">
                                                      <button type="submit" class="btn btn-primary waves-effect waves-light">Ďalej</button>
+                                                        </div>
                                                     </form>
                                                 </div>
                                         </div>

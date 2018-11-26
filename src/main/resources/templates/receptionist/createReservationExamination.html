@@ -33,8 +33,8 @@
                                                         <div class="row">
                                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                                 <div class="form-group">
-                                                                    <select name="examintationId" class="form-control">
-                                                                        <option value="none" selected="" disabled="" th:object="${command}">Vyberte typ vyšetrenia</option>
+                                                                    <select name="examinationId" class="form-control" th:object="${command}">
+                                                                        <option value="0" selected="" disabled="">Vyberte typ vyšetrenia</option>
                                                                         <option th:each="ex : ${examinations}" th:value="${ex.examinationId}" th:text="${ex.type}"></option>
                                                                     </select>
                                                                 </div>
