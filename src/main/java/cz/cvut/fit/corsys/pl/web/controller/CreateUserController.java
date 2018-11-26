@@ -83,9 +83,7 @@ public class CreateUserController {
             model.addAttribute("command", patient);
             return "/receptionist/createPatient";
         }
-        // Nacteni role
         Role role = this.userService.findRole("PATIENT");
-        // Naplneni spolecneho kodu
         User user = this.createUserObject(patient, role);
 
         Address address = new Address();

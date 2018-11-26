@@ -50,7 +50,6 @@ public class CorsysUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        // TODO : zde poresit stav uzivatele!!!!
         return true;
     }
 

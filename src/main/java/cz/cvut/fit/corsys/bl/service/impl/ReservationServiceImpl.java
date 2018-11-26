@@ -91,19 +91,11 @@ public class ReservationServiceImpl implements ReservationService {
         int examinationLength = examination.getLength();
         List<LocalTime> freeTerms = new ArrayList<>();
 
-//        System.out.println("Timetables count: " + timetables.size());
-//        System.out.println("Reservations count: " + reservations.size());
-//        System.out.println("Examination length: " + examinationLength);
-
         for (Reservation reservation : reservations) {
             timetables = timetableService.subtractTimeInterval(timetables, reservation.getTimeFrom(), reservation.getTimeTo());
         }
 
         for (Timetable timetable : timetables) {
-//            System.out.println("Timetable " + timetable.getTimetableId());
-//            System.out.println(" - from: " + timetable.getTimeFrom());
-//            System.out.println(" - to: " + timetable.getTimeTo());
-
             Integer length = timetableService.getTimetableLength(timetable);
             for (int i = 0; i < length / examinationLength; i++) {
                 LocalTime timeFrom = timetable.getTimeFrom();
