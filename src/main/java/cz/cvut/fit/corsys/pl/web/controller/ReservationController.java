@@ -161,6 +161,7 @@ public class ReservationController {
                                         Model model, RedirectAttributes redirectAttributes) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:MM");
         LocalDate resLocalDate = LocalDate.parse(res.getDate(), formatter);
 
         Reservation resNew = new Reservation();
@@ -170,11 +171,12 @@ public class ReservationController {
         resNew.setExamination(departmentService.getExamination(res.getExaminationId()));
         resNew.setPatient(patientService.findPatientByUsername(res.getPatientUsername()));
         resNew.setState(Reservation.STATE_CONFIRMED);
-        resNew.setTimeFrom(res.getTimeFrom());
+
 
         int length = departmentService.getExamination(res.getExaminationId()).getLength();
-        LocalTime timeTo = command.getTimeFrom().plusMinutes(length * Timetable.TIME_DIV);
-        resNew.setTimeFrom(command.getTimeFrom());
+        LocalTime timeFrom = LocalTime.parse(command.getTimeFrom(), timeFormatter);
+        resNew.setTimeFrom(timeFrom);
+        LocalTime timeTo = timeFrom.plusMinutes(length * Timetable.TIME_DIV);
         resNew.setTimeTo(timeTo);
         /*
         TODO validate reservation (not null attributes)

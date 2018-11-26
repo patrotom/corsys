@@ -16,7 +16,7 @@ public class CreateReservationCommand {
 
     private String date;
 
-    private LocalTime timeFrom;
+    private String timeFrom;
 
     private LocalTime timeTo;
 
@@ -56,11 +56,11 @@ public class CreateReservationCommand {
         this.date = date;
     }
 
-    public LocalTime getTimeFrom() {
+    public String getTimeFrom() {
         return timeFrom;
     }
 
-    public void setTimeFrom(LocalTime timeFrom) {
+    public void setTimeFrom(String timeFrom) {
         this.timeFrom = timeFrom;
     }
 
