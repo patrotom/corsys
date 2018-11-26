@@ -56,6 +56,13 @@ public interface ReservationService {
     Reservation modifyReservation(Reservation reservation) throws IllegalArgumentException;
 
     /**
+     * Finds all reservations.
+     *
+     * @return list of all reservations.
+     */
+    List<Reservation> findAllReservations();
+
+    /**
      * Finds non-confirmed reservations that should be checked and confirmed by receptionist.
      *
      * @param department the department for which to find reservations.
