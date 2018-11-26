@@ -56,7 +56,8 @@ public class ReservationController {
     @RequestMapping(value = "/receptionist/createReservationDep", method = RequestMethod.POST)
     public String reservationDepartmentSubmit(@Valid CreateReservationCommand reservation, BindingResult result, Model model) {
 
-        if (result.hasErrors()) {
+        if (result.hasErrors() || reservation.getDepartmentId()==null) {
+            model.addAttribute("command", reservation);
             model.addAttribute("departments", departmentService.findAllDepartments());
             return "receptionist/createReservationDep";
         }
@@ -84,8 +85,7 @@ public class ReservationController {
     @RequestMapping(value = "/receptionist/createReservationExamination", method = RequestMethod.POST)
     public String reservationExaminationSubmit(@Valid CreateReservationCommand command, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
 
-        if (result.hasErrors()) {
-            model.addAttribute("errors", result.getAllErrors());
+        if (result.hasErrors() || command.getExaminationId()==null) {
             model.addAttribute("command", command);
             model.addAttribute("examinations", departmentService.findExaminations(departmentService.getDepartment(res.getDepartmentId())));
             return "receptionist/createReservationExamination";
@@ -105,9 +105,9 @@ public class ReservationController {
     //Redirect selected DEPARTMENT and EXAMINATION to DOCTOR
     @RequestMapping(value = "/receptionist/createReservationDoc", method = RequestMethod.POST)
     public String reservationDoctorSubmit(@Valid CreateReservationCommand command, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("errors", result.getAllErrors());
+        if (result.hasErrors() || command.getDoctorId()==null) {
             model.addAttribute("command", command);
+            model.addAttribute("doctors", departmentService.findDoctors(departmentService.getDepartment(res.getDepartmentId())));
             return "receptionist/createReservationDoc";
         }
 
@@ -124,8 +124,8 @@ public class ReservationController {
     //Redirect selected DATE,DOCTOR,EXAMINATION,DEPARTMENT to CHOOSE TIME
     @RequestMapping(value = "/receptionist/createReservationDate", method = RequestMethod.POST)
     public String reservationDateSubmit(@Valid CreateReservationCommand command, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("errors", result.getAllErrors());
+        if (result.hasErrors() || command.getDate().equals("")) {
+            model.addAttribute("command", command);
             return "receptionist/createReservationDate";
         }
 
@@ -137,14 +137,17 @@ public class ReservationController {
     @RequestMapping(value = "/receptionist/createReservationTime", method = RequestMethod.GET)
     public void prepareReservationTime(Model model) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        addTime(model);
+        model.addAttribute("command", new CreateReservationCommand());
+    }
 
+    public void addTime(Model model) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         LocalDate resLocalDate = LocalDate.parse(res.getDate(), formatter);
         List<LocalTime> times = reservationService.findFreeTerms(resLocalDate,
                 doctorService.getDoctor(res.getDoctorId()),
                 departmentService.getExamination(res.getExaminationId()));
-
-        LOG.info(res.toString());
 
         if (times.isEmpty()) {
             model.addAttribute("empty", true);
@@ -152,19 +155,22 @@ public class ReservationController {
             model.addAttribute("times", times);
             model.addAttribute("empty", false);
         }
-        model.addAttribute("command", new CreateReservationCommand());
     }
 
     @RequestMapping(value = "/receptionist/createReservationTime", method = RequestMethod.POST)
     public String reservationTimeSubmit(@Valid CreateReservationCommand command, BindingResult result,
                                         Model model, RedirectAttributes redirectAttributes) {
 
+        if (result.hasErrors() || command.getTimeFrom()==null) {
+            model.addAttribute("command", command);
+            addTime(model);
+            return "receptionist/createReservationTime";
+        }
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:MM");
         LocalDate resLocalDate = LocalDate.parse(res.getDate(), formatter);
-        LOG.info(res.toString());
-        if (command.getTimeFrom() == null)
-            LOG.error("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
         Reservation resNew = new Reservation();
         resNew.setDate(resLocalDate);
         resNew.setDescription(res.getDescription());

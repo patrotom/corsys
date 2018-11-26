@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/perform_login")
                 .loginPage("/")
                 .defaultSuccessUrl("/welcome")
-                .failureUrl("/login?wrongPass=true")
+                .failureUrl("/?wrongPass=true")
                 .and().csrf().disable();
     }
 
