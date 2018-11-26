@@ -46,10 +46,10 @@ DROP TABLE IF EXISTS `user` CASCADE
 CREATE TABLE `address`
 (
 	`address_id` INT NOT NULL AUTO_INCREMENT,
-	`street` VARCHAR(100) NOT NULL,
-	`number` VARCHAR(50) NOT NULL,
-	`city` VARCHAR(100) NOT NULL,
-	`zip_code` VARCHAR(50) NOT NULL,
+	`street` NVARCHAR(100) NOT NULL,
+	`number` NVARCHAR(50) NOT NULL,
+	`city` NVARCHAR(100) NOT NULL,
+	`zip_code` NVARCHAR(50) NOT NULL,
 	CONSTRAINT `PK_address` PRIMARY KEY (`address_id` ASC)
 )
 COMMENT = 'Contains information about patient''s address.'
@@ -59,8 +59,8 @@ COMMENT = 'Contains information about patient''s address.'
 CREATE TABLE `department`
 (
 	`department_id` INT NOT NULL AUTO_INCREMENT,
-	`name` VARCHAR(50) NOT NULL,
-	`description` VARCHAR(250) NULL,
+	`name` NVARCHAR(50) NOT NULL,
+	`description` NVARCHAR(250) NULL,
 	CONSTRAINT `PK_department` PRIMARY KEY (`department_id` ASC)
 )
 COMMENT = 'Contains information about departments of the medical center.'
@@ -81,9 +81,9 @@ COMMENT = 'Represents doctor''s role within the system. Table is connected to th
 CREATE TABLE `examination`
 (
 	`examination_id` INT NOT NULL AUTO_INCREMENT,
-	`type` VARCHAR(100) NOT NULL,
+	`type` NVARCHAR(100) NOT NULL,
 	`length` INT NOT NULL,
-	`description` VARCHAR(255) NULL,
+	`description` NVARCHAR(255) NULL,
 	`department_id` INT NULL,
 	CONSTRAINT `PK_examination` PRIMARY KEY (`examination_id` ASC)
 )
@@ -95,8 +95,8 @@ CREATE TABLE `notification`
 (
 	`notification_id` INT NOT NULL AUTO_INCREMENT,
 	`timestamp` DATETIME(6) NOT NULL,
-	`message` VARCHAR(250) NOT NULL,
-	`state` VARCHAR(50) NOT NULL,
+	`message` NVARCHAR(250) NOT NULL,
+	`state` NVARCHAR(50) NOT NULL,
 	`user_id` INT NULL,
 	CONSTRAINT `PK_notification` PRIMARY KEY (`notification_id` ASC)
 )
@@ -107,8 +107,8 @@ COMMENT = 'Table notification holds information and state of the particular noti
 CREATE TABLE `patient`
 (
 	`patient_id` INT NOT NULL AUTO_INCREMENT,
-	`birth_number` VARCHAR(50) NOT NULL,
-	`insurance` VARCHAR(50) NOT NULL,
+	`birth_number` NVARCHAR(50) NOT NULL,
+	`insurance` NVARCHAR(50) NOT NULL,
 	`address_id` INT NULL,
 	`user_id` INT NULL,
 	CONSTRAINT `PK_patient` PRIMARY KEY (`patient_id` ASC)
@@ -134,8 +134,8 @@ CREATE TABLE `reservation`
 	`date` DATE NOT NULL,
 	`time_from` TIME(6) NOT NULL,
 	`time_to` TIME(6) NOT NULL,
-	`state` VARCHAR(50) NOT NULL,
-	`description` VARCHAR(255) NULL,
+	`state` NVARCHAR(50) NOT NULL,
+	`description` NVARCHAR(255) NULL,
 	`patient_id` INT NULL,
 	`doctor_id` INT NULL,
 	`examination_id` INT NULL,
@@ -148,7 +148,7 @@ COMMENT = 'Carries information about particular reservation. Each row defines so
 CREATE TABLE `role`
 (
 	`role_id` INT NOT NULL AUTO_INCREMENT,
-	`name` VARCHAR(50) NOT NULL,
+	`name` NVARCHAR(50) NOT NULL,
 	CONSTRAINT `PK_role` PRIMARY KEY (`role_id` ASC)
 )
 COMMENT = 'Table role holds names of roles and theirs ids. Each user is strictly defined by its role. role specifies user''s permissions and capabilities within the system. '
@@ -172,12 +172,12 @@ CREATE TABLE `user`
 (
 	`user_id` INT NOT NULL AUTO_INCREMENT,
 	`active` BIT(1) NOT NULL,
-	`username` VARCHAR(50) NOT NULL,
-	`password` VARCHAR(50) NOT NULL,
-	`email` VARCHAR(50) NOT NULL,
-	`first_name` VARCHAR(50) NOT NULL,
-	`last_name` VARCHAR(50) NOT NULL,
-	`phone` VARCHAR(15) NULL,
+	`username` NVARCHAR(50) NOT NULL,
+	`password` NVARCHAR(50) NOT NULL,
+	`email` NVARCHAR(50) NOT NULL,
+	`first_name` NVARCHAR(50) NOT NULL,
+	`last_name` NVARCHAR(50) NOT NULL,
+	`phone` NVARCHAR(15) NULL,
 	`role_id` INT NULL,
 	CONSTRAINT `PK_user` PRIMARY KEY (`user_id` ASC)
 )

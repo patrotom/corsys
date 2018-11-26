@@ -12,7 +12,7 @@ DELETE FROM `role`;
 DELETE FROM `timetable`;
 DELETE FROM `user`;
 
-INSERT INTO `address` (`address_id`, `street`, `number`, `city`, `zip_code`) VALUES (1, 'Pavlikova', '1964', 'Ujezd u Chocne', '56501');
+INSERT INTO `address` (`address_id`, `street`, `number`, `city`, `zip_code`) VALUES (1, 'Pavlíkova', '1964', 'Újezd u Chocněľľščťžýáíéúäňô', '56501');
 INSERT INTO `department` (`department_id`, `description`, `name`) VALUES (1, 'Oddelenie popis', 'ARO');
 INSERT INTO `doctor` (`doctor_id`, `department_id`, `user_id`) VALUES (1, 1, 1);
 INSERT INTO `examination` (`examination_id`, `description`, `length`, `type`, `department_id`) VALUES (1, 'Vysetrenie popis', 5, 'Vysetrenie nohy', 1);
