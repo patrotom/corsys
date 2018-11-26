@@ -75,6 +75,11 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    public List<Reservation> findAllReservations() {
+        return reservationDao.findAll();
+    }
+
+    @Override
     public List<Reservation> findReservationsToConfirm(Department department) throws IllegalArgumentException {
         return reservationDao.findReservationsByState(Reservation.STATE_UNCONFIRMED);
     }
