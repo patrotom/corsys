@@ -162,7 +162,9 @@ public class ReservationController {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         LocalDate resLocalDate = LocalDate.parse(res.getDate(), formatter);
-
+        LOG.info(res.toString());
+        if (command.getTimeFrom() == null)
+            LOG.error("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         Reservation resNew = new Reservation();
         resNew.setDate(resLocalDate);
         resNew.setDescription(res.getDescription());
