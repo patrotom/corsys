@@ -11,7 +11,7 @@ public class Role {
     public static final String ROLE_RECEPTIONIST = "RECEPTIONIST";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer roleId;
 
     @Column(length = 50, nullable = false, unique = true)

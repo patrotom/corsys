@@ -2,9 +2,12 @@ package cz.cvut.fit.corsys.pl.web.controller;
 
 
 import cz.cvut.fit.corsys.CorsysApplication;
-import cz.cvut.fit.corsys.bl.service.*;
-import cz.cvut.fit.corsys.dl.entity.*;
-import cz.cvut.fit.corsys.pl.web.command.CreateDoctorCommand;
+import cz.cvut.fit.corsys.bl.service.DepartmentService;
+import cz.cvut.fit.corsys.bl.service.DoctorService;
+import cz.cvut.fit.corsys.bl.service.PatientService;
+import cz.cvut.fit.corsys.bl.service.ReservationService;
+import cz.cvut.fit.corsys.dl.entity.Reservation;
+import cz.cvut.fit.corsys.dl.entity.Timetable;
 import cz.cvut.fit.corsys.pl.web.command.CreateReservationCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,18 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalTime;
-
-import javax.validation.Valid;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -167,7 +166,7 @@ public class ReservationController {
         resNew.setTimeFrom(res.getTimeFrom());
 
         int length = departmentService.getExamination(res.getExaminationId()).getLength();
-        LocalTime timeTo = command.getTimeFrom().plusMinutes(length* Timetable.TIME_DIV);
+        LocalTime timeTo = command.getTimeFrom().plusMinutes(length * Timetable.TIME_DIV);
         resNew.setTimeFrom(command.getTimeFrom());
         resNew.setTimeTo(timeTo);
         /*
@@ -178,5 +177,8 @@ public class ReservationController {
         return "redirect:/receptionist";
     }
 
-
+    @RequestMapping(value = "/receptionist/listReservations", method = RequestMethod.GET)
+    public void listAllReservations(Model model) {
+        model.addAttribute("reservations", reservationService.findAllReservations());
+    }
 }

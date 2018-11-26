@@ -34,7 +34,7 @@ html {
     text-shadow: none;
 }
 
-table {
+.table-table table {
     border-collapse: collapse;
     width: 20rem;
     border: 1px;
@@ -45,7 +45,7 @@ th, td {
     padding: 8px;
 }
 
-tr:nth-child(even) {background-color: #f2f2f2;}
+.table-row tr:nth-child(even) {background-color: #f2f2f2;}
 
 /*
  * A better looking default horizontal rule

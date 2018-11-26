@@ -1,0 +1,49 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html class="no-js" lang="en">
+
+<head th:replace="receptionist/fragments/fragment :: head">
+</head>
+
+<body>
+<!-- left navbar -->
+<div th:replace="receptionist/fragments/fragment-navbar :: left-sidebar"></div>
+
+<!-- Start Welcome area -->
+<div class="all-content-wrapper">
+    <!-- header area -->
+    <div th:insert="receptionist/fragments/fragment-header :: header"></div>
+
+    <div class="single-pro-review-area mt-t-30 mg-b-15">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:6rem;">
+                    <table class = "table-table">
+                    <th:block th:each="reservation : ${reservations}">>
+                        <tr class="table-row">
+                            <td th:text="${reservation.reservationId}"></td>
+                            <td th:text="${reservation.date}"></td>
+                            <td th:text="${reservation.timeFrom}"></td>
+                            <td th:text="${reservation.timeTo}"></td>
+                            <td th:text="${reservation.state}"></td>
+                            <td th:text="${reservation.description}"></td>
+                            <td th:text="${reservation.patient.user.firstName}+' '+${reservation.patient.user.lastName}"></td>
+                            <td th:text="${reservation.doctor.user.firstName}+' '+${reservation.doctor.user.lastName}"></td>
+                            <td th:text="${reservation.examination.type}"></td>
+                            <td th:text="${reservation.examination.length}"></td>
+                        </tr>
+                    </th:block>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- footer -->
+    <div th:insert="receptionist/fragments/fragment-footer :: footer"></div>
+</div>
+
+<!-- JS scripts -->
+<div th:insert="receptionist/fragments/fragment :: jsImport"></div>
+</body>
+</html>

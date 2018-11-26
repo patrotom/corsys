@@ -9,7 +9,7 @@ public class Receptionist {
     @JoinColumn(name = "userId")
     public User user;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer receptionistId;
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "departmentId")

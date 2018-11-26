@@ -12,7 +12,7 @@ public class Reservation {
     public static final String STATE_CANCELED = "CANCELED";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer reservationId;
 
     @Column(nullable = false)
