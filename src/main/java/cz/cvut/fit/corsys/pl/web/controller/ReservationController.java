@@ -56,13 +56,13 @@ public class ReservationController {
     @RequestMapping(value = "/receptionist/createReservationDep", method = RequestMethod.POST)
     public String reservationDepartmentSubmit(@Valid CreateReservationCommand reservation, BindingResult result, Model model) {
 
-        if (result.hasErrors() || reservation.getDepartmentId()==null) {
+        if (result.hasErrors() || reservation.getDepartmentId() == null) {
             model.addAttribute("command", reservation);
             model.addAttribute("departments", departmentService.findAllDepartments());
             return "receptionist/createReservationDep";
         }
 
-        if (reservation.getPatientUsername()==null || patientService.findPatientByUsername(reservation.getPatientUsername())==null) {
+        if (reservation.getPatientUsername() == null || patientService.findPatientByUsername(reservation.getPatientUsername()) == null) {
             model.addAttribute("errors", result.getAllErrors());
             model.addAttribute("wrongUsername", true);
             model.addAttribute("departments", departmentService.findAllDepartments());
@@ -85,7 +85,7 @@ public class ReservationController {
     @RequestMapping(value = "/receptionist/createReservationExamination", method = RequestMethod.POST)
     public String reservationExaminationSubmit(@Valid CreateReservationCommand command, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
 
-        if (result.hasErrors() || command.getExaminationId()==null) {
+        if (result.hasErrors() || command.getExaminationId() == null) {
             model.addAttribute("command", command);
             model.addAttribute("examinations", departmentService.findExaminations(departmentService.getDepartment(res.getDepartmentId())));
             return "receptionist/createReservationExamination";
@@ -105,7 +105,7 @@ public class ReservationController {
     //Redirect selected DEPARTMENT and EXAMINATION to DOCTOR
     @RequestMapping(value = "/receptionist/createReservationDoc", method = RequestMethod.POST)
     public String reservationDoctorSubmit(@Valid CreateReservationCommand command, BindingResult result, Model model) {
-        if (result.hasErrors() || command.getDoctorId()==null) {
+        if (result.hasErrors() || command.getDoctorId() == null) {
             model.addAttribute("command", command);
             model.addAttribute("doctors", departmentService.findDoctors(departmentService.getDepartment(res.getDepartmentId())));
             return "receptionist/createReservationDoc";
@@ -161,7 +161,7 @@ public class ReservationController {
     public String reservationTimeSubmit(@Valid CreateReservationCommand command, BindingResult result,
                                         Model model, RedirectAttributes redirectAttributes) {
 
-        if (result.hasErrors() || command.getTimeFrom()==null) {
+        if (result.hasErrors() || command.getTimeFrom() == null) {
             model.addAttribute("command", command);
             addTime(model);
             return "receptionist/createReservationTime";
@@ -179,15 +179,12 @@ public class ReservationController {
         resNew.setPatient(patientService.findPatientByUsername(res.getPatientUsername()));
         resNew.setState(Reservation.STATE_CONFIRMED);
 
-
         int length = departmentService.getExamination(res.getExaminationId()).getLength();
         LocalTime timeFrom = LocalTime.parse(command.getTimeFrom(), timeFormatter);
         resNew.setTimeFrom(timeFrom);
         LocalTime timeTo = timeFrom.plusMinutes(length * Timetable.TIME_DIV);
         resNew.setTimeTo(timeTo);
-        /*
-        TODO validate reservation (not null attributes)
-         */
+
         reservationService.createReservation(resNew);
         redirectAttributes.addAttribute("resSuccess", true);
         return "redirect:/receptionist";
