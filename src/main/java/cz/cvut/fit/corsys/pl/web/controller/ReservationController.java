@@ -165,7 +165,7 @@ public class ReservationController {
 
     @RequestMapping(value = "/receptionist/listReservations", method = RequestMethod.GET)
     public void listAllReservations(Model model){
-        //model.addAttribute("reservations", reservationService)
+        model.addAttribute("reservations", reservationService.findAllReservations());
     }
 
     // mock class time
