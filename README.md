@@ -22,15 +22,15 @@ mysql> GRANT ALL PRIVILEGES ON corsys_dev.* TO 'corsys'@'localhost';
 
 #### Insert data ####
 
-1. Run [create script](/mysql/create_script.sql) on `corsys_dev` database
+1. Run [create script](mysql/create_script.sql) on `corsys_dev` database
     * This script will fill in our database with empty tables required by our application
 
 ``` bash
 mysql -u corsys -p -h localhost corsys_dev < create_script.sql
 ```
 
-2. Run [insert script](/mysql/insert_script.sql) on `corsys_dev` database
-    * This script will fill in our genereated tables with testing data
+2. Run [insert script](mysql/insert_script.sql) on `corsys_dev` database
+    * This script will fill in our generated tables with testing data
 
 ``` bash
 mysql -u corsys -p -h localhost corsys_dev < insert_script.sql
@@ -40,9 +40,28 @@ mysql -u corsys -p -h localhost corsys_dev < insert_script.sql
 
 1. Download and install [Java SE Runtime Environment 8](https://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html)
 
-
 ## Run ##
 
-1. Run corsys.jar
-2. Open `localhost:8080` in web browser
-3. Log in with credentials
+1. Run `corsys.jar`
+
+``` bash
+java -jar corsys.jar
+```
+
+1. Open [localhost:8080](http://localhost:8080) in web browser
+2. Log in with credentials
+
+### Test credentials ###
+
+You can log in to the application under these test credentials:
+
+`Note: you will be logged in as a receptionist`
+
+* Username: olga.kubova
+* Password: password
+
+You can use this test patient account for creating reservation:
+
+* Username: lubomir.vavra
+
+`Note: you can test creating reservation, listing all reservations and adding a new patient`
