@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class Doctor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer doctorId;
 
     @OneToOne(cascade = CascadeType.MERGE)
