@@ -34,8 +34,8 @@
                                                         <div class="row">
                                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                                 <div class="form-group">
-                                                                    <select name="departmentId" class="form-control">
-                                                                        <option value="none" selected="" disabled="">Vyberte oddelenie</option>
+                                                                    <select name="departmentId" class="form-control" th:object="${command}">
+                                                                        <option value="0" selected="" disabled="">Vyberte oddelenie</option>
                                                                         <option th:each="dep : ${departments}" th:value="${dep.departmentId}" th:text="${dep.name}"></option>
                                                                     </select>
                                                                 </div>

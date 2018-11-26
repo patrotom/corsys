@@ -30,9 +30,10 @@ public class LoginController {
     }
 
     @GetMapping(value = "/receptionist")
-    public String welcomeReceptionist(@RequestParam(name = "resSuccess", required = false) Boolean resSuccess, Model model) {
+    public String welcomeReceptionist(@RequestParam(name = "patSuccess", required = false) Boolean patSuccess, @RequestParam(name = "resSuccess", required = false) Boolean resSuccess, Model model) {
         model.addAttribute("userFullName", userService.getLoggedUser().getFirstName() + " " + userService.getLoggedUser().getLastName());
         model.addAttribute("resSuccess", resSuccess);
+        model.addAttribute("patSuccess", patSuccess);
         return "receptionist/receptionist";
     }
 

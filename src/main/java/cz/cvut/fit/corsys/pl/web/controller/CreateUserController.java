@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -75,7 +76,7 @@ public class CreateUserController {
 
     //submit created Patient
     @RequestMapping(value = "/receptionist/createPatient", method = RequestMethod.POST)
-    public String createUserPatientSubmit(@Valid CreatePatientCommand patient, BindingResult result, Model model) {
+    public String createUserPatientSubmit(@Valid CreatePatientCommand patient, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         this.validateUser(result, patient);
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
@@ -100,6 +101,7 @@ public class CreateUserController {
         pat.setUser(user);
 
         this.patientService.createPatient(pat);
+        redirectAttributes.addAttribute("patSuccess", true);
         return "redirect:/receptionist";
     }
 

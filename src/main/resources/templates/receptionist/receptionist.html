@@ -24,6 +24,18 @@
                                 </button>
                                 <strong>Rezervácia </strong> bola úspešne vytvorená.
                         </div>
+                           <div th:if="${patSuccess}" class="alert alert-success">
+                               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                   <span aria-hidden="true">×</span>
+                               </button>
+                               <strong>Účet pacienta </strong> bol úspešne vytvorený.
+                           </div>
+                           <div th:if="${patSuccess!=null && !patSuccess}" class="alert alert-danger alert-mg-b">
+                           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                               <span aria-hidden="true">×</span>
+                           </button>
+                           <strong>Chyba </strong> pri vytváraní účtu. Skúste to znovu prosím.
+                       </div>
 
                         <div th:if="${resSuccess!=null && !resSuccess}" class="alert alert-danger alert-mg-b">
                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">

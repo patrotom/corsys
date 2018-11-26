@@ -33,12 +33,12 @@
                                                         <div class="row">
                                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                                 <div class="form-group">
-                                                                    <select name="departmentId" class="form-control">
+                                                                    <select name="doctorId" class="form-control">
                                                                         <option value="none" selected="" disabled="">Vyberte doktora</option>
-                                                                       <!-- <option th:each="dep : ${departments}" th:value="${dep.departmentId}" th:text="${dep.name}"></option>
-                                                                   --><option value="0">Exam1</option>
+                                                                        <option th:each="doc : ${doctors}" th:value="${doc.doctorId}" th:text="test"></option>
+                                                                   <!-- <option value="0">Exam1</option>
                                                                       <option value="1">Exam2</option>
-                                                                      <option value="2">Exam3</option>
+                                                                      <option value="2">Exam3</option> -->
                                                                     </select>
                                                                 </div>
                                                             </div>
