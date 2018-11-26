@@ -57,7 +57,6 @@ public class ReservationController {
     public String reservationDepartmentSubmit(@Valid CreateReservationCommand reservation, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
-            model.addAttribute("errors", result.getAllErrors());
             model.addAttribute("departments", departmentService.findAllDepartments());
             return "receptionist/createReservationDep";
         }
