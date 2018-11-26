@@ -62,6 +62,13 @@ public class ReservationController {
             return "receptionist/createReservationDep";
         }
 
+        if (reservation.getPatientUsername()==null || patientService.findPatientByUsername(reservation.getPatientUsername())==null) {
+            model.addAttribute("errors", result.getAllErrors());
+            model.addAttribute("wrongUsername", true);
+            model.addAttribute("departments", departmentService.findAllDepartments());
+            return "receptionist/createReservationDep";
+        }
+        model.addAttribute("wrongUsername", false);
         res.setDepartmentId(reservation.getDepartmentId());
         res.setPatientUsername(reservation.getPatientUsername());
         return "redirect:/receptionist/createReservationExamination";

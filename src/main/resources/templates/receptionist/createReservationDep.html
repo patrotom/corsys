@@ -41,6 +41,9 @@
                                                                 </div>
                                                                 <label for="patientUsername">Meno uživateľa</label>
                                                                 <input type="text" id="patientUsername" name="patientUsername">
+                                                                <div th:if="${wrongUsername}">
+                                                                    <span>Nesprávne meno pacienta.</span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                      <button type="submit" class="btn btn-primary waves-effect waves-light">Ďalej</button>
