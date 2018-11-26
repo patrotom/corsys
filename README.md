@@ -44,3 +44,5 @@ mysql -u corsys -p -h localhost corsys_dev < insert_script.sql
 ## Run ##
 
 1. Run corsys.jar
+2. Open `localhost:8080` in web browser
+3. Log in with credentials
