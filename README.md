@@ -66,4 +66,5 @@ You can use this test patient account for creating reservation:
 * Username: lubomir.vavra
 
 `Note: you can test creating reservation, listing all reservations and adding a new patient`
+
 `Note: for the purpose of testing of creating a new reservation, please pick only from dates in the range 26.11.2018-29.11.2018 (available test data in DB)`
