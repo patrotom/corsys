@@ -9,6 +9,7 @@
 1. [Download and install MySQL database](https://dev.mysql.com/downloads/installer/)
     * Search for the proper installer based on your operating system
 2. Run MySQL
+    * Run under default port `3306`
 3. Create user `corsys`, database `corsys_dev` and grant all privileges on database `corsys_dev` to user `corsys`
 4. To do this, open MySQL shell under root privileges (*nix)
 
@@ -65,3 +66,4 @@ You can use this test patient account for creating reservation:
 * Username: lubomir.vavra
 
 `Note: you can test creating reservation, listing all reservations and adding a new patient`
+`Note: for the purpose of testing of creating a new reservation, please pick only from dates in the range 26.11.2018-29.11.2018 (available test data in DB)`
