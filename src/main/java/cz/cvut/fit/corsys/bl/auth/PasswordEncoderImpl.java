@@ -2,7 +2,7 @@ package cz.cvut.fit.corsys.bl.auth;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-public class CorsysPasswordEncoderImpl implements PasswordEncoder {
+public class PasswordEncoderImpl implements PasswordEncoder {
 
     /**
      * Not to reveal users password, we need to encode the raw password into a hash.

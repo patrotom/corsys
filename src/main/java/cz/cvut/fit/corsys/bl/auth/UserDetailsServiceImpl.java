@@ -8,8 +8,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of UserDetailsInterface defined by Spring security.
+ */
 @Service("corsysUserDetailsService")
-public class CorsysUserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserDao userDao;
@@ -25,7 +28,7 @@ public class CorsysUserDetailsServiceImpl implements UserDetailsService {
         if (usr == null) {
             throw new UsernameNotFoundException("User " + username + " not found.");
         }
-        return new CorsysUserDetails(usr);
+        return new UserDetailsImpl(usr);
     }
 
 }

@@ -1,6 +1,6 @@
 package cz.cvut.fit.corsys.config;
 
-import cz.cvut.fit.corsys.bl.auth.CorsysPasswordEncoderImpl;
+import cz.cvut.fit.corsys.bl.auth.PasswordEncoderImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder getCorsysPasswordEncoderImpl() {
-        return new CorsysPasswordEncoderImpl();
+        return new PasswordEncoderImpl();
     }
 
     @Autowired

@@ -8,13 +8,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
-public class CorsysUserDetails implements UserDetails {
+/**
+ * Implementatio of UserDetails interface defined by Spring security.
+ */
+public class UserDetailsImpl implements UserDetails {
 
     private static final long serialVersionUID = 2942547083776144095L;
 
     private User user;
 
-    public CorsysUserDetails(User user) {
+    public UserDetailsImpl(User user) {
         this.user = user;
     }
 
