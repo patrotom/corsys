@@ -102,7 +102,7 @@ public class ReservationServiceImpl implements ReservationService {
             Integer length = timetableService.getTimetableLength(timetable);
             for (int i = 0; i < length / examinationLength; i++) {
                 LocalTime timeFrom = timetable.getTimeFrom();
-                freeTerms.add(timeFrom.plusMinutes(i*(examinationLength*15)));
+                freeTerms.add(timeFrom.plusMinutes(i * (examinationLength * 15)));
             }
         }
 

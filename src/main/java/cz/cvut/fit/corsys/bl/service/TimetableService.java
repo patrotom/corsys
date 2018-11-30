@@ -71,8 +71,8 @@ public interface TimetableService {
      * to modifications needed.
      *
      * @param timetables list of previous timetables.
-     * @param from beginning of the interval.
-     * @param to end of the interval.
+     * @param from       beginning of the interval.
+     * @param to         end of the interval.
      * @return modified list of timetables.
      */
     List<Timetable> subtractTimeInterval(List<Timetable> timetables, LocalTime from, LocalTime to);

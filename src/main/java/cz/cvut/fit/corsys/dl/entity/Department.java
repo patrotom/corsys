@@ -2,9 +2,17 @@ package cz.cvut.fit.corsys.dl.entity;
 
 import javax.persistence.*;
 
+/**
+ * Contains information about particular department of the medical center.
+ *
+ * @author fabosamu
+ */
 @Entity
 public class Department {
 
+    /**
+     * Unique identifier of the entity class.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer departmentId;
@@ -28,6 +36,9 @@ public class Department {
         return description;
     }
 
+    /**
+     * @param description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
@@ -36,6 +47,9 @@ public class Department {
         return name;
     }
 
+    /**
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }

@@ -651,9 +651,9 @@ public class CorsysApplicationTests {
         Examination examination = departmentService.findExaminations(department).get(0);
         Doctor doctor = doctorService.findDoctorByUsername("doctor1");
         Patient patient = patientService.findPatientByUsername("patient1");
-        List<LocalTime> freeTerms = reservationService.findFreeTerms(LocalDate.of(2018,12,2), doctor, examination);
+        List<LocalTime> freeTerms = reservationService.findFreeTerms(LocalDate.of(2018, 12, 2), doctor, examination);
         System.out.println("Free terms: ");
-        for (LocalTime t: freeTerms) {
+        for (LocalTime t : freeTerms) {
             System.out.println(t);
         }
 
@@ -666,9 +666,9 @@ public class CorsysApplicationTests {
         examination1.setType("prehliadka");
         examination1.setLength(1);
         examinationDao.save(examination1);
-        freeTerms = reservationService.findFreeTerms(LocalDate.of(2018,12,2), doctor, examination1);
+        freeTerms = reservationService.findFreeTerms(LocalDate.of(2018, 12, 2), doctor, examination1);
         System.out.println("Free terms: ");
-        for (LocalTime t: freeTerms) {
+        for (LocalTime t : freeTerms) {
             System.out.println(t);
         }
         Preconditions.checkState(
@@ -685,7 +685,7 @@ public class CorsysApplicationTests {
         r3.setTimeTo(LocalTime.of(9, 45));
         reservationService.createReservation(r3);
 
-        freeTerms = reservationService.findFreeTerms(LocalDate.of(2018,12,2), doctor, examination1);
+        freeTerms = reservationService.findFreeTerms(LocalDate.of(2018, 12, 2), doctor, examination1);
 
         Preconditions.checkState(
                 freeTerms.size() == 25
@@ -697,9 +697,9 @@ public class CorsysApplicationTests {
         examination2.setLength(2);
         examinationDao.save(examination2);
 
-        freeTerms = reservationService.findFreeTerms(LocalDate.of(2018,12,2), doctor, examination2);
+        freeTerms = reservationService.findFreeTerms(LocalDate.of(2018, 12, 2), doctor, examination2);
         System.out.println("Free terms: ");
-        for (LocalTime t: freeTerms) {
+        for (LocalTime t : freeTerms) {
             System.out.println(t);
         }
         Preconditions.checkState(

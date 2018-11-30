@@ -4,8 +4,17 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
+/**
+ * Class for hashing utility.
+ */
 public class HashUtil {
 
+    /**
+     * Hashes the raw password and returns String representation of the hash.
+     *
+     * @param password raw input
+     * @return String
+     */
     public static String getPasswordHash(String password) {
         MessageDigest m;
         try {

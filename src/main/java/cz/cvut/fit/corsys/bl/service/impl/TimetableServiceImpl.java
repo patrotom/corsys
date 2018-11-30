@@ -67,15 +67,14 @@ public class TimetableServiceImpl implements TimetableService {
     @Override
     public List<Timetable> subtractTimeInterval(List<Timetable> timetables, LocalTime from, LocalTime to) {
         List<Timetable> newTimetables = new ArrayList<>();
-        for (Timetable t: timetables) {
+        for (Timetable t : timetables) {
             LocalTime tFrom = t.getTimeFrom();
             LocalTime tTo = t.getTimeTo();
             if (from.isBefore(tFrom) && to.isAfter(tFrom) && (to.isBefore(tTo) || to.equals(tTo))) {
                 // time overlaps (from side)
                 t.setTimeFrom(to);
                 newTimetables.add(t);
-            }
-            else if ((from.isAfter(tFrom) || from.equals(tFrom)) && (to.isBefore(tTo) || to.equals(tTo))) {
+            } else if ((from.isAfter(tFrom) || from.equals(tFrom)) && (to.isBefore(tTo) || to.equals(tTo))) {
                 // time is included
                 Timetable t1 = new Timetable();
                 t1.setDoctor(t.getDoctor());
@@ -90,13 +89,11 @@ public class TimetableServiceImpl implements TimetableService {
                 t2.setTimeFrom(to);
                 t2.setTimeTo(tTo);
                 newTimetables.add(t2);
-            }
-            else if ((from.isAfter(tFrom) || from.equals(tFrom)) && from.isBefore(tTo) && to.isAfter(tTo)) {
+            } else if ((from.isAfter(tFrom) || from.equals(tFrom)) && from.isBefore(tTo) && to.isAfter(tTo)) {
                 // time overlaps (to side)
                 t.setTimeTo(from);
                 newTimetables.add(t);
-            }
-            else {
+            } else {
                 newTimetables.add(t);
             }
         }

@@ -5,6 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AddressDao extends JpaRepository<Address, Integer> {
 
+    /**
+     * @param id
+     * @return Address
+     */
     Address findAddressByAddressId(Integer id);
 
 }

@@ -14,6 +14,11 @@ public class CorsysUserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserDao userDao;
 
+    /**
+     * @param username
+     * @return UserDetails
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User usr = userDao.findUserByUsername(username);
