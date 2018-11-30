@@ -4,11 +4,21 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Contains information about working hours defined by doctors.
+ * Each entity class must represent some particular day.
+ * System will be capable of determining when a doctor is or is not working.
+ *
+ * @author fabosamu
+ */
 @Entity
 public class Timetable {
 
     public static final Integer TIME_DIV = 15;
 
+    /**
+     * Unique identifier of the entity class.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer timetableId;
@@ -30,6 +40,9 @@ public class Timetable {
         return timetableId;
     }
 
+    /**
+     * @param timetableId
+     */
     public void setTimetableId(Integer timetableId) {
         this.timetableId = timetableId;
     }
@@ -38,6 +51,9 @@ public class Timetable {
         return date;
     }
 
+    /**
+     * @param date
+     */
     public void setDate(LocalDate date) {
         this.date = date;
     }
@@ -46,6 +62,9 @@ public class Timetable {
         return timeFrom;
     }
 
+    /**
+     * @param timeFrom
+     */
     public void setTimeFrom(LocalTime timeFrom) {
         this.timeFrom = timeFrom;
     }
@@ -54,6 +73,9 @@ public class Timetable {
         return timeTo;
     }
 
+    /**
+     * @param timeTo
+     */
     public void setTimeTo(LocalTime timeTo) {
         this.timeTo = timeTo;
     }
@@ -62,6 +84,9 @@ public class Timetable {
         return doctor;
     }
 
+    /**
+     * @param doctor
+     */
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
     }

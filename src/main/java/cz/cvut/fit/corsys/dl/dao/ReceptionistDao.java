@@ -9,10 +9,26 @@ import java.util.List;
 
 public interface ReceptionistDao extends JpaRepository<Receptionist, Integer> {
 
+    /**
+     * @param id
+     * @return Receptionist
+     */
     Receptionist findReceptionistByReceptionistId(Integer id);
 
+    /**
+     * Finds particular Receptionist entity by given user.
+     *
+     * @param user
+     * @return Receptionist
+     */
     Receptionist findReceptionistByUser(User user);
 
+    /**
+     * By given department, finds all Receptionists assigned to it.
+     *
+     * @param department
+     * @return List of Receptionist
+     */
     List<Receptionist> findReceptionistsByDepartment(Department department);
 
 }

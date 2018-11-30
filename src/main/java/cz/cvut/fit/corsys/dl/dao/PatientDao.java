@@ -6,8 +6,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PatientDao extends JpaRepository<Patient, Integer> {
 
+    /**
+     * @param id
+     * @return Patient
+     */
     Patient findPatientByPatientId(Integer id);
 
+    /**
+     * Finds a patient linked to the given user
+     *
+     * @param user
+     * @return Patient
+     */
     Patient findPatientByUser(User user);
 
 }

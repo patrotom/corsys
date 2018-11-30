@@ -8,8 +8,18 @@ import java.util.List;
 
 public interface NotificationDao extends JpaRepository<Notification, Integer> {
 
+    /**
+     * @param id
+     * @return Notification
+     */
     Notification findNotificationByNotificationId(Integer id);
 
+    /**
+     * Finds all notifications for given user
+     *
+     * @param user
+     * @return List of Notifications
+     */
     List<Notification> findNotificationsByUser(User user);
 
 }

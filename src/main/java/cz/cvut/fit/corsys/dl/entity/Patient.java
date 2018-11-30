@@ -2,9 +2,18 @@ package cz.cvut.fit.corsys.dl.entity;
 
 import javax.persistence.*;
 
+/**
+ * Represents patient''s role within the system.
+ * Entity class is connected to the User table through its foreign key.
+ *
+ * @author fabosamu
+ */
 @Entity
 public class Patient {
 
+    /**
+     * Unique identifier of the entity class.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer patientId;
@@ -29,6 +38,9 @@ public class Patient {
         return patientId;
     }
 
+    /**
+     * @param patientId
+     */
     public void setPatientId(Integer patientId) {
         this.patientId = patientId;
     }
@@ -37,6 +49,9 @@ public class Patient {
         return birthNumber;
     }
 
+    /**
+     * @param birthNumber
+     */
     public void setBirthNumber(String birthNumber) {
         this.birthNumber = birthNumber;
     }
@@ -45,6 +60,9 @@ public class Patient {
         return insurance;
     }
 
+    /**
+     * @param insurance
+     */
     public void setInsurance(String insurance) {
         this.insurance = insurance;
     }
@@ -53,6 +71,9 @@ public class Patient {
         return address;
     }
 
+    /**
+     * @param address
+     */
     public void setAddress(Address address) {
         this.address = address;
     }
@@ -61,6 +82,9 @@ public class Patient {
         return user;
     }
 
+    /**
+     * @param user
+     */
     public void setUser(User user) {
         this.user = user;
     }

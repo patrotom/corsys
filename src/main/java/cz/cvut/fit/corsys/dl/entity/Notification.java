@@ -3,9 +3,18 @@ package cz.cvut.fit.corsys.dl.entity;
 import javax.persistence.*;
 import java.time.Instant;
 
+/**
+ * Entity class notification holds information and state of the particular notification.
+ * This is strictly connected to the specific user.
+ *
+ * @author fabosamu
+ */
 @Entity
 public class Notification {
 
+    /**
+     * Unique identifier of the entity class.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer notificationId;
@@ -28,6 +37,9 @@ public class Notification {
         return notificationId;
     }
 
+    /**
+     * @param notificationId
+     */
     public void setNotificationId(Integer notificationId) {
         this.notificationId = notificationId;
     }
@@ -36,6 +48,9 @@ public class Notification {
         return timestamp;
     }
 
+    /**
+     * @param timestamp
+     */
     public void setTimestamp(Instant timestamp) {
         this.timestamp = timestamp;
     }
@@ -44,6 +59,9 @@ public class Notification {
         return message;
     }
 
+    /**
+     * @param message
+     */
     public void setMessage(String message) {
         this.message = message;
     }
@@ -52,6 +70,9 @@ public class Notification {
         return state;
     }
 
+    /**
+     * @param state
+     */
     public void setState(String state) {
         this.state = state;
     }
@@ -60,6 +81,9 @@ public class Notification {
         return user;
     }
 
+    /**
+     * @param user
+     */
     public void setUser(User user) {
         this.user = user;
     }

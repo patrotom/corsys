@@ -2,9 +2,17 @@ package cz.cvut.fit.corsys.dl.entity;
 
 import javax.persistence.*;
 
+/**
+ * Contains information about patient's address.
+ *
+ * @author fabosamu
+ */
 @Entity
 public class Address {
 
+    /**
+     * Unique identifier of the entity class.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer addressId;
@@ -26,6 +34,9 @@ public class Address {
         return addressId;
     }
 
+    /**
+     * @param addressId
+     */
     public void setAddressId(Integer addressId) {
         this.addressId = addressId;
     }
@@ -34,6 +45,9 @@ public class Address {
         return street;
     }
 
+    /**
+     * @param street
+     */
     public void setStreet(String street) {
         this.street = street;
     }
@@ -42,6 +56,9 @@ public class Address {
         return number;
     }
 
+    /**
+     * @param number
+     */
     public void setNumber(String number) {
         this.number = number;
     }
@@ -50,6 +67,9 @@ public class Address {
         return city;
     }
 
+    /**
+     * @param city
+     */
     public void setCity(String city) {
         this.city = city;
     }
@@ -58,6 +78,9 @@ public class Address {
         return zipCode;
     }
 
+    /**
+     * @param zipCode
+     */
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
     }

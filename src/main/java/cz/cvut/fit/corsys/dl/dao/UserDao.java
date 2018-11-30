@@ -5,8 +5,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserDao extends JpaRepository<User, Integer> {
 
-    User findUserByUsername(String username);
-
+    /**
+     * @param id
+     * @return User
+     */
     User findUserByUserId(Integer id);
+
+    /**
+     * Finds particular user by its unique username
+     *
+     * @param username
+     * @return User
+     */
+    User findUserByUsername(String username);
 
 }
