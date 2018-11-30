@@ -49,6 +49,10 @@ public class Doctor {
         return user;
     }
 
+    /**
+     *
+     * @param userId
+     */
     public void setUser(User userId) {
         this.user = userId;
     }
@@ -57,6 +61,10 @@ public class Doctor {
         return department;
     }
 
+    /**
+     *
+     * @param department
+     */
     public void setDepartment(Department department) {
         this.department = department;
     }

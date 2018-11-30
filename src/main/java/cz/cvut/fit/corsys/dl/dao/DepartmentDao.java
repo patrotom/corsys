@@ -11,6 +11,11 @@ public interface DepartmentDao extends JpaRepository<Department, Integer> {
      */
     Department findDepartmentByDepartmentId(Integer id);
 
+    /**
+     * Finds Department by given name.
+     * @param name
+     * @return Department
+     */
     Department findDepartmentByName(String name);
 
 }
