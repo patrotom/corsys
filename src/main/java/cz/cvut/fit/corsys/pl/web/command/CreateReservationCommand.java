@@ -1,7 +1,6 @@
 package cz.cvut.fit.corsys.pl.web.command;
 
-import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
+
 import java.time.LocalTime;
 
 public class CreateReservationCommand {
