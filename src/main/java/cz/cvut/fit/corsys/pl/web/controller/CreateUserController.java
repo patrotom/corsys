@@ -46,7 +46,7 @@ public class CreateUserController {
     //submit created Doctor
     @RequestMapping(value = "/admin/createDoctor", method = RequestMethod.POST)
     public String createUserAdminSubmit(@Valid CreateDoctorCommand doctor, BindingResult result, Model model) {
-        this.validateUser(result, doctor);
+        this.validateUser(result, doctor, model);
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
             model.addAttribute("departments", this.departmentService.findAllDepartments());
@@ -77,9 +77,9 @@ public class CreateUserController {
     //submit created Patient
     @RequestMapping(value = "/receptionist/createPatient", method = RequestMethod.POST)
     public String createUserPatientSubmit(@Valid CreatePatientCommand patient, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
-        this.validateUser(result, patient);
+        this.validateUser(result, patient, model);
         if (result.hasErrors()) {
-            model.addAttribute("errors", result.getAllErrors());
+             model.addAttribute("errors", result.getFieldErrors());
             model.addAttribute("command", patient);
             return "/receptionist/createPatient";
         }
@@ -105,15 +105,17 @@ public class CreateUserController {
         return "redirect:/receptionist";
     }
 
-    private void validateUser(BindingResult result, AbstractCreateUserCommand command) {
-        if (result.hasErrors()) {
+    private void validateUser(BindingResult result, AbstractCreateUserCommand command, Model model) {
+
             if (!command.getPassword().equals(command.getPassword2())) {
-                result.addError(new FieldError("form", "password2", "Hesla sa nezhodujú"));
+                result.addError(new FieldError("form", "password2", "Heslá sa nezhodujú"));
+                model.addAttribute("passFail", "Heslá sa nezhodujú");
             }
             User user = this.userService.findUserByUsername(command.getUsername());
-            if (user != null)
+            if (user != null) {
                 result.addError(new FieldError("form", "username", "Uživateľ už existuje"));
-        }
+                model.addAttribute("userFail", "Uživateľ  s daným uživateľským menom už existuje");
+            }
     }
 
     private User createUserObject(AbstractCreateUserCommand command, Role role) {

@@ -40,7 +40,7 @@
                                                                     </select>
                                                                 </div>
                                                                 <label for="patientUsername">Meno uživateľa</label>
-                                                                <input type="text" id="patientUsername" name="patientUsername">
+                                                                <input type="text" id="patientUsername" name="patientUsername" th:value="${command.patientUsername}">
                                                                 <div th:if="${wrongUsername}">
                                                                     <span>Nesprávne meno pacienta.</span>
                                                                 </div>
