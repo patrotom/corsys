@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class LoginController {
 
@@ -51,8 +53,12 @@ public class LoginController {
      * @return stay on page
      */
     @GetMapping(value = "/receptionist")
-    public String welcomeReceptionist(@RequestParam(name = "patSuccess", required = false) Boolean patSuccess, @RequestParam(name = "resSuccess", required = false) Boolean resSuccess, Model model) {
-        model.addAttribute("userFullName", userService.getLoggedUser().getFirstName() + " " + userService.getLoggedUser().getLastName());
+    public String welcomeReceptionist(@RequestParam(name = "patSuccess", required = false) Boolean patSuccess,
+                                      @RequestParam(name = "resSuccess", required = false) Boolean resSuccess,
+                                      Model model, HttpSession session) {
+        String name = userService.getLoggedUser().getFirstName() + " " + userService.getLoggedUser().getLastName();
+        session.setAttribute("userFullName", name);
+        model.addAttribute("userFullName", name);
         model.addAttribute("resSuccess", resSuccess);
         model.addAttribute("patSuccess", patSuccess);
         return "receptionist/receptionist";

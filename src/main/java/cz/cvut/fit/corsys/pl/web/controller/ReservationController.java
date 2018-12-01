@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @Controller
@@ -43,7 +45,6 @@ public class ReservationController {
     @Autowired
     private PatientService patientService;
 
-    private CreateReservationCommand res = new CreateReservationCommand();
 
     /**
      * Prepare all departments for POST method
@@ -65,7 +66,8 @@ public class ReservationController {
      * @return
      */
     @RequestMapping(value = "/receptionist/createReservationDep", method = RequestMethod.POST)
-    public String reservationDepartmentSubmit(@Valid CreateReservationCommand reservation, BindingResult result, Model model) {
+    public String reservationDepartmentSubmit(@Valid CreateReservationCommand reservation, BindingResult result,
+                                              Model model, HttpSession session) {
 
         if (result.hasErrors() || reservation.getDepartmentId() == null) {
             model.addAttribute("command", reservation);
@@ -76,12 +78,15 @@ public class ReservationController {
         if (reservation.getPatientUsername() == null || patientService.findPatientByUsername(reservation.getPatientUsername()) == null) {
             model.addAttribute("errors", result.getAllErrors());
             model.addAttribute("wrongUsername", true);
+            model.addAttribute("command", reservation);
             model.addAttribute("departments", departmentService.findAllDepartments());
             return "receptionist/createReservationDep";
         }
         model.addAttribute("wrongUsername", false);
-        res.setDepartmentId(reservation.getDepartmentId());
-        res.setPatientUsername(reservation.getPatientUsername());
+        session.setAttribute("depId", reservation.getDepartmentId());
+        session.setAttribute("patientUsername", reservation.getPatientUsername());
+        //res.setDepartmentId(reservation.getDepartmentId());
+        //res.setPatientUsername(reservation.getPatientUsername());
         return "redirect:/receptionist/createReservationExamination";
     }
 
@@ -91,8 +96,8 @@ public class ReservationController {
      * @param model MVC model
      */
     @RequestMapping(value = "/receptionist/createReservationExamination", method = RequestMethod.GET)
-    public void prepareReservationExamination(Model model) {
-        model.addAttribute("examinations", departmentService.findExaminations(departmentService.getDepartment(res.getDepartmentId())));
+    public void prepareReservationExamination(Model model, HttpSession session) {
+        model.addAttribute("examinations", departmentService.findExaminations(departmentService.getDepartment((Integer)session.getAttribute("depId"))));
         model.addAttribute("command", new CreateReservationCommand());
     }
 
@@ -105,15 +110,15 @@ public class ReservationController {
      * @return redirect to choose a doctor
      */
     @RequestMapping(value = "/receptionist/createReservationExamination", method = RequestMethod.POST)
-    public String reservationExaminationSubmit(@Valid CreateReservationCommand command, BindingResult result, Model model) {
-
+    public String reservationExaminationSubmit(@Valid CreateReservationCommand command, BindingResult result, Model model, HttpSession session) {
         if (result.hasErrors() || command.getExaminationId() == null) {
             model.addAttribute("command", command);
-            model.addAttribute("examinations", departmentService.findExaminations(departmentService.getDepartment(res.getDepartmentId())));
+            model.addAttribute("examinations", departmentService.findExaminations(departmentService.getDepartment((Integer)session.getAttribute("depId"))));
             return "receptionist/createReservationExamination";
         }
 
-        res.setExaminationId(command.getExaminationId());
+        //res.setExaminationId(command.getExaminationId());
+        session.setAttribute("exId", command.getExaminationId());
         return "redirect:/receptionist/createReservationDoc";
     }
 
@@ -123,8 +128,8 @@ public class ReservationController {
      * @param model MVC model
      */
     @RequestMapping(value = "/receptionist/createReservationDoc", method = RequestMethod.GET)
-    public void prepareReservationDoctor(Model model) {
-        model.addAttribute("doctors", departmentService.findDoctors(departmentService.getDepartment(res.getDepartmentId())));
+    public void prepareReservationDoctor(Model model, HttpSession session) {
+        model.addAttribute("doctors", departmentService.findDoctors(departmentService.getDepartment((Integer)session.getAttribute("depId"))));
         model.addAttribute("command", new CreateReservationCommand());
     }
 
@@ -137,14 +142,15 @@ public class ReservationController {
      * @return redirect to pick a date
      */
     @RequestMapping(value = "/receptionist/createReservationDoc", method = RequestMethod.POST)
-    public String reservationDoctorSubmit(@Valid CreateReservationCommand command, BindingResult result, Model model) {
+    public String reservationDoctorSubmit(@Valid CreateReservationCommand command, BindingResult result, Model model, HttpSession session) {
         if (result.hasErrors() || command.getDoctorId() == null) {
             model.addAttribute("command", command);
-            model.addAttribute("doctors", departmentService.findDoctors(departmentService.getDepartment(res.getDepartmentId())));
+            model.addAttribute("doctors", departmentService.findDoctors(departmentService.getDepartment((Integer)session.getAttribute("depId"))));
             return "receptionist/createReservationDoc";
         }
 
-        res.setDoctorId(command.getDoctorId());
+        session.setAttribute("docId", command.getDoctorId());
+        //res.setDoctorId(command.getDoctorId());
         return "redirect:/receptionist/createReservationDate";
     }
 
@@ -167,13 +173,20 @@ public class ReservationController {
      * @return redirect to pick a time
      */
     @RequestMapping(value = "/receptionist/createReservationDate", method = RequestMethod.POST)
-    public String reservationDateSubmit(@Valid CreateReservationCommand command, BindingResult result, Model model) {
+    public String reservationDateSubmit(@Valid CreateReservationCommand command, BindingResult result, Model model, HttpSession session) {
         if (result.hasErrors() || command.getDate().equals("")) {
             model.addAttribute("command", command);
             return "receptionist/createReservationDate";
         }
-
-        res.setDate(command.getDate());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        LocalDate resLocalDate;
+        try {
+            resLocalDate = LocalDate.parse(command.getDate(), formatter);
+        } catch (DateTimeParseException e) {
+            model.addAttribute("command", command);
+            return "receptionist/createReservationDate";
+        }
+        session.setAttribute("date", resLocalDate);
         return "redirect:/receptionist/createReservationTime";
     }
 
@@ -183,11 +196,12 @@ public class ReservationController {
      * @param model MVC model
      */
     @RequestMapping(value = "/receptionist/createReservationTime", method = RequestMethod.GET)
-    public void prepareReservationTime(Model model) {
+    public void prepareReservationTime(Model model, HttpSession session) {
 
-        addTime(model);
+        addTime(model, session);
         model.addAttribute("command", new CreateReservationCommand());
     }
+
 
     /**
      * Validate chosen time, compute timeTo, create reservation and save
@@ -196,37 +210,38 @@ public class ReservationController {
      * @param result
      * @param model              MVC model
      * @param redirectAttributes redirect message of creation
-     * @return
+     * @return redirect to receptionist homepage
      */
     @RequestMapping(value = "/receptionist/createReservationTime", method = RequestMethod.POST)
     public String reservationTimeSubmit(@Valid CreateReservationCommand command, BindingResult result,
-                                        Model model, RedirectAttributes redirectAttributes) {
+                                        Model model, RedirectAttributes redirectAttributes, HttpSession session) {
 
         if (result.hasErrors() || command.getTimeFrom() == null) {
             model.addAttribute("command", command);
-            addTime(model);
+            addTime(model, session);
             return "receptionist/createReservationTime";
         }
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:MM");
-        LocalDate resLocalDate = LocalDate.parse(res.getDate(), formatter);
 
         Reservation resNew = new Reservation();
-        resNew.setDate(resLocalDate);
-        resNew.setDescription(res.getDescription());
-        resNew.setDoctor(doctorService.getDoctor(res.getDoctorId()));
-        resNew.setExamination(departmentService.getExamination(res.getExaminationId()));
-        resNew.setPatient(patientService.findPatientByUsername(res.getPatientUsername()));
+        resNew.setDate((LocalDate)session.getAttribute("date"));
+        resNew.setDoctor(doctorService.getDoctor((Integer)session.getAttribute("docId")));
+        resNew.setExamination(departmentService.getExamination((Integer)session.getAttribute("exId")));
+        resNew.setPatient(patientService.findPatientByUsername((String)session.getAttribute("patientUsername")));
         resNew.setState(Reservation.STATE_CONFIRMED);
 
-        int length = departmentService.getExamination(res.getExaminationId()).getLength();
+        int length = departmentService.getExamination((Integer)session.getAttribute("exId")).getLength();
         LocalTime timeFrom = LocalTime.parse(command.getTimeFrom(), timeFormatter);
         resNew.setTimeFrom(timeFrom);
         LocalTime timeTo = timeFrom.plusMinutes(length * Timetable.TIME_DIV);
         resNew.setTimeTo(timeTo);
 
-        reservationService.createReservation(resNew);
+        try {
+            reservationService.createReservation(resNew);
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addAttribute("resSuccess", false);
+            return "redirect:/receptionist";
+        }
         redirectAttributes.addAttribute("resSuccess", true);
         return "redirect:/receptionist";
     }
@@ -241,13 +256,11 @@ public class ReservationController {
         model.addAttribute("reservations", reservationService.findAllReservations());
     }
 
-    private void addTime(Model model) {
+    private boolean addTime(Model model, HttpSession session) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        LocalDate resLocalDate = LocalDate.parse(res.getDate(), formatter);
-        List<LocalTime> times = reservationService.findFreeTerms(resLocalDate,
-                doctorService.getDoctor(res.getDoctorId()),
-                departmentService.getExamination(res.getExaminationId()));
+        List<LocalTime> times = reservationService.findFreeTerms((LocalDate)session.getAttribute("date"),
+                doctorService.getDoctor((Integer)session.getAttribute("docId")),
+                departmentService.getExamination((Integer)session.getAttribute("exId")));
 
         if (times.isEmpty()) {
             model.addAttribute("empty", true);
@@ -255,5 +268,6 @@ public class ReservationController {
             model.addAttribute("times", times);
             model.addAttribute("empty", false);
         }
+        return true;
     }
 }

@@ -1,5 +1,6 @@
 package cz.cvut.fit.corsys.pl.web.command;
 
+
 import java.time.LocalTime;
 
 public class CreateReservationCommand {
