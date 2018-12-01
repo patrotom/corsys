@@ -1,6 +1,8 @@
 package cz.cvut.fit.corsys.pl.web.controller;
 
 import cz.cvut.fit.corsys.bl.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +16,14 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    private static final Logger LOG = LoggerFactory.getLogger(LoginController.class);
+
+    /**
+     * Displays login page view
+     * @param wrongPass - request parameter, is set when user enters wrong password
+     * @param model Model
+     * @return path to login page view
+     */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String login(@RequestParam(name = "wrongPass", required = false) Boolean wrongPass, Model model) {
         if (wrongPass != null && wrongPass) {
@@ -22,6 +32,11 @@ public class LoginController {
         return "login";
     }
 
+    /**
+     * Displays home page based on user role
+     * @param model Model
+     * @return path to view based on role
+     */
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
     public String welcome(Model model) {
         String role = this.userService.getLoggedUser().getRole().getName();
@@ -32,15 +47,21 @@ public class LoginController {
         return "welcome";
     }
 
-    @GetMapping(value = "/receptionist")
-    public String welcomeReceptionist(@RequestParam(name = "patSuccess", required = false) Boolean patSuccess,
-                                      @RequestParam(name = "resSuccess", required = false) Boolean resSuccess,
-                                      Model model, HttpSession session) {
+    /**
+     *  Displays home page of receptionist
+     * @param model Model
+     * @param session HttpSession
+     * @return path to receptionist view
+     */
+    @RequestMapping(value = "/receptionist", method = RequestMethod.GET)
+    public String welcomeReceptionist(Model model, HttpSession session) {
         String name = userService.getLoggedUser().getFirstName() + " " + userService.getLoggedUser().getLastName();
         session.setAttribute("userFullName", name);
         model.addAttribute("userFullName", name);
-        model.addAttribute("resSuccess", resSuccess);
-        model.addAttribute("patSuccess", patSuccess);
+        model.addAttribute("resSuccess", session.getAttribute("resSuccess"));
+        model.addAttribute("patSuccess", session.getAttribute("patSuccess"));
+        session.setAttribute("resSuccess", null);
+        session.setAttribute("patSuccess", null);
         return "receptionist/receptionist";
     }
 
