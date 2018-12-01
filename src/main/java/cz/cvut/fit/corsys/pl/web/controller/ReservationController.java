@@ -31,7 +31,7 @@ import java.util.List;
 public class ReservationController {
 
 
-    private static final Logger LOG = LoggerFactory.getLogger(CorsysApplication.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ReservationController.class);
 
     @Autowired
     private DepartmentService departmentService;
@@ -214,7 +214,7 @@ public class ReservationController {
      */
     @RequestMapping(value = "/receptionist/createReservationTime", method = RequestMethod.POST)
     public String reservationTimeSubmit(@Valid CreateReservationCommand command, BindingResult result,
-                                        Model model, RedirectAttributes redirectAttributes, HttpSession session) {
+                                        Model model, HttpSession session) {
 
         if (result.hasErrors() || command.getTimeFrom() == null) {
             model.addAttribute("command", command);
@@ -239,10 +239,10 @@ public class ReservationController {
         try {
             reservationService.createReservation(resNew);
         } catch (IllegalArgumentException e) {
-            redirectAttributes.addAttribute("resSuccess", false);
+            session.setAttribute("resSuccess", false);
             return "redirect:/receptionist";
         }
-        redirectAttributes.addAttribute("resSuccess", true);
+        session.setAttribute("resSuccess", true);
         return "redirect:/receptionist";
     }
 

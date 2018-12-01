@@ -16,8 +16,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -36,8 +36,8 @@ public class CreateUserController {
     private PatientService patientService;
 
     /**
-     * Prepare departments for POST method
-     * @param model MVC model
+     * Displays form for creating a doctor
+     * @param model Model
      */
     @RequestMapping(value = "/admin/createDoctor", method = RequestMethod.GET)
     public void createUserDoctorPrepare(Model model) {
@@ -46,12 +46,14 @@ public class CreateUserController {
     }
 
     /**
+<<<<<<< HEAD
      * Validate and save created Doctor
+     * @param doctor - object for holding user input of create doctor form
      *
-     * @param doctor MVC command
-     * @param result
-     * @param model MVC model
-     * @return redirect
+     * @param result BindingResult
+     * @param model Model
+     * @return the same view if the form has errors, otherwise redirection to doctor list view
+
      */
     @RequestMapping(value = "/admin/createDoctor", method = RequestMethod.POST)
     public String createUserDoctorSubmit(@Valid CreateDoctorCommand doctor, BindingResult result, Model model) {
@@ -62,24 +64,21 @@ public class CreateUserController {
             model.addAttribute("command", doctor);
             return "admin/createDoctor";
         }
-        // Nacteni role
+
         Role role = this.userService.findRole(Role.ROLE_DOCTOR);
-        // Nacteni dep
         Department dep = this.departmentService.getDepartment(doctor.getDepartmentId());
-        // Naplneni spolecneho kodu
         User user = this.createUserObject(doctor, role);
-        // Naplneni doktora
         Doctor doc = new Doctor();
         doc.setDepartment(dep);
         doc.setUser(user);
-        // Vytvorim a jdu pryc
         this.doctorService.createDoctor(doc);
         return "redirect:/admin/doctorList";
     }
 
     /**
-     * Prepare for Post method
-     * @param model MVC model
+     * Displays a form for creating a patient
+     *
+     * @param model Model
      */
     @RequestMapping(value = "/receptionist/createPatient", method = RequestMethod.GET)
     public void createUserPatientPrepare(Model model) {
@@ -87,25 +86,27 @@ public class CreateUserController {
     }
 
     /**
+<<<<<<< HEAD
      * Validate and save created Patient
      *
-     * @param patient MVC command
-     * @param result
-     * @param model MVC model
-     * @param redirectAttributes Redirect message of sucessful creation
-     * @return redirect to main page
+     * @param patient - object for holding user input values of create patient form
+     * @param result BindingResult
+     * @param model Model
+     * @param session HttpSession
+     * @return the same view if the form has errors, otherwise redirection to receptionist home page
+>>>>>>> 551391bab7d88ac7077006b84ebce3604aaab466
      */
     @RequestMapping(value = "/receptionist/createPatient", method = RequestMethod.POST)
-    public String createUserPatientSubmit(@Valid CreatePatientCommand patient, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+    public String createUserPatientSubmit(@Valid CreatePatientCommand patient, BindingResult result,
+                                          Model model, HttpSession session) {
         this.validateUser(result, patient, model);
         if (result.hasErrors()) {
              model.addAttribute("errors", result.getFieldErrors());
             model.addAttribute("command", patient);
             return "/receptionist/createPatient";
         }
-        // Nacteni role
+
         Role role = this.userService.findRole(Role.ROLE_PATIENT);
-        // Naplneni spolecneho kodu
         User user = this.createUserObject(patient, role);
 
         Address address = new Address();
@@ -121,7 +122,7 @@ public class CreateUserController {
         pat.setUser(user);
 
         this.patientService.createPatient(pat);
-        redirectAttributes.addAttribute("patSuccess", true);
+        session.setAttribute("patSuccess", true);
         return "redirect:/receptionist";
     }
 
