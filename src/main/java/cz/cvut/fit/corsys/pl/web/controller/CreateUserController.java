@@ -9,7 +9,6 @@ import cz.cvut.fit.corsys.dl.entity.*;
 import cz.cvut.fit.corsys.pl.web.command.AbstractCreateUserCommand;
 import cz.cvut.fit.corsys.pl.web.command.CreateDoctorCommand;
 import cz.cvut.fit.corsys.pl.web.command.CreatePatientCommand;
-import cz.cvut.fit.corsys.pl.web.command.CreateReservationCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,16 +35,26 @@ public class CreateUserController {
     @Autowired
     private PatientService patientService;
 
-    //prepare create Doctor
+    /**
+     * Prepare departments for POST method
+     * @param model MVC model
+     */
     @RequestMapping(value = "/admin/createDoctor", method = RequestMethod.GET)
-    public void createUserAdminPrepare(Model model) {
+    public void createUserDoctorPrepare(Model model) {
         model.addAttribute("departments", this.departmentService.findAllDepartments());
         model.addAttribute("command", new CreateDoctorCommand());
     }
 
-    //submit created Doctor
+    /**
+     * Validate and save created Doctor
+     *
+     * @param doctor MVC command
+     * @param result
+     * @param model MVC model
+     * @return redirect
+     */
     @RequestMapping(value = "/admin/createDoctor", method = RequestMethod.POST)
-    public String createUserAdminSubmit(@Valid CreateDoctorCommand doctor, BindingResult result, Model model) {
+    public String createUserDoctorSubmit(@Valid CreateDoctorCommand doctor, BindingResult result, Model model) {
         this.validateUser(result, doctor);
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
@@ -54,7 +63,7 @@ public class CreateUserController {
             return "admin/createDoctor";
         }
         // Nacteni role
-        Role role = this.userService.findRole("DOCTOR");
+        Role role = this.userService.findRole(Role.ROLE_DOCTOR);
         // Nacteni dep
         Department dep = this.departmentService.getDepartment(doctor.getDepartmentId());
         // Naplneni spolecneho kodu
@@ -68,13 +77,24 @@ public class CreateUserController {
         return "redirect:/admin/doctorList";
     }
 
-    //prepare create Patient
+    /**
+     * Prepare for Post method
+     * @param model MVC model
+     */
     @RequestMapping(value = "/receptionist/createPatient", method = RequestMethod.GET)
     public void createUserPatientPrepare(Model model) {
         model.addAttribute("command", new CreatePatientCommand());
     }
 
-    //submit created Patient
+    /**
+     * Validate and save created Patient
+     *
+     * @param patient MVC command
+     * @param result
+     * @param model MVC model
+     * @param redirectAttributes Redirect message of sucessful creation
+     * @return redirect to main page
+     */
     @RequestMapping(value = "/receptionist/createPatient", method = RequestMethod.POST)
     public String createUserPatientSubmit(@Valid CreatePatientCommand patient, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         this.validateUser(result, patient);
@@ -84,7 +104,7 @@ public class CreateUserController {
             return "/receptionist/createPatient";
         }
         // Nacteni role
-        Role role = this.userService.findRole("PATIENT");
+        Role role = this.userService.findRole(Role.ROLE_PATIENT);
         // Naplneni spolecneho kodu
         User user = this.createUserObject(patient, role);
 

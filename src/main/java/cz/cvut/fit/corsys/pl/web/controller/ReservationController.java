@@ -45,14 +45,25 @@ public class ReservationController {
 
     private CreateReservationCommand res = new CreateReservationCommand();
 
-    //Select DEPARTMENT
+    /**
+     * Prepare all departments for POST method
+     *
+     * @param model MVC model
+     */
     @RequestMapping(value = "/receptionist/createReservationDep", method = RequestMethod.GET)
     public void prepareReservationDepartment(Model model) {
         model.addAttribute("departments", departmentService.findAllDepartments());
         model.addAttribute("command", new CreateReservationCommand());
     }
 
-    //Redirect selected DEPARTMENT to EXAMINATION
+    /**
+     * Validate patient username exists, save chosen username and department
+     *
+     * @param reservation MVC command
+     * @param result
+     * @param model       MVC model
+     * @return
+     */
     @RequestMapping(value = "/receptionist/createReservationDep", method = RequestMethod.POST)
     public String reservationDepartmentSubmit(@Valid CreateReservationCommand reservation, BindingResult result, Model model) {
 
@@ -74,16 +85,27 @@ public class ReservationController {
         return "redirect:/receptionist/createReservationExamination";
     }
 
-    //Select EXAMINATION based on DEPARTMENT
+    /**
+     * Prepare examinations based on chosen department
+     *
+     * @param model MVC model
+     */
     @RequestMapping(value = "/receptionist/createReservationExamination", method = RequestMethod.GET)
     public void prepareReservationExamination(Model model) {
         model.addAttribute("examinations", departmentService.findExaminations(departmentService.getDepartment(res.getDepartmentId())));
         model.addAttribute("command", new CreateReservationCommand());
     }
 
-    //Redirect selected DEPARTMENT and EXAMINATION to DOCTOR
+    /**
+     * Validate and save chosen examination
+     *
+     * @param command            MVC command
+     * @param result
+     * @param model              MVC model
+     * @return redirect to choose a doctor
+     */
     @RequestMapping(value = "/receptionist/createReservationExamination", method = RequestMethod.POST)
-    public String reservationExaminationSubmit(@Valid CreateReservationCommand command, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+    public String reservationExaminationSubmit(@Valid CreateReservationCommand command, BindingResult result, Model model) {
 
         if (result.hasErrors() || command.getExaminationId() == null) {
             model.addAttribute("command", command);
@@ -95,14 +117,25 @@ public class ReservationController {
         return "redirect:/receptionist/createReservationDoc";
     }
 
-    //Select DOCTOR based on DEPARTMENT
+    /**
+     * Prepare doctors based on the department
+     *
+     * @param model MVC model
+     */
     @RequestMapping(value = "/receptionist/createReservationDoc", method = RequestMethod.GET)
     public void prepareReservationDoctor(Model model) {
         model.addAttribute("doctors", departmentService.findDoctors(departmentService.getDepartment(res.getDepartmentId())));
         model.addAttribute("command", new CreateReservationCommand());
     }
 
-    //Redirect selected DEPARTMENT and EXAMINATION to DOCTOR
+    /**
+     * Validate and save chosen doctor
+     *
+     * @param command MVC command
+     * @param result
+     * @param model   MVC model
+     * @return redirect to pick a date
+     */
     @RequestMapping(value = "/receptionist/createReservationDoc", method = RequestMethod.POST)
     public String reservationDoctorSubmit(@Valid CreateReservationCommand command, BindingResult result, Model model) {
         if (result.hasErrors() || command.getDoctorId() == null) {
@@ -115,13 +148,24 @@ public class ReservationController {
         return "redirect:/receptionist/createReservationDate";
     }
 
-    //Select DATE
+    /**
+     * Select date of reservation
+     *
+     * @param model MVC model
+     */
     @RequestMapping(value = "/receptionist/createReservationDate", method = RequestMethod.GET)
     public void prepareReservationDate(Model model) {
         model.addAttribute("command", new CreateReservationCommand());
     }
 
-    //Redirect selected DATE,DOCTOR,EXAMINATION,DEPARTMENT to CHOOSE TIME
+    /**
+     * Validate date
+     *
+     * @param command MVC command
+     * @param result
+     * @param model   MVC model
+     * @return redirect to pick a time
+     */
     @RequestMapping(value = "/receptionist/createReservationDate", method = RequestMethod.POST)
     public String reservationDateSubmit(@Valid CreateReservationCommand command, BindingResult result, Model model) {
         if (result.hasErrors() || command.getDate().equals("")) {
@@ -133,7 +177,11 @@ public class ReservationController {
         return "redirect:/receptionist/createReservationTime";
     }
 
-    //Select DOCTOR based on DEPARTMENT
+    /**
+     * Prepare timeFrom attribute based on doctor's timetable, examination and date
+     *
+     * @param model MVC model
+     */
     @RequestMapping(value = "/receptionist/createReservationTime", method = RequestMethod.GET)
     public void prepareReservationTime(Model model) {
 
@@ -141,22 +189,15 @@ public class ReservationController {
         model.addAttribute("command", new CreateReservationCommand());
     }
 
-    public void addTime(Model model) {
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        LocalDate resLocalDate = LocalDate.parse(res.getDate(), formatter);
-        List<LocalTime> times = reservationService.findFreeTerms(resLocalDate,
-                doctorService.getDoctor(res.getDoctorId()),
-                departmentService.getExamination(res.getExaminationId()));
-
-        if (times.isEmpty()) {
-            model.addAttribute("empty", true);
-        } else {
-            model.addAttribute("times", times);
-            model.addAttribute("empty", false);
-        }
-    }
-
+    /**
+     * Validate chosen time, compute timeTo, create reservation and save
+     *
+     * @param command            MVC command
+     * @param result
+     * @param model              MVC model
+     * @param redirectAttributes redirect message of creation
+     * @return
+     */
     @RequestMapping(value = "/receptionist/createReservationTime", method = RequestMethod.POST)
     public String reservationTimeSubmit(@Valid CreateReservationCommand command, BindingResult result,
                                         Model model, RedirectAttributes redirectAttributes) {
@@ -190,8 +231,29 @@ public class ReservationController {
         return "redirect:/receptionist";
     }
 
+    /**
+     * Show all reservations
+     *
+     * @param model MVC model
+     */
     @RequestMapping(value = "/receptionist/listReservations", method = RequestMethod.GET)
     public void listAllReservations(Model model) {
         model.addAttribute("reservations", reservationService.findAllReservations());
+    }
+
+    private void addTime(Model model) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        LocalDate resLocalDate = LocalDate.parse(res.getDate(), formatter);
+        List<LocalTime> times = reservationService.findFreeTerms(resLocalDate,
+                doctorService.getDoctor(res.getDoctorId()),
+                departmentService.getExamination(res.getExaminationId()));
+
+        if (times.isEmpty()) {
+            model.addAttribute("empty", true);
+        } else {
+            model.addAttribute("times", times);
+            model.addAttribute("empty", false);
+        }
     }
 }
