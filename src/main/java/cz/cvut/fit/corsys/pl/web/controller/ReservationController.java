@@ -17,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -63,7 +62,8 @@ public class ReservationController {
      * @param reservation MVC command
      * @param result
      * @param model       MVC model
-     * @return
+     * @param session     MVC HttpSession
+     * @return page displaying departments
      */
     @RequestMapping(value = "/receptionist/createReservationDep", method = RequestMethod.POST)
     public String reservationDepartmentSubmit(@Valid CreateReservationCommand reservation, BindingResult result,
@@ -85,8 +85,6 @@ public class ReservationController {
         model.addAttribute("wrongUsername", false);
         session.setAttribute("depId", reservation.getDepartmentId());
         session.setAttribute("patientUsername", reservation.getPatientUsername());
-        //res.setDepartmentId(reservation.getDepartmentId());
-        //res.setPatientUsername(reservation.getPatientUsername());
         return "redirect:/receptionist/createReservationExamination";
     }
 
@@ -94,11 +92,18 @@ public class ReservationController {
      * Prepare examinations based on chosen department
      *
      * @param model MVC model
+     * @param session MVC HttpSession
+     * @return page displaying examinations
      */
     @RequestMapping(value = "/receptionist/createReservationExamination", method = RequestMethod.GET)
-    public void prepareReservationExamination(Model model, HttpSession session) {
+    public String prepareReservationExamination(Model model, HttpSession session) {
+
+        if (session.getAttribute("depId")==null) return "receptionist/receptionist";
+
         model.addAttribute("examinations", departmentService.findExaminations(departmentService.getDepartment((Integer)session.getAttribute("depId"))));
         model.addAttribute("command", new CreateReservationCommand());
+
+        return "receptionist/createReservationExamination";
     }
 
     /**
@@ -107,6 +112,7 @@ public class ReservationController {
      * @param command            MVC command
      * @param result
      * @param model              MVC model
+     * @param session            MVC HttpSession
      * @return redirect to choose a doctor
      */
     @RequestMapping(value = "/receptionist/createReservationExamination", method = RequestMethod.POST)
@@ -117,7 +123,6 @@ public class ReservationController {
             return "receptionist/createReservationExamination";
         }
 
-        //res.setExaminationId(command.getExaminationId());
         session.setAttribute("exId", command.getExaminationId());
         return "redirect:/receptionist/createReservationDoc";
     }
@@ -126,11 +131,16 @@ public class ReservationController {
      * Prepare doctors based on the department
      *
      * @param model MVC model
+     * @param session MVC HttpSession
+     * @return page displaying doctors
      */
     @RequestMapping(value = "/receptionist/createReservationDoc", method = RequestMethod.GET)
-    public void prepareReservationDoctor(Model model, HttpSession session) {
+    public String prepareReservationDoctor(Model model, HttpSession session) {
+        if (session.getAttribute("depId")==null) return "receptionist/receptionist";
         model.addAttribute("doctors", departmentService.findDoctors(departmentService.getDepartment((Integer)session.getAttribute("depId"))));
         model.addAttribute("command", new CreateReservationCommand());
+
+        return "receptionist/createReservationDoc";
     }
 
     /**
@@ -139,6 +149,7 @@ public class ReservationController {
      * @param command MVC command
      * @param result
      * @param model   MVC model
+     * @param session MVC HttpSession
      * @return redirect to pick a date
      */
     @RequestMapping(value = "/receptionist/createReservationDoc", method = RequestMethod.POST)
@@ -150,7 +161,6 @@ public class ReservationController {
         }
 
         session.setAttribute("docId", command.getDoctorId());
-        //res.setDoctorId(command.getDoctorId());
         return "redirect:/receptionist/createReservationDate";
     }
 
@@ -158,10 +168,18 @@ public class ReservationController {
      * Select date of reservation
      *
      * @param model MVC model
+     * @param session MVC HttpSession
+     * @return page displaying datepicker
      */
     @RequestMapping(value = "/receptionist/createReservationDate", method = RequestMethod.GET)
-    public void prepareReservationDate(Model model) {
+    public String prepareReservationDate(Model model, HttpSession session) {
+        if (session.getAttribute("depId")==null
+                || session.getAttribute("docId")==null
+                || session.getAttribute("exId")==null
+                || session.getAttribute("patientUsername")==null) return "receptionist/receptionist";
         model.addAttribute("command", new CreateReservationCommand());
+
+        return "receptionist/createReservationDate";
     }
 
     /**
@@ -170,6 +188,7 @@ public class ReservationController {
      * @param command MVC command
      * @param result
      * @param model   MVC model
+     * @param session   MVC HttpSession
      * @return redirect to pick a time
      */
     @RequestMapping(value = "/receptionist/createReservationDate", method = RequestMethod.POST)
@@ -178,6 +197,7 @@ public class ReservationController {
             model.addAttribute("command", command);
             return "receptionist/createReservationDate";
         }
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         LocalDate resLocalDate;
         try {
@@ -194,12 +214,21 @@ public class ReservationController {
      * Prepare timeFrom attribute based on doctor's timetable, examination and date
      *
      * @param model MVC model
+     * @param session MVC HttpSession
+     * @return page displaying reservation times
      */
     @RequestMapping(value = "/receptionist/createReservationTime", method = RequestMethod.GET)
-    public void prepareReservationTime(Model model, HttpSession session) {
+    public String prepareReservationTime(Model model, HttpSession session) {
+
+        if (session.getAttribute("depId")==null
+                || session.getAttribute("docId")==null
+                || session.getAttribute("exId")==null
+                || session.getAttribute("patientUsername")==null
+                || session.getAttribute("date")==null) return "receptionist/receptionist";
 
         addTime(model, session);
         model.addAttribute("command", new CreateReservationCommand());
+        return "receptionist/createReservationTime";
     }
 
 
@@ -209,7 +238,7 @@ public class ReservationController {
      * @param command            MVC command
      * @param result
      * @param model              MVC model
-     * @param redirectAttributes redirect message of creation
+     * @param session            MVC HttpSession
      * @return redirect to receptionist homepage
      */
     @RequestMapping(value = "/receptionist/createReservationTime", method = RequestMethod.POST)
