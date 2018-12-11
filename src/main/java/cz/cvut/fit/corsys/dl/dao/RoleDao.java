@@ -3,6 +3,10 @@ package cz.cvut.fit.corsys.dl.dao;
 import cz.cvut.fit.corsys.dl.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+/**
+ * Interface defines data layer interface for Role management
+ */
+
 public interface RoleDao extends JpaRepository<Role, Integer> {
 
     /**

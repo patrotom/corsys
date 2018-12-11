@@ -7,6 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
+/**
+ * Interface defines data layer interface for Doctor management
+ */
+
 public interface DoctorDao extends JpaRepository<Doctor, Integer> {
 
     /**

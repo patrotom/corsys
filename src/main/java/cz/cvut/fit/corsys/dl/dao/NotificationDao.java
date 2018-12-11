@@ -6,6 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
+/**
+ * Interface defines data layer interface for Notification management
+ */
+
 public interface NotificationDao extends JpaRepository<Notification, Integer> {
 
     /**

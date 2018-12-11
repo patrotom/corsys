@@ -8,6 +8,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Interface defines data layer interface for Reservation management
+ */
+
 public interface ReservationDao extends JpaRepository<Reservation, Integer> {
 
     /**
