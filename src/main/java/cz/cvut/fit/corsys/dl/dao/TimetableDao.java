@@ -7,6 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Interface defines data layer interface for Timetable management
+ */
+
 public interface TimetableDao extends JpaRepository<Timetable, Integer> {
 
     /**
