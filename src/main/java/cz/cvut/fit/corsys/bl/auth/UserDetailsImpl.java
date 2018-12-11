@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * Implementatio of UserDetails interface defined by Spring security.
+ * Implementation of UserDetails interface defined by Spring security.
  */
 public class UserDetailsImpl implements UserDetails {
 
